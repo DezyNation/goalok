@@ -16,7 +16,6 @@ import {
     useToast,
     Checkbox
 } from '@chakra-ui/react'
-import Head from 'next/head'
 import { BsEye, BsEyeSlash, BsGoogle } from 'react-icons/bs'
 import { useFormik } from 'formik'
 import Link from 'next/link'
@@ -51,9 +50,6 @@ const Login = () => {
 
     return (
         <>
-            <Head>
-                <title>ISKCON Inc. Login</title>
-            </Head>
             <HStack w={'full'} h={'100vh'}>
                 <Box
                     flex={1}

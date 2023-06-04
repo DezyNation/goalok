@@ -5,9 +5,14 @@ import './globals.css'
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <ChakraProvider>
-        <body>{children}</body>
-      </ChakraProvider>
+      <head>
+        <title>ISKCON Inc.</title>
+      </head>
+      <body>
+        <ChakraProvider>
+          {children}
+        </ChakraProvider>
+      </body>
     </html>
   )
 }

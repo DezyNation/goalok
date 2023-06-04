@@ -1,5 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap');
 
 *{
   font-family: 'Poppins', 'sans-serif';
@@ -7,4 +8,15 @@
 
 .messiri{
   font-family: 'El Messiri', sans-serif;
+}
+
+.raleway{
+  font-family: 'Raleway', sans-serif;
+}
+
+.nav-link{
+  transition: all .3s ease;
+}
+.nav-link:hover{
+  color: #FFD93D;
 }
