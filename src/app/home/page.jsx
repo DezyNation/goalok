@@ -13,7 +13,7 @@ import { BsArrowRight, BsStarFill } from 'react-icons/bs'
 export default function HomePage() {
   return (
     <>
-      <Navbar />
+      <Navbar theme={'gradient'} />
       <Stack
         w={'full'}
         h={'95vh'}

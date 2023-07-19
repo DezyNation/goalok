@@ -1,23 +1,9 @@
 "use client";
 import React from "react";
-import {
-  Box,
-  Text,
-  Stack,
-  HStack,
-  Drawer,
-  DrawerOverlay,
-  DrawerContent,
-  DrawerHeader,
-  DrawerBody,
-  DrawerFooter,
-  DrawerCloseButton,
-  Container,
-  Spacer,
-} from "@chakra-ui/react";
+import { Box, Text, Stack, HStack, Spacer, Button } from "@chakra-ui/react";
 import Link from "next/link";
 
-const Navbar = () => {
+const Navbar = ({ theme }) => {
   return (
     <>
       <Box
@@ -29,8 +15,11 @@ const Navbar = () => {
         zIndex={9999}
         p={[4, 6]}
         bgGradient={
-          "linear-gradient(to-b, rgba(0,0,0,0.6), rgba(0,0,0,0.4), rgba(0,0,0,0.1))"
+          theme == "gradient"
+            ? "linear-gradient(to-b, rgba(0,0,0,0.6), rgba(0,0,0,0.4), rgba(0,0,0,0.1))"
+            : "linear-gradient(to-b, rgba(0,0,0,0.8), rgba(0,0,0,0.8))"
         }
+        backdropFilter={"blur(8px)"}
       >
         <HStack
           w={["full", "full", "80%"]}
@@ -42,7 +31,7 @@ const Navbar = () => {
             Counselling
           </Text>
           <Text cursor={"pointer"} className="raleway nav-link">
-            Books
+            Projects
           </Text>
           <Link href={"/home/sessions"}>
             <Text cursor={"pointer"} className="raleway nav-link">
@@ -64,11 +53,19 @@ const Navbar = () => {
             Shop
           </Text>
           <Text cursor={"pointer"} className="raleway nav-link">
-            Projects
-          </Text>
-          <Text cursor={"pointer"} className="raleway nav-link">
             Donations
           </Text>
+          <Link href={"/auth/login"}>
+            <Button
+              colorScheme="yellow"
+              roundedTopLeft={"full"}
+              roundedBottomRight={"full"}
+              size={"sm"}
+              px={6}
+            >
+              Login Now
+            </Button>
+          </Link>
         </HStack>
       </Box>
     </>
