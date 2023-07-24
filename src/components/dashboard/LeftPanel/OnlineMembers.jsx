@@ -18,7 +18,7 @@ const OnlineMembers = () => {
         gap={6}
       >
         {members?.map((member, key) => (
-          <HStack alignItems={"center"}>
+          <HStack w={'full'} alignItems={"center"} key={key}>
             <Avatar name="Gauranga Sundar Das" boxSize={"10"} />
             <Box>
               <Text fontSize={"sm"}>Gauranga Sundar Das</Text>

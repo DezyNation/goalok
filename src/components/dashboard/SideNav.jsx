@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   BsChatDotsFill,
   BsFolderFill,
@@ -11,8 +11,6 @@ import {
 import {
   Avatar,
   Box,
-  Icon,
-  Image,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -22,88 +20,56 @@ import {
   Spacer,
   Text,
   VStack,
-  useDisclosure,
 } from "@chakra-ui/react";
-import TempleIcon from "../../../public/icons/temple.svg";
+import { useSearchParams } from "next/navigation";
 
 const SideNav = () => {
+  const params = useSearchParams();
+  const activeSideItem = params.get("active_side_item");
+
+  const items = [
+    {
+      id: "feed",
+      icon: <BsGrid1X2Fill />,
+    },
+    {
+      id: "archives",
+      icon: <BsFolderFill />,
+    },
+    {
+      id: "news",
+      icon: <BsMegaphoneFill />,
+    },
+    {
+      id: "donate",
+      icon: <BsHeartFill />,
+    },
+    {
+      id: "interact",
+      icon: <BsChatDotsFill />,
+    },
+  ];
+
   return (
     <>
-      <VStack py={4} px={2} bgColor={"#FFF"} h={"92vh"}>
-        <Box
-          boxSize={16}
-          display={"flex"}
-          flexDir={"column"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          gap={1}
-          transition={"all .3s ease"}
-          cursor={"pointer"}
-          _hover={{ color: "yellow.400" }}
-        >
-          <BsGrid1X2Fill />
-          <Text fontSize={"10"}>Feed</Text>
-        </Box>
-
-        <Box
-          boxSize={16}
-          display={"flex"}
-          flexDir={"column"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          gap={1}
-          transition={"all .3s ease"}
-          cursor={"pointer"}
-          _hover={{ color: "yellow.400" }}
-        >
-          <BsFolderFill />
-          <Text fontSize={"10"}>Archives</Text>
-        </Box>
-
-        <Box
-          boxSize={16}
-          display={"flex"}
-          flexDir={"column"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          gap={1}
-          transition={"all .3s ease"}
-          cursor={"pointer"}
-          _hover={{ color: "yellow.400" }}
-        >
-          <BsMegaphoneFill />
-          <Text fontSize={"10"}>News</Text>
-        </Box>
-
-        <Box
-          boxSize={16}
-          display={"flex"}
-          flexDir={"column"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          gap={1}
-          transition={"all .3s ease"}
-          cursor={"pointer"}
-          _hover={{ color: "yellow.400" }}
-        >
-          <BsHeartFill />
-          <Text fontSize={"10"}>Donate</Text>
-        </Box>
-
-        <Box
-          boxSize={16}
-          display={"flex"}
-          flexDir={"column"}
-          alignItems={"center"}
-          justifyContent={"center"}
-          gap={1}
-          transition={"all .3s ease"}
-          cursor={"pointer"}
-          _hover={{ color: "yellow.400" }}
-        >
-          <BsChatDotsFill />
-          <Text fontSize={"10"}>Interact</Text>
-        </Box>
+      <VStack py={4} bgColor={"#FFF"} h={"92vh"}>
+        {items.map((item, key) => (
+          <Box
+            boxSize={16}
+            display={"flex"}
+            flexDir={"column"}
+            alignItems={"center"}
+            justifyContent={"center"}
+            gap={1} key={key}
+            transition={"all .3s ease"}
+            cursor={"pointer"}
+            _hover={{ bg: "yellow.400" }}
+            bg={activeSideItem == item.id ? "yellow.400" : "#FFF"}
+          >
+            {item.icon}
+            <Text fontSize={"10"} textTransform={'capitalize'}>{item.id}</Text>
+          </Box>
+        ))}
         <Spacer />
 
         <Box
@@ -115,7 +81,7 @@ const SideNav = () => {
           gap={1}
           transition={"all .3s ease"}
           cursor={"pointer"}
-          _hover={{ color: "yellow.400" }}
+          _hover={{ bg: "yellow.400" }}
         >
           <BsGearFill />
           <Text fontSize={"10"}>Settings</Text>

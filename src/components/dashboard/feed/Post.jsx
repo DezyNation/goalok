@@ -12,24 +12,25 @@ import {
   PopoverArrow,
   PopoverBody,
   PopoverContent,
-  PopoverFooter,
-  PopoverHeader,
   PopoverTrigger,
   Stack,
   Text,
   VStack,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
+  BsChatQuote,
   BsChatQuoteFill,
   BsEyeSlashFill,
   BsFlagFill,
+  BsHeart,
   BsHeartFill,
-  BsPinMap,
   BsPinMapFill,
   BsThreeDotsVertical,
 } from "react-icons/bs";
 import { FaShare } from "react-icons/fa6";
+import Lottie from "lottie-react";
+import hearts from "../../../../public/icons/lottie/hearts.json";
 
 const Author = ({ name, id, image, type }) => {
   return (
@@ -167,9 +168,24 @@ const Footer = () => {
 };
 
 const Interactions = () => {
+  const [liked, setLiked] = useState(false);
+  const [reactionPaused, setReactionPaused] = useState(true);
+
+  useEffect(() => {
+    if (liked) {
+      setReactionPaused(false);
+    } else {
+      setReactionPaused(true);
+    }
+  }, [liked]);
   return (
     <>
-      <HStack w={"full"} py={4} justifyContent={"space-between"}>
+      <HStack
+        w={"full"}
+        py={4}
+        justifyContent={"space-between"}
+        pos={"relative"}
+      >
         <Box
           flex={1}
           w={"full"}
@@ -177,15 +193,29 @@ const Interactions = () => {
           flexDirection={"row"}
           alignItems={"center"}
           justifyContent={"flex-start"}
+          pos={"relative"}
         >
           <Button
             rounded={"full"}
             variant={"ghost"}
             colorScheme="red"
-            leftIcon={<BsHeartFill />}
+            leftIcon={liked ? <BsHeartFill /> : <BsHeart />}
+            onClick={() => setLiked(!liked)}
           >
             Love
           </Button>
+          {reactionPaused || (
+            <Box pos={"absolute"} left={'-2.5rem'} width={48}>
+              <Lottie
+                width={50}
+                height={150}
+                animationData={hearts}
+                loop={false}
+                autoplay={true}
+                onComplete={() => setReactionPaused(true)}
+              />
+            </Box>
+          )}
         </Box>
         <Box
           flex={1}
@@ -199,7 +229,7 @@ const Interactions = () => {
             rounded={"full"}
             variant={"ghost"}
             colorScheme="facebook"
-            leftIcon={<BsChatQuoteFill />}
+            leftIcon={<BsChatQuote />}
           >
             Comment
           </Button>
