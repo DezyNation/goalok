@@ -20,3 +20,7 @@
 .nav-link:hover{
   color: #FFD93D;
 }
+
+.feed-container::-webkit-scrollbar{
+  display: none;
+}
