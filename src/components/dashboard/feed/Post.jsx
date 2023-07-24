@@ -90,7 +90,7 @@ const TextBlock = ({ content }) => {
 const MediaBlock = ({ media }) => {
   return (
     <>
-      <Stack w={"full"} direction={["column", "row"]} gap={4}>
+      <Stack w={"full"} direction={["column", "row"]} alignItems={'center'} justifyContent={'space-evenly'} gap={4}>
         <Box flex={2} height={52}>
           <Image
             src="https://i0.wp.com/myvoice.opindia.com/wp-content/uploads/sites/3/2020/06/Lord-Krishna-and-Gopis.jpg"

@@ -54,7 +54,7 @@ const Login = () => {
       setIsLoading(true);
       setTimeout(() => {
         setIsLoading(false);
-        Router.push("/dashboard")
+        Router.push("/dashboard?active_side_item=feed")
       }, 1000);
     },
   });

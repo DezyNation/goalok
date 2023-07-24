@@ -22,6 +22,7 @@ import {
   VStack,
 } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
+import Link from "next/link";
 
 const SideNav = () => {
   const params = useSearchParams();
@@ -31,22 +32,27 @@ const SideNav = () => {
     {
       id: "feed",
       icon: <BsGrid1X2Fill />,
+      link: "/dashboard?active_side_item=feed",
     },
     {
       id: "archives",
       icon: <BsFolderFill />,
+      link: "/dashboard/archives?active_side_item=archives",
     },
     {
       id: "news",
       icon: <BsMegaphoneFill />,
+      link: "/dashboard?active_side_item=news",
     },
     {
       id: "donate",
       icon: <BsHeartFill />,
+      link: "/dashboard?active_side_item=donate",
     },
     {
       id: "interact",
       icon: <BsChatDotsFill />,
+      link: "/dashboard?active_side_item=interact",
     },
   ];
 
@@ -54,21 +60,26 @@ const SideNav = () => {
     <>
       <VStack py={4} bgColor={"#FFF"} h={"92vh"}>
         {items.map((item, key) => (
-          <Box
-            boxSize={16}
-            display={"flex"}
-            flexDir={"column"}
-            alignItems={"center"}
-            justifyContent={"center"}
-            gap={1} key={key}
-            transition={"all .3s ease"}
-            cursor={"pointer"}
-            _hover={{ bg: "yellow.400" }}
-            bg={activeSideItem == item.id ? "yellow.400" : "#FFF"}
-          >
-            {item.icon}
-            <Text fontSize={"10"} textTransform={'capitalize'}>{item.id}</Text>
-          </Box>
+          <Link style={{ width: "100%" }} href={item.link}>
+            <Box
+              boxSize={16}
+              display={"flex"}
+              flexDir={"column"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              gap={1}
+              key={key}
+              transition={"all .3s ease"}
+              cursor={"pointer"}
+              _hover={{ bg: "yellow.400" }}
+              bg={activeSideItem == item.id ? "yellow.400" : "#FFF"}
+            >
+              {item.icon}
+              <Text fontSize={"10"} textTransform={"capitalize"}>
+                {item.id}
+              </Text>
+            </Box>
+          </Link>
         ))}
         <Spacer />
 
