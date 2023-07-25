@@ -1,14 +1,13 @@
 "use client";
-import AudioItem from "@/components/dashboard/archives/items/AudioItem";
-import FileItem from "@/components/dashboard/archives/items/FileItem";
-import FolderItem from "@/components/dashboard/archives/items/FolderItem";
-import ImageItem from "@/components/dashboard/archives/items/ImageItem";
-import VideoItem from "@/components/dashboard/archives/items/VideoItem";
+import ArchiveItem from "@/components/dashboard/archives/ArchiveItem";
 import {
   Button,
   FormControl,
   HStack,
   Icon,
+  Menu,
+  MenuItem,
+  MenuList,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -26,48 +25,65 @@ import { FcFile, FcFolder } from "react-icons/fc";
 const page = () => {
   const [browseArchiveType, setBrowseArchiveType] = useState("public");
 
+  const files = [
+    { type: "folder", isShared: true },
+    { type: "pdf", isShared: false },
+    { type: "audio", isShared: false },
+    { type: "video", isShared: true },
+    { type: "photo", isShared: false },
+  ];
+
   return (
     <>
-    <HStack justifyContent={'flex-end'}>
-    <Popover>
-            <PopoverTrigger>
-              <Button leftIcon={<BsInfoCircleFill />} variant={'ghost'} color={'gray.600'} size={'sm'}>Learn More</Button>
-            </PopoverTrigger>
-            <PopoverContent>
-              <PopoverArrow />
-              <PopoverBody>
-                {browseArchiveType == "public" ? (
-                  <VStack w={"full"} alignItems={"flex-start"}>
-                    <Text fontSize={'sm'}>
-                      • Files in the public archive can be shared to anyone
-                      without any restrictions.
-                    </Text>
-                    <Text fontSize={'sm'}>• Shared links remain valid forever.</Text>
-                    <Text fontSize={'sm'}>
-                      • Files from the public archive can be used while creating
-                      a post or while interacting with anyone.
-                    </Text>
-                  </VStack>
-                ) : (
-                  <VStack w={"full"} alignItems={"flex-start"}>
-                    <Text fontSize={'sm'}>
-                      • Files in the private archive can be shared with the
-                      registered users only.
-                    </Text>
-                    <Text fontSize={'sm'}>
-                      • The shared private files can be accessed either via a
-                      secret code or an OTP.
-                    </Text>
-                    <Text fontSize={'sm'}>
-                      • These private files can never be used anywhere in this
-                      portal.
-                    </Text>
-                  </VStack>
-                )}
-              </PopoverBody>
-            </PopoverContent>
-          </Popover>
-    </HStack>
+      <HStack justifyContent={"flex-end"}>
+        <Popover>
+          <PopoverTrigger>
+            <Button
+              leftIcon={<BsInfoCircleFill />}
+              variant={"ghost"}
+              color={"gray.600"}
+              size={"sm"}
+            >
+              Learn More
+            </Button>
+          </PopoverTrigger>
+          <PopoverContent>
+            <PopoverArrow />
+            <PopoverBody>
+              {browseArchiveType == "public" ? (
+                <VStack w={"full"} alignItems={"flex-start"}>
+                  <Text fontSize={"sm"}>
+                    • Files in the public archive can be shared to anyone
+                    without any restrictions.
+                  </Text>
+                  <Text fontSize={"sm"}>
+                    • Shared links remain valid forever.
+                  </Text>
+                  <Text fontSize={"sm"}>
+                    • Files from the public archive can be used while creating a
+                    post or while interacting with anyone.
+                  </Text>
+                </VStack>
+              ) : (
+                <VStack w={"full"} alignItems={"flex-start"}>
+                  <Text fontSize={"sm"}>
+                    • Files in the private archive can be shared with the
+                    registered users only.
+                  </Text>
+                  <Text fontSize={"sm"}>
+                    • The shared private files can be accessed either via a
+                    secret code or an OTP.
+                  </Text>
+                  <Text fontSize={"sm"}>
+                    • These private files can never be used anywhere in this
+                    portal.
+                  </Text>
+                </VStack>
+              )}
+            </PopoverBody>
+          </PopoverContent>
+        </Popover>
+      </HStack>
       <HStack
         py={4}
         w={"full"}
@@ -75,7 +91,7 @@ const page = () => {
         justifyContent={"space-between"}
       >
         <Text fontSize={"lg"} fontWeight={"semibold"}>
-          Browse Your Files
+          Browse Your {browseArchiveType == "public" ? "Files" : "Private Archive"}
         </Text>
 
         <Select
@@ -98,12 +114,9 @@ const page = () => {
         flexWrap={"wrap"}
         gap={[4, 8]}
       >
-        <FolderItem />
-        <ImageItem />
-        <FileItem type={"pdf"} />
-        <VideoItem />
-        <AudioItem />
-        <FileItem />
+        {files.map((file, key) => (
+          <ArchiveItem type={file.type} isShared={file.isShared} key={key} />
+        ))}
       </Stack>
       <Popover>
         <PopoverTrigger>
