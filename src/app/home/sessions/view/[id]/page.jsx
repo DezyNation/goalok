@@ -19,8 +19,8 @@ import BlankSpacer from "@/components/global/BlankSpacer";
 import { IoSend } from "react-icons/io5";
 import { BiRupee, BiSolidParty } from "react-icons/bi";
 import { BsEmojiHeartEyes, BsEmojiHeartEyesFill, BsEmojiLaughingFill, BsHeartFill } from "react-icons/bs";
-import SentMessage from "@/components/session/interaction/SentMessage";
-import ReceivedMessage from "@/components/session/interaction/ReceivedMessage";
+import SentMessage from "@/components/interaction/SentMessage";
+import ReceivedMessage from "@/components/interaction/ReceivedMessage";
 
 const page = ({ params }) => {
   const { id } = params;
