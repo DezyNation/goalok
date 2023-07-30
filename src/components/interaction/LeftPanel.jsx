@@ -28,6 +28,8 @@ const LeftPanel = ({onRoomClick}) => {
   ]);
   return (
     <>
+    <Box>
+      <Text fontWeight={'semibold'}>Chat with others</Text>
       <Box
         flex={1}
         bgColor={"#FFF"}
@@ -38,7 +40,6 @@ const LeftPanel = ({onRoomClick}) => {
         justifyContent={"flex-start"}
         boxShadow={'md'}
       >
-      <Text fontWeight={'semibold'}>Chat with others</Text>
         {chatRooms?.map((room, key) => (
           <HStack p={4} w={"full"} alignItems={"center"} key={key} _hover={{bgColor: 'gray.100'}} cursor={'pointer'} onClick={()=>onRoomClick(room?.chatRoomId, room?.chatRoomType)}>
             <Avatar name={room?.name} boxSize={"10"} />
@@ -50,6 +51,7 @@ const LeftPanel = ({onRoomClick}) => {
             </Box>
           </HStack>
         ))}
+      </Box>
       </Box>
     </>
   );
