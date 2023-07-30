@@ -29,7 +29,7 @@ const LeftPanel = ({onRoomClick}) => {
   return (
     <>
     <Box>
-      <Text fontWeight={'semibold'}>Chat with others</Text>
+      <Text p={3} fontWeight={'semibold'}>Chat with others</Text>
       <Box
         flex={1}
         bgColor={"#FFF"}
