@@ -48,7 +48,7 @@ const ChatWindow = ({ chatRoomId, chatRoomType }) => {
           <ReceivedMessage />
           <SentMessage />
         </Box>
-        <HStack alignItems={"flex-start"} gap={[16]}>
+        <HStack alignItems={"flex-start"} gap={[8]}>
           <InputGroup px={2}>
             <Textarea
               placeholder="Type your message..."
