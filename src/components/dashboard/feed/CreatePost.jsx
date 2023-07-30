@@ -30,7 +30,7 @@ const CreatePost = () => {
             w={"full"}
             h={12}
             variant={"unstyled"}
-            placeholder="Share your thought, Sangam"
+            placeholder="Share your thoughts, Sangam"
             mb={2}
             resize={"none"}
           />
@@ -83,10 +83,11 @@ const CreatePost = () => {
         </HStack>
         <HStack p={2} justifyContent={"flex-end"}>
           <Button
-            colorScheme="teal"
-            bgColor={"#333"}
+            colorScheme="pink"
+            bgColor={"fuchsia"}
             rightIcon={<IoSend />}
             rounded={'full'}
+            boxShadow={'md'}
           >
             Share
           </Button>

@@ -10,9 +10,12 @@
   },
   "dependencies": {
     "@chakra-ui/react": "^2.7.0",
+    "@emoji-mart/data": "^1.1.2",
+    "@emoji-mart/react": "^1.1.1",
     "@emotion/react": "^11.11.0",
     "@emotion/styled": "^11.11.0",
     "chakra-ui-contextmenu": "^1.0.5",
+    "emoji-mart": "^5.5.2",
     "formik": "^2.4.1",
     "framer-motion": "^10.12.16",
     "lottie-react": "^2.4.0",

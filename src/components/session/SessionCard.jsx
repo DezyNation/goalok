@@ -18,8 +18,8 @@ const SessionCard = ({ onClick }) => {
           <Image
             src="https://www.hindugodwallpaper.com/downloadfiles.php?id=627"
             w={"full"}
-            h={48}
-            objectFit={"cover"}
+            h={56}
+            objectFit={"cover"} cursor={'pointer'}
           />
           <Text
             pos={"absolute"}

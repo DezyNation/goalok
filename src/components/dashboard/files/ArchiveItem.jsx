@@ -1,6 +1,14 @@
 "use client";
 import {
+  AlertDialog,
+  AlertDialogBody,
+  AlertDialogCloseButton,
+  AlertDialogContent,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogOverlay,
   Box,
+  Button,
   Drawer,
   DrawerBody,
   DrawerContent,
@@ -68,21 +76,55 @@ const PropertiesDrawer = ({ status = false, type, title, id, onClose }) => {
   );
 };
 
+const DeleteAlert = ({status, onClose}) => {
+  const cancelRef = React.useRef()
+
+  return (
+    <>
+      <AlertDialog
+        motionPreset='slideInBottom'
+        leastDestructiveRef={cancelRef}
+        onClose={onClose}
+        isOpen={status}
+        isCentered
+      >
+        <AlertDialogOverlay />
+
+        <AlertDialogContent>
+          <AlertDialogHeader>Delete File?</AlertDialogHeader>
+          <AlertDialogCloseButton />
+          <AlertDialogBody>
+            Are you sure you want to delete this file?
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <Button ref={cancelRef} onClick={onClose}>
+              Cancel
+            </Button>
+            <Button colorScheme='red' ml={3}>
+              Delete
+            </Button>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    </>
+  )
+}
+
 const ArchiveItem = ({ id, path, label, isShared, type, onClick }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showDelete, setShowDelete] = useState(false)
 
   return (
     <>
       <ContextMenu
         renderMenu={() => (
           <MenuList>
-            <MenuItem>Open</MenuItem>
-            <MenuItem>Create a Copy</MenuItem>
+            <MenuItem>Download</MenuItem>
             <MenuItem>Move</MenuItem>
             <MenuItem>{isShared ? "Manage Access" : "Share"}</MenuItem>
             <MenuItem onClick={() => setIsOpen(true)}>Properties</MenuItem>
             <MenuDivider />
-            <MenuItem color={"red.400"}>Delete</MenuItem>
+            <MenuItem color={"red.400"} onClick={()=>setShowDelete(true)}>Delete</MenuItem>
           </MenuList>
         )}
       >
@@ -123,6 +165,7 @@ const ArchiveItem = ({ id, path, label, isShared, type, onClick }) => {
       </ContextMenu>
 
       <PropertiesDrawer status={isOpen} type={type} onClose={()=>setIsOpen(false)} />
+      <DeleteAlert status={showDelete} onClose={()=>setShowDelete(false)} />
     </>
   );
 };

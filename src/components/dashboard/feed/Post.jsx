@@ -77,7 +77,7 @@ const Author = ({ name, id, image, type }) => {
 const TextBlock = ({ content }) => {
   return (
     <>
-      <Text>
+      <Text fontSize={'sm'}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas ipsam, id
         veniam dolor dolorem animi quod tempore architecto perferendis, at velit
         repellat soluta nemo sequi excepturi commodi. Eveniet, facilis

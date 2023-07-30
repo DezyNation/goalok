@@ -35,9 +35,9 @@ const SideNav = () => {
       link: "/dashboard?active_side_item=feed",
     },
     {
-      id: "archives",
+      id: "files",
       icon: <BsFolderFill />,
-      link: "/dashboard/archives?active_side_item=archives",
+      link: "/dashboard/files?active_side_item=files",
     },
     {
       id: "news",
@@ -52,7 +52,7 @@ const SideNav = () => {
     {
       id: "interact",
       icon: <BsChatDotsFill />,
-      link: "/dashboard?active_side_item=interact",
+      link: "/dashboard/interact?active_side_item=interact",
     },
   ];
 

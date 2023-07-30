@@ -16,10 +16,10 @@ const SentMessage = () => {
           <Box
             p={2}
             maxW={"70%"}
-            bg={"aqua"}
+            bg={"#333"}
             rounded={12}
           >
-            <Text fontSize={"xs"} color={"#333"}>
+            <Text fontSize={"xs"} color={"#FFF"}>
               Hare Krishna guru ji 🙏 <br />
               Dandwat pranam 🙇
             </Text>
