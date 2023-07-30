@@ -44,7 +44,7 @@ const ChatWindow = ({ chatRoomId, chatRoomType }) => {
           {chatRoomDesc}
         </Text>
         <hr />
-        <Box h={"65vh"} overflowY={"scroll"} w={"full"} py={4}>
+        <Box h={"62vh"} overflowY={"scroll"} w={"full"} py={4}>
           <ReceivedMessage />
           <SentMessage />
         </Box>
