@@ -76,7 +76,7 @@ const ChatWindow = ({ chatRoomId, chatRoomType }) => {
           </InputGroup>
           <Button
             colorScheme="pink"
-            bgColor={"fuchsia"}
+            bgColor={"#333"}
             rightIcon={<IoSend />}
             rounded={"full"}
             boxShadow={"md"}
