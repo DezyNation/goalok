@@ -28,6 +28,7 @@ const LeftPanel = ({onRoomClick}) => {
   ]);
   return (
     <>
+    <Text fontSize={'xl'}>Chat with others</Text>
       <Box
         flex={1}
         bgColor={"#FFF"}
@@ -36,6 +37,7 @@ const LeftPanel = ({onRoomClick}) => {
         flexDir={"column"}
         alignItems={"flex-start"}
         justifyContent={"flex-start"}
+        boxShadow={'md'}
       >
         {chatRooms?.map((room, key) => (
           <HStack p={4} w={"full"} alignItems={"center"} key={key} _hover={{bgColor: 'gray.100'}} cursor={'pointer'} onClick={()=>onRoomClick(room?.chatRoomId, room?.chatRoomType)}>
