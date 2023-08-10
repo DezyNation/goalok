@@ -15,12 +15,9 @@ import { HiPencil } from "react-icons/hi";
 import {
   GiByzantinTemple,
   GiReceiveMoney,
-  GiTakeMyMoney,
 } from "react-icons/gi";
 import Link from "next/link";
-import { BsCalendarCheck } from "react-icons/bs";
 import { LuCalendarHeart } from "react-icons/lu";
-import { BiRupee } from "react-icons/bi";
 import PostThumbnail from "@/components/profile/PostThumbnail";
 
 const page = () => {
