@@ -111,9 +111,11 @@ const SideNav = () => {
             <PopoverArrow />
             <PopoverHeader>Sangam Kumar</PopoverHeader>
             <PopoverBody>
+              <Link href={'/dashboard/profile'}>
               <Text cursor={"pointer"} py={2}>
                 View Profile
               </Text>
+              </Link>
               <Text cursor={"pointer"} py={2} color={"red.500"}>
                 Logout
               </Text>
