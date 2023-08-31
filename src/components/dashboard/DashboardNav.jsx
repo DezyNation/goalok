@@ -2,6 +2,7 @@
 import {
   Avatar,
   Box,
+  Button,
   HStack,
   Icon,
   Image,
@@ -35,13 +36,13 @@ const DashboardNav = () => {
       link: "/dashboard?active_top_item=knowledgebase",
     },
   ];
-  const params = useSearchParams()
-  const activeTopItem = params.get("active_top_item")
+  const params = useSearchParams();
+  const activeTopItem = params.get("active_top_item");
 
   return (
     <>
-      <HStack py={2} px={4} bgColor={"#FFF"}>
-        <HStack w={["full", "xs"]}>
+      <HStack py={2} px={4} bgColor={"#FFF"} justifyContent={"space-between"}>
+        <HStack w={["auto", "xs"]}>
           <Image src="/logo.png" w={12} h={12} objectFit={"contain"} />
           <Box>
             <Text className="messiri">ISKCON Inc.</Text>
@@ -50,37 +51,17 @@ const DashboardNav = () => {
             </Text>
           </Box>
         </HStack>
-        <Spacer />
-        <HStack columnGap={6} justifyContent={"center"}>
-          {navItems.map((item, key) => (
-            <Link href={item.link}>
-              <Text
-                cursor={"pointer"}
-                fontSize={"sm"}
-                textTransform={"capitalize"}
-                transition={'all .3s ease'}
-                key={key} _hover={{color: (activeTopItem == item.id ? '#333' : 'yellow.500')}}
-                px={3} py={1} rounded={'full'}
-                bgColor={activeTopItem == item.id ? 'yellow.400' : 'transparent'}
-                boxShadow={activeTopItem == item.id ? 'md' : 'none'}
-              >
-                {item.id}
-              </Text>
-            </Link>
-          ))}
-        </HStack>
-        <Spacer />
-        <HStack>
-          <InputGroup w={["full", "xs"]}>
-            <Input
-              fontSize={"sm"}
-              px={2}
-              variant={"flushed"}
-              placeholder="Search for people, temples, books etc."
-            />
-            <InputRightElement children={<Icon as={BsSearch} />} />
-          </InputGroup>
-        </HStack>
+        <Button
+          rightIcon={<BsSearch />}
+          size={"sm"}
+          bgColor={"transparent"}
+          borderBottom={"1px"}
+          borderColor={"gray.200"}
+          rounded={0} color={'gray.600'}
+          fontWeight={'medium'} px={0}
+        >
+          Search Knowledgebase
+        </Button>
       </HStack>
     </>
   );

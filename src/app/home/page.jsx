@@ -28,22 +28,22 @@ export default function HomePage() {
           bgImage={'linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0))'}
         >
           <Box
-            w={'82.5%'} p={[4, 8, 16]}
+            w={['90%', '82.5%']} p={[4, 8, 16]}
             pos={'absolute'} top={0}
             left={0} right={0}
             mx={'auto'}
           >
-            <Box w={'max-content'}>
-              <Text mt={[8, 24, 48]} marginBottom={'-4'} fontSize={'2xl'} color={'#FFF'}>Your Quest For</Text>
+            <Box w={['full', 'max-content']}>
+              <Text mt={[24, 24, 48]} marginBottom={'-4'} fontSize={['lg', '2xl']} color={'#FFF'}>Your Quest For</Text>
               <Text
-                fontSize={['5xl', '8xl', '9xl']}
+                fontSize={['6xl', '8xl', '9xl']}
                 className='messiri' pb={0}
                 color={'#FFF'}
-
+                mt={[4, 0]}
               >Answers</Text>
-              <HStack w={'full'} justifyContent={'flex-end'} marginTop={'-12'}>
-                <hr style={{ width: '70%' }} />
-                <Text flex={1} fontSize={'2xl'} color={'#FFF'}>Ends Here</Text>
+              <HStack w={'full'} justifyContent={'flex-end'} marginTop={['-4', '-12']}>
+                <Box h={'0.25'} bgColor={'#FFF'} w={['35%', '70%']}></Box>
+                <Text flex={1} fontSize={['lg', '2xl']} color={'#FFF'}>Ends Here</Text>
               </HStack>
               <Button
                 className='messiri'

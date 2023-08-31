@@ -1,5 +1,13 @@
 "use client";
-import { Avatar, Box, Button, HStack, Text, Textarea } from "@chakra-ui/react";
+import {
+  Avatar,
+  Box,
+  Button,
+  HStack,
+  IconButton,
+  Text,
+  Textarea,
+} from "@chakra-ui/react";
 import React from "react";
 import { BsImages, BsPencilSquare, BsSendFill } from "react-icons/bs";
 import { FaLocationDot, FaUserTag } from "react-icons/fa6";
@@ -28,66 +36,59 @@ const CreatePost = () => {
           <Textarea
             fontSize={"sm"}
             w={"full"}
-            h={12}
+            h={[16, 12]}
             variant={"unstyled"}
             placeholder="Share your thoughts, Sangam"
             mb={2}
             resize={"none"}
           />
         </HStack>
-        <HStack py={2} gap={6}>
+        <HStack py={2} gap={6} w={"full"} overflowX={"scroll"}>
           <HStack rounded={"full"} gap={0} bgColor={"gray.100"}>
-            <Box
-              p={2}
+            <IconButton
+              size={"sm"}
+              color={"#FFF"}
               rounded={"full"}
-              display={"grid"}
-              placeContent={"center"}
+              icon={<BsImages />}
               bgColor={"purple.500"}
-            >
-              <BsImages color="#FFF" />
-            </Box>
-            <Box pr={3} pl={2}>
-              <Text fontSize={"xs"}>Gallery</Text>
-            </Box>
+            />
+            <Text w={['28', 'auto']} pr={3} pl={2} fontSize={"xs"}>
+              Insert Media
+            </Text>
           </HStack>
 
           <HStack rounded={"full"} gap={0} bgColor={"gray.100"}>
-            <Box
-              p={2}
+            <IconButton
+              size={"sm"}
+              color={"#FFF"}
               rounded={"full"}
-              display={"grid"}
-              placeContent={"center"}
+              icon={<FaLocationDot />}
               bgColor={"pink.400"}
-            >
-              <FaLocationDot color="#FFF" />
-            </Box>
-            <Box pr={3} pl={2}>
-              <Text fontSize={"xs"}>Share Location</Text>
-            </Box>
+            />
+            <Text w={['28', 'auto']} pr={3} pl={2} fontSize={"xs"}>
+              Share Location
+            </Text>
           </HStack>
 
           <HStack rounded={"full"} gap={0} bgColor={"gray.100"}>
-            <Box
-              p={2}
+            <IconButton
+              size={"sm"}
+              color={"#FFF"}
               rounded={"full"}
-              display={"grid"}
-              placeContent={"center"}
+              icon={<FaUserTag />}
               bgColor={"yellow.500"}
-            >
-              <FaUserTag color="#FFF" />
-            </Box>
-            <Box pr={3} pl={2}>
-              <Text fontSize={"xs"}>Tag Someone</Text>
-            </Box>
+            />
+              <Text w={['28', 'auto']} pr={3} pl={2} fontSize={"xs"}>Tag People</Text>
           </HStack>
         </HStack>
+        <br />
         <HStack p={2} justifyContent={"flex-end"}>
           <Button
             colorScheme="pink"
             bgColor={"fuchsia"}
             rightIcon={<IoSend />}
-            rounded={'full'}
-            boxShadow={'md'}
+            rounded={"full"}
+            boxShadow={"md"}
           >
             Share
           </Button>

@@ -42,6 +42,7 @@ const page = () => {
                 bgColor={"blackAlpha.500"}
                 leftIcon={<HiPencil />}
                 rounded={"full"}
+                size={'sm'}
               >
                 Edit Profile
               </Button>
@@ -50,7 +51,7 @@ const page = () => {
           <Stack
             pos={"absolute"}
             top={"70%"}
-            p={8}
+            p={[0, 8]}
             left={0}
             right={0}
             direction={["column", "row"]}
@@ -60,6 +61,7 @@ const page = () => {
             zIndex={9}
           >
             <Box
+            w={['full', 'auto']}
               p={[4, 6]}
               flex={1}
               bgColor={"white"}
@@ -121,6 +123,7 @@ const page = () => {
               </VStack>
             </Box>
             <Box
+            w={['full', 'auto']}
               p={[4, 6]}
               flex={3}
               bgColor={"white"}
@@ -143,7 +146,7 @@ const page = () => {
                 Enrolled Courses
               </Text>
               <hr />
-              <HStack pt={4} gap={4}>
+              <HStack pt={4} gap={4} flexWrap={'wrap'}>
                 <PostThumbnail />
                 <PostThumbnail />
                 <PostThumbnail />
