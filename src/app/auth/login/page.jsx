@@ -60,6 +60,11 @@ const Login = () => {
         .then((res) => {
           setIsLoading(false);
           Router.push("/dashboard");
+          Cookies.set("token", res.data?.jwt, {
+            expires: 1,
+            secure: process.env.NODE_ENV === "production",
+            httpOnly: true,
+          });
         })
         .catch((err) => {
           setIsLoading(false);
