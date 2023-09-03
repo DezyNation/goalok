@@ -102,7 +102,7 @@ const Login = () => {
 
   return (
     <>
-      <HStack w={"full"} h={"100vh"}>
+      <HStack w={"full"} h={"100vh"} pos={'relative'}>
         <Link href={"/"}>
           <HStack
             px={4}
@@ -110,6 +110,7 @@ const Login = () => {
             pos={"absolute"}
             top={4}
             left={4}
+            zIndex={999}
             rounded={"full"}
             bgColor={"blackAlpha.600"}
             backdropFilter={"blur(4px)"}
