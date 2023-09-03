@@ -13,6 +13,7 @@ import {
   PopoverBody,
   PopoverContent,
   PopoverTrigger,
+  Show,
   Stack,
   Text,
   VStack,
@@ -25,6 +26,7 @@ import {
   BsFlagFill,
   BsHeart,
   BsHeartFill,
+  BsImages,
   BsPinMapFill,
   BsThreeDotsVertical,
 } from "react-icons/bs";
@@ -77,7 +79,7 @@ const Author = ({ name, id, image, type }) => {
 const TextBlock = ({ content }) => {
   return (
     <>
-      <Text fontSize={'sm'}>
+      <Text fontSize={"sm"}>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas ipsam, id
         veniam dolor dolorem animi quod tempore architecto perferendis, at velit
         repellat soluta nemo sequi excepturi commodi. Eveniet, facilis
@@ -90,47 +92,27 @@ const TextBlock = ({ content }) => {
 const MediaBlock = ({ media }) => {
   return (
     <>
-      <Stack w={"full"} direction={["column", "row"]} alignItems={'center'} justifyContent={'space-evenly'} gap={4}>
-        <Box flex={2} height={52}>
-          <Image
-            src="https://i0.wp.com/myvoice.opindia.com/wp-content/uploads/sites/3/2020/06/Lord-Krishna-and-Gopis.jpg"
-            w={"full"}
-            h={"inherit"}
-            objectFit={"cover"}
-            rounded={4}
-          />
-        </Box>
-        <VStack w={"full"} gap={4} flex={1}>
-          <HStack w={"full"}>
-            <Image
-              src="https://i0.wp.com/myvoice.opindia.com/wp-content/uploads/sites/3/2020/06/Lord-Krishna-and-Gopis.jpg"
-              objectFit={"cover"}
-              boxSize={24}
-              rounded={4}
-            />
-            <Image
-              src="https://i0.wp.com/myvoice.opindia.com/wp-content/uploads/sites/3/2020/06/Lord-Krishna-and-Gopis.jpg"
-              objectFit={"cover"}
-              boxSize={24}
-              rounded={4}
-            />
-          </HStack>
-          <HStack w={"full"}>
-            <Image
-              src="https://i0.wp.com/myvoice.opindia.com/wp-content/uploads/sites/3/2020/06/Lord-Krishna-and-Gopis.jpg"
-              objectFit={"cover"}
-              boxSize={24}
-              rounded={4}
-            />
-            <Image
-              src="https://i0.wp.com/myvoice.opindia.com/wp-content/uploads/sites/3/2020/06/Lord-Krishna-and-Gopis.jpg"
-              objectFit={"cover"}
-              boxSize={24}
-              rounded={4}
-            />
-          </HStack>
-        </VStack>
-      </Stack>
+      <Box w={"full"} height={"xs"} pos={"relative"}>
+        <Image
+          src="https://i0.wp.com/myvoice.opindia.com/wp-content/uploads/sites/3/2020/06/Lord-Krishna-and-Gopis.jpg"
+          w={"full"}
+          h={"inherit"}
+          objectFit={"cover"}
+          rounded={4}
+        />
+        <Button
+          colorScheme="blackAlpha"
+          bgColor={"blackAlpha.600"}
+          rounded={"full"}
+          leftIcon={<BsImages />}
+          pos={"absolute"}
+          bottom={4}
+          right={4}
+          size={"sm"}
+        >
+          +3 images
+        </Button>
+      </Box>
     </>
   );
 };
@@ -182,7 +164,7 @@ const Interactions = () => {
     <>
       <HStack
         w={"full"}
-        py={4}
+        py={[1, 4]}
         justifyContent={"space-between"}
         pos={"relative"}
       >
@@ -195,17 +177,29 @@ const Interactions = () => {
           justifyContent={"flex-start"}
           pos={"relative"}
         >
-          <Button
-            rounded={"full"}
-            variant={"ghost"}
-            colorScheme="red"
-            leftIcon={liked ? <BsHeartFill /> : <BsHeart />}
-            onClick={() => setLiked(!liked)}
-          >
-            Love
-          </Button>
+          <Show above="md">
+            <Button
+              rounded={"full"}
+              variant={"ghost"}
+              colorScheme="red"
+              leftIcon={liked ? <BsHeartFill /> : <BsHeart />}
+              onClick={() => setLiked(!liked)}
+            >
+              Love
+            </Button>
+          </Show>
+          <Show below="md">
+            <IconButton
+              size={"lg"}
+              rounded={"full"}
+              variant={"ghost"}
+              colorScheme="red"
+              icon={liked ? <BsHeartFill /> : <BsHeart />}
+              onClick={() => setLiked(!liked)}
+            />
+          </Show>
           {reactionPaused || (
-            <Box pos={"absolute"} left={'-2.5rem'} width={48}>
+            <Box pos={"absolute"} left={"-2.5rem"} width={48}>
               <Lottie
                 width={50}
                 height={150}
@@ -225,14 +219,25 @@ const Interactions = () => {
           alignItems={"center"}
           justifyContent={"center"}
         >
-          <Button
-            rounded={"full"}
-            variant={"ghost"}
-            colorScheme="facebook"
-            leftIcon={<BsChatQuote />}
-          >
-            Comment
-          </Button>
+          <Show above="md">
+            <Button
+              rounded={"full"}
+              variant={"ghost"}
+              colorScheme="facebook"
+              leftIcon={<BsChatQuote />}
+            >
+              Comment
+            </Button>
+          </Show>
+          <Show below="md">
+            <IconButton
+              size={"lg"}
+              rounded={"full"}
+              variant={"ghost"}
+              colorScheme="facebook"
+              leftIcon={<BsChatQuote />}
+            />
+          </Show>
         </Box>
         <Box
           flex={1}
@@ -242,14 +247,25 @@ const Interactions = () => {
           alignItems={"center"}
           justifyContent={"flex-end"}
         >
-          <Button
-            rounded={"full"}
-            variant={"ghost"}
-            colorScheme="yellow"
-            leftIcon={<FaShare />}
-          >
-            Share
-          </Button>
+          <Show above="md">
+            <Button
+              rounded={"full"}
+              variant={"ghost"}
+              colorScheme="facebook"
+              leftIcon={<FaShare />}
+            >
+              Comment
+            </Button>
+          </Show>
+          <Show below="md">
+            <IconButton
+              size={"lg"}
+              rounded={"full"}
+              variant={"ghost"}
+              colorScheme="facebook"
+              leftIcon={<FaShare />}
+            />
+          </Show>
         </Box>
       </HStack>
     </>
@@ -259,7 +275,14 @@ const Interactions = () => {
 const Post = ({ content, media }) => {
   return (
     <>
-      <Box p={4} pb={0} rounded={4} bgColor={"#FFF"} boxShadow={"base"}>
+      <Box
+        w={"full"}
+        p={4}
+        pb={0}
+        rounded={4}
+        bgColor={"#FFF"}
+        boxShadow={"base"}
+      >
         <Author />
         <hr />
         <VStack

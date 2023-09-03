@@ -24,6 +24,7 @@ import {
   ModalFooter,
   PinInput,
   PinInputField,
+  Show,
 } from "@chakra-ui/react";
 import { BsArrowLeft, BsEye, BsEyeSlash, BsGoogle } from "react-icons/bs";
 import { setIn, useFormik } from "formik";
@@ -36,7 +37,7 @@ const Login = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onToggle, onOpen, onClose } = useDisclosure();
-  const Router = useRouter()
+  const Router = useRouter();
 
   const Formik = useFormik({
     initialValues: {
@@ -54,7 +55,7 @@ const Login = () => {
       setIsLoading(true);
       setTimeout(() => {
         setIsLoading(false);
-        Router.push("/dashboard?active_side_item=feed")
+        Router.push("/dashboard?active_side_item=feed");
       }, 1000);
     },
   });
@@ -68,13 +69,13 @@ const Login = () => {
       otp: "",
     },
     onSubmit: (values) => {
-        onClose()
-        Toast({
-            status: "success",
-            title: "Registration successful!",
-            description: "Please login with your credentials"
-        })
-        setIntent("login")
+      onClose();
+      Toast({
+        status: "success",
+        title: "Registration successful!",
+        description: "Please login with your credentials",
+      });
+      setIntent("login");
     },
   });
 
@@ -91,61 +92,63 @@ const Login = () => {
   return (
     <>
       <HStack w={"full"} h={"100vh"}>
-        <Box
-          flex={1}
-          h={"full"}
-          bgImage={
-            "https://i.pinimg.com/736x/6d/a5/19/6da51985c25891ba968a0a3b6f663ab7.jpg"
-          }
-          bgSize={"cover"}
-          bgRepeat={"no-repeat"}
-          pos={"relative"}
-        >
-          <Link href={"/"}>
-            <HStack
-              px={4}
-              py={1}
-              pos={"absolute"}
-              top={4}
-              left={4}
-              rounded={"full"}
-              bgColor={"blackAlpha.600"}
-              backdropFilter={"blur(4px)"}
-              _hover={{ boxShadow: "lg" }}
-            >
-              <BsArrowLeft color="#FFF" fontSize={22} />
-              <Text color={"#FFF"}>Home</Text>
-            </HStack>
-          </Link>
-          <VStack
-            w={"full"}
-            h={"full"}
-            // bg={'rgba(6,15,190,0.5)'}
-            bg={"rgba(0,0,0,0.55)"}
-            p={16}
-            justifyContent={"center"}
+        <Link href={"/"}>
+          <HStack
+            px={4}
+            py={1}
+            pos={"absolute"}
+            top={4}
+            left={4}
+            rounded={"full"}
+            bgColor={"blackAlpha.600"}
+            backdropFilter={"blur(4px)"}
+            _hover={{ boxShadow: "lg" }}
           >
-            <Text className="messiri" fontSize={"2xl"} color={"#FFF"}>
-              "Books are the basis; purity is the force; preaching is the
-              essence; utility is the principle."
-            </Text>
-            <HStack w={"full"} justifyContent={"flex-end"} py={12}>
-              <Box>
-                <Text color={"#FFF"} fontWeight={"semibold"} fontSize={"xl"}>
-                  A.C. Bhaktivedanta Swami
-                </Text>
-                <Text color={"#FFF"} fontSize={"md"}>
-                  Founder Acharya, <br />
-                  International Society for Krishna Consciousness
-                </Text>
-              </Box>
-            </HStack>
-          </VStack>
-        </Box>
+            <BsArrowLeft color="#FFF" fontSize={22} />
+            <Text color={"#FFF"}>Home</Text>
+          </HStack>
+        </Link>
+        <Show above="md">
+          <Box
+            flex={1}
+            h={"full"}
+            bgImage={
+              "https://i.pinimg.com/736x/6d/a5/19/6da51985c25891ba968a0a3b6f663ab7.jpg"
+            }
+            bgSize={"cover"}
+            bgRepeat={"no-repeat"}
+            pos={"relative"}
+          >
+            <VStack
+              w={"full"}
+              h={"full"}
+              // bg={'rgba(6,15,190,0.5)'}
+              bg={"rgba(0,0,0,0.55)"}
+              p={16}
+              justifyContent={"center"}
+            >
+              <Text className="messiri" fontSize={"2xl"} color={"#FFF"}>
+                "Books are the basis; purity is the force; preaching is the
+                essence; utility is the principle."
+              </Text>
+              <HStack w={"full"} justifyContent={"flex-end"} py={12}>
+                <Box>
+                  <Text color={"#FFF"} fontWeight={"semibold"} fontSize={"xl"}>
+                    A.C. Bhaktivedanta Swami
+                  </Text>
+                  <Text color={"#FFF"} fontSize={"md"}>
+                    Founder Acharya, <br />
+                    International Society for Krishna Consciousness
+                  </Text>
+                </Box>
+              </HStack>
+            </VStack>
+          </Box>
+        </Show>
         {intent == "login" ? (
           <VStack flex={1} h={"full"} p={[4, 16]} justifyContent={"center"}>
             <Text>Welcome Back</Text>
-            <Text className="messiri" fontSize={"4xl"}>
+            <Text className="messiri" fontSize={["3xl", "4xl"]} textAlign={'center'}>
               Continue Your Journey
             </Text>
 
@@ -238,9 +241,9 @@ const Login = () => {
             </Box>
           </VStack>
         ) : (
-          <VStack flex={1} h={"full"} p={16} justifyContent={"center"}>
-            <Text>Hare Krishna</Text>
-            <Text className="messiri" fontSize={"4xl"}>
+          <VStack flex={1} h={"full"} p={[4, 16]} justifyContent={"center"}>
+            <Text>|| Hare Krishna ||</Text>
+            <Text className="messiri" fontSize={["3xl", "4xl"]} textAlign={'center'}>
               Start Your Spiritual Journey
             </Text>
 
@@ -338,7 +341,7 @@ const Login = () => {
         )}
       </HStack>
 
-      <Modal isOpen={isOpen} onClose={onToggle}>
+      <Modal isOpen={isOpen} onClose={onToggle} isCentered>
         <ModalOverlay />
         <ModalContent>
           <ModalHeader alignItems={"center"} justifyContent={"center"}>

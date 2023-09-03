@@ -1,9 +1,26 @@
 "use client";
 import React from "react";
-import { Box, Text, Stack, HStack, Spacer, Button } from "@chakra-ui/react";
+import {
+  Box,
+  Text,
+  Stack,
+  HStack,
+  Spacer,
+  Button,
+  Show,
+  IconButton,
+  Drawer,
+  DrawerOverlay,
+  DrawerContent,
+  DrawerHeader,
+  useDisclosure,
+  DrawerBody,
+} from "@chakra-ui/react";
 import Link from "next/link";
+import { HiOutlineMenuAlt3 } from "react-icons/hi";
 
 const Navbar = ({ theme }) => {
+  const { isOpen, onToggle, onClose } = useDisclosure();
   return (
     <>
       <Box
@@ -21,53 +38,118 @@ const Navbar = ({ theme }) => {
         }
         backdropFilter={"blur(8px)"}
       >
-        <HStack
-          w={["full", "full", "80%"]}
-          mx={"auto"}
-          color={"#FFF"}
-          gap={[4, 8, 16]}
-        >
-          <Text cursor={"pointer"} className="raleway nav-link">
-            Counselling
-          </Text>
-          <Text cursor={"pointer"} className="raleway nav-link">
-            Projects
-          </Text>
-          <Link href={"/home/sessions"}>
+        <Show above="md">
+          <HStack
+            w={["full", "full", "80%"]}
+            mx={"auto"}
+            color={"#FFF"}
+            gap={[4, 8, 16]}
+          >
             <Text cursor={"pointer"} className="raleway nav-link">
-              Sessions
+              Counselling
             </Text>
-          </Link>
-          <Spacer />
-          <Link href={"/"}>
-            <Text
-              cursor={"pointer"}
-              className="messiri nav-link"
-              fontSize={["md", "lg"]}
-            >
-              ISKCON Inc.
+            <Text cursor={"pointer"} className="raleway nav-link">
+              Projects
             </Text>
-          </Link>
-          <Spacer />
-          <Text cursor={"pointer"} className="raleway nav-link">
-            Shop
-          </Text>
-          <Text cursor={"pointer"} className="raleway nav-link">
-            Donations
-          </Text>
-          <Link href={"/auth/login"}>
-            <Button
-              colorScheme="yellow"
-              roundedTopLeft={"full"}
-              roundedBottomRight={"full"}
-              size={"sm"}
-              px={6}
-            >
-              Login Now
-            </Button>
-          </Link>
-        </HStack>
+            <Link href={"/home/sessions"}>
+              <Text cursor={"pointer"} className="raleway nav-link">
+                Sessions
+              </Text>
+            </Link>
+            <Spacer />
+            <Link href={"/"}>
+              <Text
+                cursor={"pointer"}
+                className="messiri nav-link"
+                fontSize={["md", "lg"]}
+              >
+                ISKCON Inc.
+              </Text>
+            </Link>
+            <Spacer />
+            <Text cursor={"pointer"} className="raleway nav-link">
+              Shop
+            </Text>
+            <Text cursor={"pointer"} className="raleway nav-link">
+              Donations
+            </Text>
+            <Link href={"/auth/login"}>
+              <Button
+                colorScheme="yellow"
+                roundedTopLeft={"full"}
+                roundedBottomRight={"full"}
+                size={"sm"}
+                px={6}
+              >
+                Login Now
+              </Button>
+            </Link>
+          </HStack>
+        </Show>
+
+        <Show below="md">
+          <HStack w={"full"} justifyContent={"space-between"} color={"#FFF"}>
+            <Link href={"/"}>
+              <Text
+                cursor={"pointer"}
+                className="messiri nav-link"
+                fontSize={["md", "lg"]}
+              >
+                ISKCON Inc.
+              </Text>
+            </Link>
+            <IconButton
+              color={"#FFF"}
+              icon={<HiOutlineMenuAlt3 size={24} />}
+              variant={"ghost"}
+              _hover={{ bgColor: "transparent" }}
+              onClick={onToggle}
+            />
+          </HStack>
+        </Show>
       </Box>
+
+      <Drawer
+        isOpen={isOpen}
+        onClose={onClose}
+        placement="left"
+        size={"xs"}
+      >
+        <DrawerOverlay />
+        <DrawerContent bgColor={'#03001C'} color={'#FFF'}>
+          <DrawerHeader></DrawerHeader>
+          <DrawerBody py={16} display={'flex'} flexDir={'column'} gap={4}>
+            <Text cursor={"pointer"} className="raleway nav-link">
+              Counselling
+            </Text>
+            <Text cursor={"pointer"} className="raleway nav-link">
+              Projects
+            </Text>
+            <Link href={"/home/sessions"}>
+              <Text cursor={"pointer"} className="raleway nav-link">
+                Sessions
+              </Text>
+            </Link>
+            <Text cursor={"pointer"} className="raleway nav-link">
+              Shop
+            </Text>
+            <Text cursor={"pointer"} className="raleway nav-link">
+              Donations
+            </Text>
+            <Box w={'full'} h={'full'}></Box>
+            <Link href={"/auth/login"} style={{alignSelf: 'center', width: '100%'}}>
+              <Button
+                colorScheme="yellow"
+                roundedTopLeft={"full"}
+                roundedBottomRight={"full"}
+                px={6} w={'full'}
+              >
+                Login Now
+              </Button>
+            </Link>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
     </>
   );
 };
