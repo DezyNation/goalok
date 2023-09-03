@@ -143,7 +143,7 @@ const Login = () => {
           </VStack>
         </Box>
         {intent == "login" ? (
-          <VStack flex={1} h={"full"} p={16} justifyContent={"center"}>
+          <VStack flex={1} h={"full"} p={[4, 16]} justifyContent={"center"}>
             <Text>Welcome Back</Text>
             <Text className="messiri" fontSize={"4xl"}>
               Continue Your Journey
