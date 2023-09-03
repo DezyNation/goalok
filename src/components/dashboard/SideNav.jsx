@@ -60,7 +60,7 @@ const SideNav = () => {
     <>
       <VStack py={4} bgColor={"#FFF"} h={"92vh"}>
         {items.map((item, key) => (
-          <Link style={{ width: "100%" }} href={item.link}>
+          <Link style={{ width: "100%" }} href={item.link} key={key}>
             <Box
               boxSize={16}
               display={"flex"}

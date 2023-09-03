@@ -11,7 +11,6 @@ const BackendAxios = axios.create({
     headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'application/json',
-        'X-Requested-With': 'XMLHttpRequest'
     },
 })
 BackendAxios.defaults.headers.common.Authorization = `Bearer ${token}`
@@ -24,7 +23,6 @@ export const FormAxios = axios.create({
     headers: {
         'Accept': 'application/json, text/plain, */*',
         'Content-Type': 'multipart/form-data',
-        'X-Requested-With': 'XMLHttpRequest'
     },
 })
 FormAxios.defaults.withCredentials = true

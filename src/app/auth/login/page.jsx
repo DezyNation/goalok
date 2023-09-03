@@ -59,13 +59,14 @@ const Login = () => {
       setIsLoading(true);
       DefaultAxios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local`, values)
         .then((res) => {
-          setIsLoading(false);
-          Router.push("/dashboard");
           Cookies.set("token", res.data?.jwt, {
             expires: 1,
-            secure: process.env.NODE_ENV === "production",
-            httpOnly: true,
+            secure: process.env.NODE_ENV === "production"
           });
+          setIsLoading(false);
+          setTimeout(() => {
+            Router.push("/dashboard");
+          }, 800);
         })
         .catch((err) => {
           setIsLoading(false);
@@ -89,6 +90,7 @@ const Login = () => {
         .then((res) => {
           setIsLoading(false);
           setIntent("login");
+          RegisterFormik.handleReset()
           onToggle();
         })
         .catch((err) => {
