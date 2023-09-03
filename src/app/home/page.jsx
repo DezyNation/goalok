@@ -16,7 +16,7 @@ export default function HomePage() {
       <Navbar theme={'gradient'} />
       <Stack
         w={'full'}
-        h={'95vh'}
+        h={'100vh'}
         bgImage={'/hero.png'}
         bgSize={'cover'}
         bgRepeat={'no-repeat'}
