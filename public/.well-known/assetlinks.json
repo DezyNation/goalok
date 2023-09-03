@@ -1,0 +1,8 @@
+[{
+      "relation": ["delegate_permission/common.handle_all_urls"],
+      "target": {
+        "namespace": "android_app",
+        "package_name": "com.kcs",
+        "sha256_cert_fingerprints": ["D9:F7:8B:E3:3D:12:66:C0:FC:9A:96:06:26:E7:68:BD:35:EA:2A:14:FB:65:B4:5F:9A:96:70:F9:B6:EA:E5:85"]
+      }
+    }]
