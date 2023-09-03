@@ -87,6 +87,7 @@ const Login = () => {
       DefaultAxios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local/register`, values)
         .then((res) => {
           setIsLoading(false);
+          setIntent("login");
           onToggle();
         })
         .catch((err) => {
@@ -96,7 +97,6 @@ const Login = () => {
             description: err?.response?.data?.error?.message || err?.message,
           });
         });
-      setIntent("login");
     },
   });
 
