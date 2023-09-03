@@ -29,7 +29,10 @@ import {
 import { BsArrowLeft, BsEye, BsEyeSlash, BsGoogle } from "react-icons/bs";
 import { setIn, useFormik } from "formik";
 import Link from "next/link";
+import Lottie from "lottie-react";
+import email from "../../../../public/lottie/email.json";
 import { useRouter } from "next/navigation";
+import BackendAxios from "@/utils/axios";
 
 const Login = () => {
   const Toast = useToast({ position: "top-right" });
@@ -53,10 +56,18 @@ const Login = () => {
         return;
       }
       setIsLoading(true);
-      setTimeout(() => {
-        setIsLoading(false);
-        Router.push("/dashboard?active_side_item=feed");
-      }, 1000);
+      BackendAxios.post(`/api/auth/local`, values)
+        .then((res) => {
+          setIsLoading(false);
+          Router.push("/dashboard");
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          Toast({
+            status: "error",
+            description: err?.response?.data?.error?.message || err?.message,
+          });
+        });
     },
   });
 
@@ -64,30 +75,25 @@ const Login = () => {
     initialValues: {
       email: "",
       password: "",
-      firstName: "",
-      lastName: "",
-      otp: "",
+      username: "",
     },
     onSubmit: (values) => {
-      onClose();
-      Toast({
-        status: "success",
-        title: "Registration successful!",
-        description: "Please login with your credentials",
-      });
+      setIsLoading(true);
+      BackendAxios.post(`/api/auth/local/register`, values)
+        .then((res) => {
+          setIsLoading(false);
+          onToggle();
+        })
+        .catch((err) => {
+          setIsLoading(false);
+          Toast({
+            status: "error",
+            description: err?.response?.data?.error?.message || err?.message,
+          });
+        });
       setIntent("login");
     },
   });
-
-  function sendOtp() {
-    Toast({
-      status: "success",
-      description: "OTP sent successfully!",
-    });
-    onOpen();
-  }
-
-  function handleRegister() {}
 
   return (
     <>
@@ -146,14 +152,25 @@ const Login = () => {
           </Box>
         </Show>
         {intent == "login" ? (
-          <VStack flex={1} h={"full"} p={[4, 16]} justifyContent={"center"}>
+          <VStack
+            flex={1}
+            h={["auto", "full"]}
+            p={[4, 16]}
+            pt={[48, 16]}
+            pb={[16]}
+            justifyContent={"center"}
+          >
             <Text>Welcome Back</Text>
-            <Text className="messiri" fontSize={["3xl", "4xl"]} textAlign={'center'}>
+            <Text
+              className="messiri"
+              fontSize={["3xl", "4xl"]}
+              textAlign={"center"}
+            >
               Continue Your Journey
             </Text>
 
             <VStack pt={16} pb={8} gap={12}>
-              <FormControl w={"sm"}>
+              <FormControl w={["xs", "sm"]}>
                 <FormLabel>Username</FormLabel>
                 <Input
                   focusBorderColor="black"
@@ -163,7 +180,7 @@ const Login = () => {
                   onChange={Formik.handleChange}
                 />
               </FormControl>
-              <FormControl w={"sm"}>
+              <FormControl w={["xs", "sm"]}>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
                   <Input
@@ -184,7 +201,7 @@ const Login = () => {
                   <HStack>
                     <Checkbox color={"teal.700"}>Remember Me</Checkbox>
                   </HStack>
-                  <Link href={"#"}>
+                  <Link href={"/auth/reset-password"}>
                     <Text
                       fontSize={"xs"}
                       fontWeight={"semibold"}
@@ -197,7 +214,7 @@ const Login = () => {
               </FormControl>
               <VStack gap={4}>
                 <Button
-                  w={"sm"}
+                  w={["xs", "sm"]}
                   isLoading={isLoading}
                   colorScheme="blackAlpha"
                   bg={"black"}
@@ -206,7 +223,7 @@ const Login = () => {
                   Login
                 </Button>
                 <Button
-                  w={"sm"}
+                  w={["xs", "sm"]}
                   isLoading={isLoading}
                   border={"1px"}
                   bg={"azure"}
@@ -220,7 +237,7 @@ const Login = () => {
               </VStack>
             </VStack>
 
-            <Box w={"sm"} padding={".5px"} bg={"teal.100"}></Box>
+            <Box w={["xs", "sm"]} padding={".5px"} bg={"teal.100"}></Box>
 
             <Box
               pt={8}
@@ -241,46 +258,45 @@ const Login = () => {
             </Box>
           </VStack>
         ) : (
-          <VStack flex={1} h={"full"} p={[4, 16]} justifyContent={"center"}>
+          <VStack
+            flex={1}
+            h={["auto", "full"]}
+            p={[4, 16]}
+            pt={[48, 16]}
+            pb={[16]}
+            justifyContent={"center"}
+          >
             <Text>|| Hare Krishna ||</Text>
-            <Text className="messiri" fontSize={["3xl", "4xl"]} textAlign={'center'}>
+            <Text
+              className="messiri"
+              fontSize={["3xl", "4xl"]}
+              textAlign={"center"}
+            >
               Start Your Spiritual Journey
             </Text>
 
             <VStack pt={12} pb={8} gap={8}>
-              <HStack gap={4} w={"sm"}>
-                <FormControl>
-                  <FormLabel fontSize={"sm"}>First Name</FormLabel>
-                  <Input
-                    focusBorderColor="black"
-                    placeholder="First Name"
-                    variant={"flushed"}
-                    name={"firstName"}
-                    onChange={RegisterFormik.handleChange}
-                  />
-                </FormControl>
-                <FormControl>
-                  <FormLabel fontSize={"sm"}>Last Name</FormLabel>
-                  <Input
-                    focusBorderColor="black"
-                    placeholder="Last Name"
-                    variant={"flushed"}
-                    name={"lastName"}
-                    onChange={RegisterFormik.handleChange}
-                  />
-                </FormControl>
-              </HStack>
-              <FormControl w={"sm"}>
+              <FormControl>
+                <FormLabel>Username</FormLabel>
+                <Input
+                  focusBorderColor="black"
+                  placeholder="Username"
+                  variant={"flushed"}
+                  name={"username"}
+                  onChange={RegisterFormik.handleChange}
+                />
+              </FormControl>
+              <FormControl w={["xs", "sm"]}>
                 <FormLabel>Email</FormLabel>
                 <Input
                   focusBorderColor="black"
                   placeholder="Your Email"
                   variant={"flushed"}
-                  name={"identifier"}
+                  name={"email"}
                   onChange={RegisterFormik.handleChange}
                 />
               </FormControl>
-              <FormControl w={"sm"}>
+              <FormControl w={["xs", "sm"]}>
                 <FormLabel>Password</FormLabel>
                 <InputGroup>
                   <Input
@@ -300,16 +316,16 @@ const Login = () => {
               </FormControl>
               <VStack gap={4}>
                 <Button
-                  w={"sm"}
+                  w={["xs", "sm"]}
                   isLoading={isLoading}
                   colorScheme="blackAlpha"
                   bg={"black"}
-                  onClick={sendOtp}
+                  onClick={RegisterFormik.handleSubmit}
                 >
                   Register
                 </Button>
                 <Button
-                  w={"sm"}
+                  w={["xs", "sm"]}
                   isLoading={isLoading}
                   border={"1px"}
                   bg={"azure"}
@@ -322,7 +338,7 @@ const Login = () => {
               </VStack>
             </VStack>
 
-            <Box w={"sm"} padding={".5px"} bg={"teal.100"}></Box>
+            <Box w={["xs", "sm"]} padding={".5px"} bg={"teal.100"}></Box>
 
             <Box pt={8} onClick={() => setIntent("login")} cursor={"pointer"}>
               <Text
@@ -341,11 +357,16 @@ const Login = () => {
         )}
       </HStack>
 
+      {/* Email confirmation animation modal */}
       <Modal isOpen={isOpen} onClose={onToggle} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader alignItems={"center"} justifyContent={"center"}>
-            Enter OTP
+          <ModalHeader
+            alignItems={"center"}
+            justifyContent={"center"}
+            textAlign={"center"}
+          >
+            Verification Mail Sent!
           </ModalHeader>
           <ModalBody
             display={"flex"}
@@ -353,27 +374,26 @@ const Login = () => {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Text>We have sent an OTP to your email</Text>
+            <Text>We have sent a verification email to you!</Text>
+            <Text>Please verify it within 3 hours</Text>
             <HStack py={4}>
-              <PinInput otp>
-                <PinInputField bgColor={"aqua"} />
-                <PinInputField bgColor={"aqua"} />
-                <PinInputField bgColor={"aqua"} />
-                <PinInputField bgColor={"aqua"} />
-              </PinInput>
+              <Lottie
+                animationData={email}
+                loop
+                autoPlay
+                width={48}
+                height={48}
+              />
             </HStack>
           </ModalBody>
           <ModalFooter gap={4} justifyContent={"flex-end"}>
-            <Button variant={"outline"} borderColor={"#222"} rounded={"full"}>
-              Resend OTP
-            </Button>
             <Button
               colorScheme="teal"
               bgColor={"#222"}
               rounded={"full"}
-              onClick={RegisterFormik.handleSubmit}
+              onClick={onClose}
             >
-              Confirm
+              Login Now!
             </Button>
           </ModalFooter>
         </ModalContent>
