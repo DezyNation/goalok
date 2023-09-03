@@ -32,7 +32,7 @@ import Link from "next/link";
 import Lottie from "lottie-react";
 import email from "../../../../public/lottie/email.json";
 import { useRouter } from "next/navigation";
-import BackendAxios from "@/utils/axios";
+import BackendAxios, { DefaultAxios } from "@/utils/axios";
 
 const Login = () => {
   const Toast = useToast({ position: "top-right" });
@@ -56,7 +56,7 @@ const Login = () => {
         return;
       }
       setIsLoading(true);
-      BackendAxios.post(`/api/auth/local`, values)
+      DefaultAxios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local`, values)
         .then((res) => {
           setIsLoading(false);
           Router.push("/dashboard");
@@ -84,7 +84,7 @@ const Login = () => {
     },
     onSubmit: (values) => {
       setIsLoading(true);
-      BackendAxios.post(`/api/auth/local/register`, values)
+      DefaultAxios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local/register`, values)
         .then((res) => {
           setIsLoading(false);
           onToggle();
