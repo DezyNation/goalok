@@ -33,6 +33,7 @@ import Lottie from "lottie-react";
 import email from "../../../../public/lottie/email.json";
 import { useRouter } from "next/navigation";
 import BackendAxios, { DefaultAxios } from "@/utils/axios";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const Toast = useToast({ position: "top-right" });
