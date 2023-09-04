@@ -110,7 +110,7 @@ const SideNav = ({ user, onLogout }) => {
           <PopoverContent>
             <PopoverArrow />
             <PopoverHeader textTransform={"capitalize"}>
-              {user?.name}
+              {user?.name || user?.username}
             </PopoverHeader>
             <PopoverBody>
               <Link href={"/dashboard/profile"}>

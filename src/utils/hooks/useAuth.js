@@ -15,7 +15,7 @@ const useAuth = () => {
             email: res?.data?.email,
             username: res?.data?.username,
             name: res?.data?.name,
-            avatar: res?.data?.avatar,
+            avatar: res?.data?.avatar ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${res?.data?.avatar?.url}` : null,
             role: res?.data?.role?.name,
             confirmed: res?.data?.confirmed,
             blocked: res?.data?.blocked,

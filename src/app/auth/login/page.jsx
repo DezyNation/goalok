@@ -66,7 +66,7 @@ const Login = () => {
           setIsLoading(false);
           setTimeout(() => {
             Router.push("/dashboard");
-          }, 800);
+          }, 1000);
         })
         .catch((err) => {
           setIsLoading(false);

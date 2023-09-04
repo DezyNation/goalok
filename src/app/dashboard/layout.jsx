@@ -1,10 +1,8 @@
 "use client";
 import DashboardNav from "@/components/dashboard/DashboardNav";
 import SideNav from "@/components/dashboard/SideNav";
-import BackendAxios from "@/utils/axios";
 import useAuth from "@/utils/hooks/useAuth";
 import { Box, HStack, useToast } from "@chakra-ui/react";
-import Cookies from "js-cookie";
 import React, { useEffect } from "react";
 
 const layout = ({ children }) => {
@@ -14,7 +12,8 @@ const layout = ({ children }) => {
     if(user?.apiStatus > 400){
       logout()
     }
-  },[user])
+  },[])
+  
 
   return (
     <>
