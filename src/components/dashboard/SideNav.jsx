@@ -24,7 +24,7 @@ import {
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
 
-const SideNav = () => {
+const SideNav = ({ user, onLogout }) => {
   const params = useSearchParams();
   const activeSideItem = params.get("active_side_item");
 
@@ -102,21 +102,29 @@ const SideNav = () => {
             <Avatar
               boxSize={8}
               boxShadow={"lg"}
-              name="Sangam Kumar"
-              src={"https://krishnastore.com/images/cache/545.jpg"}
+              name={user?.name}
+              src={user?.avatar}
               cursor={"pointer"}
             />
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
-            <PopoverHeader>Sangam Kumar</PopoverHeader>
+            <PopoverHeader textTransform={"capitalize"}>
+              {user?.name}
+            </PopoverHeader>
             <PopoverBody>
-              <Link href={'/dashboard/profile'}>
-              <Text cursor={"pointer"} py={2}>
-                View Profile
-              </Text>
+              <Link href={"/dashboard/profile"}>
+                <Text cursor={"pointer"} py={2} _hover={{ bgColor: "gray.50" }}>
+                  View Profile
+                </Text>
               </Link>
-              <Text cursor={"pointer"} py={2} color={"red.500"}>
+              <Text
+                cursor={"pointer"}
+                py={2}
+                color={"red.500"}
+                _hover={{ bgColor: "gray.50" }}
+                onClick={onLogout}
+              >
                 Logout
               </Text>
             </PopoverBody>
