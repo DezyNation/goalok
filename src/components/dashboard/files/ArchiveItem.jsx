@@ -130,7 +130,7 @@ const ArchiveItem = ({ id, path, label, isShared, type, onClick }) => {
       >
         {(ref) => (
           <VStack
-            boxSize={36}
+            boxSize={[24, 36]}
             rounded={4}
             pos={"relative"}
             justifyContent={"center"}
@@ -157,7 +157,7 @@ const ArchiveItem = ({ id, path, label, isShared, type, onClick }) => {
                   ? "/icons/video.png"
                   : "/icons/file.png"
               }
-              boxSize={16}
+              boxSize={[8, 16]}
             />
             <Text fontSize={"sm"}>Folder</Text>
           </VStack>

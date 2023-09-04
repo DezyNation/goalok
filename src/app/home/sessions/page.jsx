@@ -163,9 +163,9 @@ const page = () => {
             gap={8}
             h={"full"}
           >
-            <SessionCard onClick={()=>Router.push("/home/sessions/view/bhagvad-gita-session")} />
-            <SessionCard onClick={()=>Router.push("/home/sessions/view/bhagvad-gita-session")} />
-            <SessionCard onClick={()=>Router.push("/home/sessions/view/bhagvad-gita-session")} />
+            <SessionCard onClick={()=>Router.push("/dashboard/sessions/join/bhagvad-gita-session")} />
+            <SessionCard onClick={()=>Router.push("/dashboard/sessions/join/bhagvad-gita-session")} />
+            <SessionCard onClick={()=>Router.push("/dashboard/sessions/join/bhagvad-gita-session")} />
           </Stack>
           <HStack
             mt={16}

@@ -25,7 +25,7 @@ const ReceivedMessage = () => {
             </Text>
           </Box>
           <Text p={2} color={"blackAlpha.600"} fontSize={"8"}>
-            16:59 &nbsp; | &nbsp; India
+            16:59
           </Text>
         </Box>
       </HStack>

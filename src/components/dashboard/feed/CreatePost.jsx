@@ -1,4 +1,5 @@
 "use client";
+import { UserContext } from "@/utils/hooks/useAuth";
 import {
   Avatar,
   Box,
@@ -8,42 +9,38 @@ import {
   Text,
   Textarea,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext } from "react";
 import { BsImages, BsPencilSquare, BsSendFill } from "react-icons/bs";
 import { FaLocationDot, FaUserTag } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 
 const CreatePost = () => {
+
+  const { user } = useContext(UserContext);
+
   return (
     <>
       <Box w={"full"} p={3} rounded={4} bgColor={"#FFF"}>
-        <HStack justifyContent={"flex-end"}>
-          <Button
-            leftIcon={<BsPencilSquare />}
-            variant={"ghost"}
-            colorScheme="twitter"
-            size={"sm"}
-          >
-            Create Post
-          </Button>
-        </HStack>
-        <HStack p={3} alignItems={"flex-start"} justifyContent={"flex-start"}>
+
+        <HStack p={[0, 3]} alignItems={"flex-start"} justifyContent={"flex-start"}>
           <Avatar
-            name="Sangam Kumar"
-            src={"https://krishnastore.com/images/cache/545.jpg"}
+            name={user?.name || user?.username}
+            src={user?.avatar}
             size={"sm"}
           />
           <Textarea
-            fontSize={"sm"}
+            fontSize={['12', "sm"]}
             w={"full"}
             h={[16, 12]}
             variant={"unstyled"}
-            placeholder="Share your thoughts, Sangam"
+            placeholder={`Share your thoughts, ${user?.name ? user?.name?.split(" ")[0] : user?.username}`}
+            _placeholder={{fontSize: '12'}}
             mb={2}
             resize={"none"}
           />
         </HStack>
-        <HStack py={2} gap={6} w={"full"} overflowX={"scroll"}>
+        <HStack py={2} pb={0} gap={6} w={"full"} overflowX={"scroll"}>
+
           <HStack rounded={"full"} gap={0} bgColor={"gray.100"}>
             <IconButton
               size={"sm"}
@@ -57,7 +54,7 @@ const CreatePost = () => {
             </Text>
           </HStack>
 
-          <HStack rounded={"full"} gap={0} bgColor={"gray.100"}>
+          {/* <HStack rounded={"full"} gap={0} bgColor={"gray.100"}>
             <IconButton
               size={"sm"}
               color={"#FFF"}
@@ -79,7 +76,8 @@ const CreatePost = () => {
               bgColor={"yellow.500"}
             />
               <Text w={['28', 'auto']} pr={3} pl={2} fontSize={"xs"}>Tag People</Text>
-          </HStack>
+          </HStack> */}
+
         </HStack>
         <br />
         <HStack p={2} justifyContent={"flex-end"}>
@@ -88,7 +86,8 @@ const CreatePost = () => {
             bgColor={"fuchsia"}
             rightIcon={<IoSend />}
             rounded={"full"}
-            boxShadow={"md"}
+            size={["sm", "md"]}
+            boxShadow={["sm", "md"]}
           >
             Share
           </Button>

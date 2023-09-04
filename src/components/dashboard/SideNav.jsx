@@ -1,7 +1,9 @@
 "use client";
-import React, { useEffect } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   BsChatDotsFill,
+  BsChevronDoubleLeft,
+  BsChevronDoubleRight,
   BsFolderFill,
   BsGearFill,
   BsGrid1X2Fill,
@@ -11,22 +13,29 @@ import {
 import {
   Avatar,
   Box,
+  IconButton,
   Popover,
   PopoverArrow,
   PopoverBody,
   PopoverContent,
   PopoverHeader,
   PopoverTrigger,
+  Show,
   Spacer,
   Text,
   VStack,
 } from "@chakra-ui/react";
 import { useSearchParams } from "next/navigation";
 import Link from "next/link";
+import { UserContext } from "@/utils/hooks/useAuth";
 
-const SideNav = ({ user, onLogout }) => {
+const SideNav = () => {
   const params = useSearchParams();
   const activeSideItem = params.get("active_side_item");
+  const [activerUser, setActiverUser] = useState(null);
+  const [status, setStatus] = useState(true);
+
+  const { user, logout } = useContext(UserContext);
 
   const items = [
     {
@@ -56,9 +65,23 @@ const SideNav = ({ user, onLogout }) => {
     },
   ];
 
+  useEffect(() => {
+    if (user) {
+      setActiverUser(user);
+    }
+  }, [user]);
+
   return (
     <>
-      <VStack py={4} bgColor={"#FFF"} h={"92vh"}>
+      <VStack
+        pos={"relative"}
+        py={4}
+        bgColor={"#FFF"}
+        h={"92vh"}
+        transition={"all 0.2s ease"}
+        marginLeft={status ? "0" : "-16"}
+        marginRight={status ? "0" : "0"}
+      >
         {items.map((item, key) => (
           <Link style={{ width: "100%" }} href={item.link} key={key}>
             <Box
@@ -102,15 +125,15 @@ const SideNav = ({ user, onLogout }) => {
             <Avatar
               boxSize={8}
               boxShadow={"lg"}
-              name={user?.name}
-              src={user?.avatar}
+              name={activerUser?.name}
+              src={activerUser?.avatar}
               cursor={"pointer"}
             />
           </PopoverTrigger>
           <PopoverContent>
             <PopoverArrow />
             <PopoverHeader textTransform={"capitalize"}>
-              {user?.name || user?.username}
+              {activerUser?.name || activerUser?.username}
             </PopoverHeader>
             <PopoverBody>
               <Link href={"/dashboard/profile"}>
@@ -123,13 +146,32 @@ const SideNav = ({ user, onLogout }) => {
                 py={2}
                 color={"red.500"}
                 _hover={{ bgColor: "gray.50" }}
-                onClick={onLogout}
+                onClick={() => logout()}
               >
                 Logout
               </Text>
             </PopoverBody>
           </PopoverContent>
         </Popover>
+
+        {/* Toggle Sidebar */}
+        <Show below="md">
+          <IconButton
+            pos={"absolute"}
+            bottom={36}
+            right={status ? "-4" : "-8"}
+            size={"sm"}
+            rounded={0}
+            icon={
+              status ? (
+                <BsChevronDoubleLeft size={20} />
+              ) : (
+                <BsChevronDoubleRight size={20} />
+              )
+            }
+            onClick={()=>setStatus(!status)}
+          />
+        </Show>
       </VStack>
     </>
   );

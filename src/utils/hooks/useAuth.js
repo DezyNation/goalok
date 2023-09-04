@@ -1,13 +1,19 @@
-import { useState, useEffect } from "react";
+'use client'
+import { useState, useEffect, createContext } from "react";
 import BackendAxios from "../axios";
 import Cookies from "js-cookie";
+
+const UserContext = createContext(null)
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(false)
   useEffect(() => { 
-    fetchUser();
+    if(Cookies.get("token")){
+      fetchUser();
+    }
   }, []);
+
   useEffect(()=>{
     localStorage.setItem("userInfo", JSON.stringify(user))
   },[user])
@@ -53,7 +59,8 @@ const useAuth = () => {
     window.location.replace("/");
   }
 
-  return { user, logout, fetchUser, userLoading };
+  return { user, logout, fetchUser, userLoading, token: Cookies.get("token") };
 };
 
 export default useAuth;
+export {UserContext}

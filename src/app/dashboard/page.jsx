@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import OnlineMembers from "@/components/dashboard/LeftPanel/OnlineMembers";
 import {
   Avatar,
@@ -28,8 +28,12 @@ import BlankSpacer from "@/components/global/BlankSpacer";
 import NewsCard from "@/components/dashboard/RightPanel/NewsCard";
 import Post from "@/components/dashboard/feed/Post";
 import Advertisement from "@/components/dashboard/LeftPanel/Advertisement";
+import { IoVideocam } from "react-icons/io5";
+import CreateSession from "@/components/dashboard/feed/CreateSession";
 
 const page = () => {
+  const [intent, setIntent] = useState("post");
+
   return (
     <>
       <HStack w={"full"} gap={4} alignItems={"flex-start"}>
@@ -53,7 +57,37 @@ const page = () => {
           justifyContent={"flex-start"}
           gap={8}
         >
-          <CreatePost />
+          <Box w={"full"}>
+            <HStack justifyContent={"space-evenly"} pb={4}>
+              <Button
+                size={["sm", "md"]}
+                leftIcon={<BsPencilSquare />}
+                colorScheme={intent == "post" ? "blackAlpha" : "twitter"}
+                bgColor={intent == "post" ? "#333" : "transparent"}
+                color={intent == "post" ? "#FFF" : "#333"}
+                rounded={"full"}
+                _hover={{ bgColor: "#333", color: '#FFF' }}
+                variant={intent == "post" ? "solid" : "outline"}
+                onClick={() => setIntent("post")}
+              >
+                New Post
+              </Button>
+              <Button
+                size={["sm", "md"]}
+                leftIcon={<IoVideocam />}
+                colorScheme={intent == "session" ? "blackAlpha" : "twitter"}
+                bgColor={intent == "session" ? "#333" : "transparent"}
+                color={intent == "session" ? "#FFF" : "#333"}
+                rounded={"full"}
+                _hover={{ bgColor: "#333", color: '#FFF' }}
+                variant={intent == "session" ? "solid" : "outline"}
+                onClick={() => setIntent("session")}
+              >
+                New Session
+              </Button>
+            </HStack>
+            {intent == "post" ? <CreatePost /> : <CreateSession />}
+          </Box>
           <Post />
           <Post />
         </Box>

@@ -32,7 +32,7 @@ import Link from "next/link";
 import Lottie from "lottie-react";
 import email from "../../../../public/lottie/email.json";
 import { useRouter } from "next/navigation";
-import BackendAxios, { DefaultAxios } from "@/utils/axios";
+import BackendAxios, { DefaultAxios, FormAxios } from "@/utils/axios";
 import Cookies from "js-cookie";
 
 const Login = () => {
@@ -40,7 +40,7 @@ const Login = () => {
   const [intent, setIntent] = useState("login");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const { isOpen, onToggle, onOpen, onClose } = useDisclosure();
+  const { isOpen, onToggle, onClose } = useDisclosure();
   const Router = useRouter();
 
   const Formik = useFormik({
@@ -57,16 +57,20 @@ const Login = () => {
         return;
       }
       setIsLoading(true);
-      DefaultAxios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local`, values)
-        .then((res) => {
+      DefaultAxios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local`,
+        values
+      )
+        .then(async (res) => {
           Cookies.set("token", res.data?.jwt, {
             expires: 1,
-            secure: process.env.NODE_ENV === "production"
+            secure: process.env.NODE_ENV === "production",
           });
+          BackendAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
+          FormAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
+
+          Router.push("/dashboard");
           setIsLoading(false);
-          setTimeout(() => {
-            Router.push("/dashboard");
-          }, 1000);
         })
         .catch((err) => {
           setIsLoading(false);
@@ -86,11 +90,14 @@ const Login = () => {
     },
     onSubmit: (values) => {
       setIsLoading(true);
-      DefaultAxios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local/register`, values)
+      DefaultAxios.post(
+        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local/register`,
+        values
+      )
         .then((res) => {
           setIsLoading(false);
           setIntent("login");
-          RegisterFormik.handleReset()
+          RegisterFormik.handleReset();
           onToggle();
         })
         .catch((err) => {
@@ -105,8 +112,11 @@ const Login = () => {
 
   return (
     <>
-      <HStack w={"full"} h={"100vh"} pos={'relative'}>
-        <Link href={"/"} style={{position: 'absolute', top: '8px', left: '8px', zIndex: 999}}>
+      <HStack w={"full"} h={"100vh"} pos={"relative"}>
+        <Link
+          href={"/"}
+          style={{ position: "absolute", top: "8px", left: "8px", zIndex: 999 }}
+        >
           <HStack
             px={4}
             py={1}

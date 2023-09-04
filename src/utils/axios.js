@@ -1,9 +1,9 @@
 import axios from 'axios'
-import { getJwtToken } from './auth'
+import Cookies from 'js-cookie'
 
 const baseURL = process.env.NEXT_PUBLIC_BACKEND_URL
 const clientURL = process.env.NEXT_PUBLIC_FRONTEND_URL
-const token = getJwtToken()
+const token = Cookies.get("token")
 
 const BackendAxios = axios.create({
     baseURL,

@@ -199,7 +199,7 @@ const Interactions = () => {
             />
           </Show>
           {reactionPaused || (
-            <Box pos={"absolute"} left={"-2.5rem"} width={48}>
+            <Box pos={"absolute"} left={["-4rem", "-2.5rem"]} width={48}>
               <Lottie
                 width={50}
                 height={150}

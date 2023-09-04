@@ -20,48 +20,35 @@ import PostThumbnail from "@/components/profile/PostThumbnail";
 import { FaLocationDot } from "react-icons/fa6";
 import { BsClockHistory, BsTelephoneFill } from "react-icons/bs";
 import BlankSpacer from "@/components/global/BlankSpacer";
-import { UserContext } from "../layout";
-import Loading from "@/app/loading";
+import { UserContext } from "@/utils/hooks/useAuth";
 import dateOptions from "@/utils/date";
 import { useSearchParams } from "next/navigation";
 import BackendAxios from "@/utils/axios";
 
 const page = () => {
-  const { user, logout } = useContext(UserContext);
   const Toast = useToast({ position: "top-right" });
-  const [fetchedUser, setFetchedUser] = useState(null);
   const searchParams = useSearchParams();
   const userId = searchParams.get("user_id");
+  const { user, logout } = useContext(UserContext);
+
+  const [fetchedUser, setFetchedUser] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [showCriticalElements, setShowCriticalElements] = useState(false);
 
   useEffect(() => {
     if (!userId) {
       setFetchedUser(user);
-      console.log("Set my data")
-      console.log(user)
     } else {
       fetchUserInfo();
     }
-  }, [userId, user]);
-
-  useEffect(() => {
     if (!userId || userId == user?.id) {
       setShowCriticalElements(true);
     }
   }, [userId, user]);
 
-  useEffect(()=>{
-    console.log("Fetched User")
-    console.log(fetchedUser)
-  },[fetchedUser])
-
   function fetchUserInfo() {
-    setIsLoading(true);
-    console.log("running fetch api")
     BackendAxios.get(`/api/users/${userId}?populate=*`)
       .then((res) => {
-        setIsLoading(false);
         setFetchedUser({
           apiStatus: res.status,
           id: res?.data?.id,
@@ -83,7 +70,6 @@ const page = () => {
         });
       })
       .catch((err) => {
-        setIsLoading(false);
         if(err?.response?.status == 401){
           logout()
         }
@@ -96,7 +82,6 @@ const page = () => {
 
   return (
     <>
-      {isLoading ? <Loading /> : null}
       <Box
         w={"full"}
         h={"92vh"}

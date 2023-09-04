@@ -50,7 +50,7 @@ const page = () => {
         py={4}
         direction={["row"]}
         alignItems={"flex-start"}
-        justifyContent={"flex-start"}
+        justifyContent={["space-between", "flex-start"]}
         flexWrap={"wrap"}
         gap={[4, 8]}
       >
@@ -58,6 +58,7 @@ const page = () => {
           <ArchiveItem type={file.type} isShared={file.isShared} key={key} />
         ))}
       </Stack>
+
       <Popover>
         <PopoverTrigger>
           <Button
@@ -67,7 +68,7 @@ const page = () => {
             colorScheme="teal"
             pos={"fixed"}
             bottom={4}
-            right={4}
+            right={["35%", 4]}
           >
             New
           </Button>
@@ -90,6 +91,7 @@ const page = () => {
           </PopoverBody>
         </PopoverContent>
       </Popover>
+
     </>
   );
 };
