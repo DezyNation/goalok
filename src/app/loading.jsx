@@ -15,6 +15,8 @@ const Loading = () => {
         left={0}
         alignItems={"center"}
         justifyContent={"center"}
+        zIndex={99999}
+        bg="blackAlpha.700"
       >
         <Box w={48} h={48}>
           <Lottie

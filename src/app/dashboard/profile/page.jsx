@@ -9,8 +9,9 @@ import {
   Stack,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { HiMail, HiPencil } from "react-icons/hi";
 import { GiByzantinTemple, GiReceiveMoney } from "react-icons/gi";
 import Link from "next/link";
@@ -19,12 +20,89 @@ import PostThumbnail from "@/components/profile/PostThumbnail";
 import { FaLocationDot } from "react-icons/fa6";
 import { BsClockHistory, BsTelephoneFill } from "react-icons/bs";
 import BlankSpacer from "@/components/global/BlankSpacer";
+import { UserContext } from "../layout";
+import Loading from "@/app/loading";
+import dateOptions from "@/utils/date";
+import { useSearchParams } from "next/navigation";
+import BackendAxios from "@/utils/axios";
 
 const page = () => {
-  const date = new Date();
+  const { user, logout } = useContext(UserContext);
+  const Toast = useToast({ position: "top-right" });
+  const [fetchedUser, setFetchedUser] = useState(null);
+  const searchParams = useSearchParams();
+  const userId = searchParams.get("user_id");
+  const [isLoading, setIsLoading] = useState(false);
+  const [showCriticalElements, setShowCriticalElements] = useState(false);
+
+  useEffect(() => {
+    if (!userId) {
+      setFetchedUser(user);
+      console.log("Set my data")
+      console.log(user)
+    } else {
+      fetchUserInfo();
+    }
+  }, [userId, user]);
+
+  useEffect(() => {
+    if (!userId || userId == user?.id) {
+      setShowCriticalElements(true);
+    }
+  }, [userId, user]);
+
+  useEffect(()=>{
+    console.log("Fetched User")
+    console.log(fetchedUser)
+  },[fetchedUser])
+
+  function fetchUserInfo() {
+    setIsLoading(true);
+    console.log("running fetch api")
+    BackendAxios.get(`/api/users/${userId}?populate=*`)
+      .then((res) => {
+        setIsLoading(false);
+        setFetchedUser({
+          apiStatus: res.status,
+          id: res?.data?.id,
+          email: res?.data?.email,
+          phone: res?.data?.phone,
+          username: res?.data?.username,
+          name: res?.data?.name,
+          avatar: res?.data?.avatar
+            ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${res?.data?.avatar?.url}`
+            : null,
+          about: res?.data?.about,
+          role: res?.data?.role?.name,
+          confirmed: res?.data?.confirmed,
+          blocked: res?.data?.blocked,
+          createdAt: res?.data?.createdAt,
+          kcExperience: res?.data?.kcExperience,
+          totalDonations: res?.data?.totalDonations,
+          active: true,
+        });
+      })
+      .catch((err) => {
+        setIsLoading(false);
+        if(err?.response?.status == 401){
+          logout()
+        }
+        Toast({
+          status: "error",
+          description: err?.response?.data?.error?.message || err?.message,
+        });
+      });
+  }
+
   return (
     <>
-      <Box w={'full'} h={'92vh'} overflow={'scroll'} className={"hide-scrollbar"}>
+      {isLoading ? <Loading /> : null}
+      <Box
+        w={"full"}
+        h={"92vh"}
+        overflow={"scroll"}
+        className={"hide-scrollbar"}
+      >
         <Box
           pos={"relative"}
           width={"full"}
@@ -36,17 +114,21 @@ const page = () => {
           zIndex={0}
         >
           <Overlay>
-            <HStack p={4} justifyContent={"flex-end"}>
-              <Button
-                colorScheme="blackAlpha"
-                bgColor={"blackAlpha.500"}
-                leftIcon={<HiPencil />}
-                rounded={"full"}
-                size={'sm'}
-              >
-                Edit Profile
-              </Button>
-            </HStack>
+            {showCriticalElements ? (
+              <HStack p={4} justifyContent={"flex-end"}>
+                <Link href={"/dashboard/profile/edit"}>
+                  <Button
+                    colorScheme="blackAlpha"
+                    bgColor={"blackAlpha.500"}
+                    leftIcon={<HiPencil />}
+                    rounded={"full"}
+                    size={"sm"}
+                  >
+                    Edit Profile
+                  </Button>
+                </Link>
+              </HStack>
+            ) : null}
           </Overlay>
           <Stack
             pos={"absolute"}
@@ -61,7 +143,7 @@ const page = () => {
             zIndex={9}
           >
             <Box
-            w={['full', 'auto']}
+              w={["full", "auto"]}
               p={[4, 6]}
               flex={1}
               bgColor={"white"}
@@ -72,17 +154,27 @@ const page = () => {
                 <Avatar
                   size={"lg"}
                   boxShadow={"lg"}
-                  name="Sangam Kumar"
-                  src={"https://krishnastore.com/images/cache/545.jpg"}
+                  name={fetchedUser?.name}
+                  src={fetchedUser?.avatar}
                   cursor={"pointer"}
                 />
                 <Box>
                   <Text fontSize={["lg"]} fontWeight={"semibold"}>
-                    Sangam Kumar
+                    {fetchedUser?.name}
                   </Text>
-                  <Text fontSize={["xs"]}>a.k.a Spiritual Name</Text>
+                  <Text fontSize={["xs"]}>
+                    {fetchedUser?.spiritualName
+                      ? `a.k.a ${fetchedUser?.spiritualName}`
+                      : null}
+                  </Text>
                   <HStack pt={2} flexWrap={"wrap"}>
-                    <Chip text={"Student"} />
+                    <Chip
+                      text={
+                        fetchedUser?.role == "Authenticated"
+                          ? "Student"
+                          : fetchedUser?.role
+                      }
+                    />
                   </HStack>
                 </Box>
               </HStack>
@@ -97,33 +189,48 @@ const page = () => {
 
                 <HStack alignItems={"center"} justifyContent={"flex-start"}>
                   <BsClockHistory size={20} />
-                  <Text fontSize={"sm"}>Member since April 21, 2020</Text>
+                  <Box>
+                    <Text fontSize={"xs"}>Member since</Text>
+                    <Text fontSize={"sm"}>
+                      {fetchedUser?.createdAt
+                        ? new Date(fetchedUser?.createdAt).toLocaleDateString(
+                            "en-IN",
+                            dateOptions
+                          )
+                        : null}
+                    </Text>
+                  </Box>
                 </HStack>
 
                 <HStack alignItems={"center"} justifyContent={"flex-start"}>
                   <LuCalendarHeart size={20} />
-                  <Text fontSize={"sm"}>2 Years in Krishna Consciousness</Text>
+                  <Text fontSize={"sm"}>
+                    {fetchedUser?.kcExperience || "1"} Years in Krishna
+                    Consciousness
+                  </Text>
                 </HStack>
-
-                {/* Show only if viewer is admin */}
-                <HStack alignItems={"center"} justifyContent={"flex-start"}>
-                  <GiReceiveMoney size={20} />
-                  <Text fontSize={"sm"}>Donated ₹ 10K+</Text>
-                </HStack>
-
-                <HStack alignItems={"center"} justifyContent={"flex-start"}>
-                  <HiMail size={20} />
-                  <Text fontSize={"sm"}>sangam@mail.com</Text>
-                </HStack>
-
-                <HStack alignItems={"center"} justifyContent={"flex-start"}>
-                  <BsTelephoneFill size={20} />
-                  <Text fontSize={"sm"}>+91 1234567890</Text>
-                </HStack>
+                {showCriticalElements ? (
+                  <HStack alignItems={"center"} justifyContent={"flex-start"}>
+                    <GiReceiveMoney size={20} />
+                    <Text fontSize={"sm"}>Donated ₹ {fetchedUser?.totalDonations}</Text>
+                  </HStack>
+                ) : null}
+                {showCriticalElements ? (
+                  <HStack alignItems={"center"} justifyContent={"flex-start"}>
+                    <HiMail size={20} />
+                    <Text fontSize={"sm"}>{fetchedUser?.email}</Text>
+                  </HStack>
+                ) : null}
+                {showCriticalElements ? (
+                  <HStack alignItems={"center"} justifyContent={"flex-start"}>
+                    <BsTelephoneFill size={20} />
+                    <Text fontSize={"sm"}>+91 {fetchedUser?.phone}</Text>
+                  </HStack>
+                ) : null}
               </VStack>
             </Box>
             <Box
-            w={['full', 'auto']}
+              w={["full", "auto"]}
               p={[4, 6]}
               flex={3}
               bgColor={"white"}
@@ -135,10 +242,7 @@ const page = () => {
               </Text>
               <hr />
               <Text pt={2} fontSize={"sm"}>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. Eius
-                architecto, ratione aspernatur, esse obcaecati cumque vero dicta
-                corrupti provident qui et ex earum fugit accusantium tempora,
-                quisquam beatae eum quia!
+                {user?.about}
               </Text>
               <br />
               <br />
@@ -146,11 +250,11 @@ const page = () => {
                 Enrolled Courses
               </Text>
               <hr />
-              <HStack pt={4} gap={4} flexWrap={'wrap'}>
+              <HStack pt={4} gap={4} flexWrap={"wrap"}>
                 <PostThumbnail />
                 <PostThumbnail />
                 <PostThumbnail />
-                <Box
+                {/* <Box
                   boxShadow={"md"}
                   boxSize={28}
                   border={"1px solid #FAFAFA"}
@@ -167,7 +271,7 @@ const page = () => {
                   >
                     View All
                   </Text>
-                </Box>
+                </Box> */}
               </HStack>
               <br />
             </Box>
