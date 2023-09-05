@@ -4,7 +4,7 @@ import Lottie from "lottie-react";
 import loading from "../../public/loading.json";
 import { Box, Text, VStack } from "@chakra-ui/react";
 
-const Loading = () => {
+const Loading = ({loadingText}) => {
   return (
     <>
       <VStack
@@ -27,7 +27,7 @@ const Loading = () => {
             height={48}
           />
         </Box>
-        <Text fontSize={"sm"}>Loading...</Text>
+        <Text fontSize={"sm"}>{loadingText || "Loading..."}</Text>
       </VStack>
     </>
   );

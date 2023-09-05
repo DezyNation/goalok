@@ -33,16 +33,17 @@ import {
 import { FaShare } from "react-icons/fa6";
 import Lottie from "lottie-react";
 import hearts from "../../../../public/icons/lottie/hearts.json";
+import parse from "html-react-parser";
 
-const Author = ({ name, id, image, type }) => {
+const Author = ({ name, createdAt, id, avatar, type }) => {
   return (
     <>
       <HStack w={"full"} alignItems={"center"} justifyContent={"space-between"}>
         <HStack alignItems={"center"} justifyContent={"flex-start"} pb={2}>
-          <Avatar name="Subal Das" size={"sm"} />
+          <Avatar src={avatar} name={name} size={"sm"} />
           <Box>
-            <Text fontSize={"sm"}>Subal Das</Text>
-            <Text fontSize={8}>ISKCON Inc.</Text>
+            <Text fontSize={"sm"}>{name}</Text>
+            <Text fontSize={8}>{createdAt}</Text>
           </Box>
         </HStack>
         <Popover>
@@ -76,15 +77,10 @@ const Author = ({ name, id, image, type }) => {
   );
 };
 
-const TextBlock = ({ content }) => {
+const TextBlock = ({ description }) => {
   return (
     <>
-      <Text fontSize={"sm"}>
-        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quas ipsam, id
-        veniam dolor dolorem animi quod tempore architecto perferendis, at velit
-        repellat soluta nemo sequi excepturi commodi. Eveniet, facilis
-        explicabo?
-      </Text>
+      <Box fontSize={"sm"}>{parse(description || "")}</Box>
     </>
   );
 };
@@ -272,7 +268,7 @@ const Interactions = () => {
   );
 };
 
-const Post = ({ content, media }) => {
+const Post = ({ description, createdAt, creator, media, postId }) => {
   return (
     <>
       <Box
@@ -283,7 +279,12 @@ const Post = ({ content, media }) => {
         bgColor={"#FFF"}
         boxShadow={"base"}
       >
-        <Author />
+        <Author
+          name={creator?.name}
+          createdAt={createdAt}
+          avatar={creator?.avatar?.url}
+          id={postId}
+        />
         <hr />
         <VStack
           w={"full"}
@@ -292,12 +293,12 @@ const Post = ({ content, media }) => {
           justifyContent={"flex-start"}
           gap={4}
         >
-          <TextBlock />
-          <MediaBlock />
+          <TextBlock description={description} />
+          {/* <MediaBlock /> */}
         </VStack>
-        <Footer />
+        {/* <Footer /> */}
         <hr />
-        <Interactions />
+        {/* <Interactions /> */}
       </Box>
     </>
   );

@@ -1,15 +1,17 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
 import {
+  BsCameraVideoFill,
   BsChatDotsFill,
   BsChevronDoubleLeft,
   BsChevronDoubleRight,
-  BsFolderFill,
   BsGearFill,
   BsGrid1X2Fill,
   BsHeartFill,
-  BsMegaphoneFill,
 } from "react-icons/bs";
+import {
+  PiFlowerLotusFill
+} from "react-icons/pi";
 import {
   Avatar,
   Box,
@@ -44,14 +46,14 @@ const SideNav = () => {
       link: "/dashboard?active_side_item=feed",
     },
     {
-      id: "files",
-      icon: <BsFolderFill />,
+      id: "philosophy",
+      icon: <PiFlowerLotusFill />,
       link: "/dashboard/files?active_side_item=files",
     },
     {
-      id: "news",
-      icon: <BsMegaphoneFill />,
-      link: "/dashboard?active_side_item=news",
+      id: "sessions",
+      icon: <BsCameraVideoFill />,
+      link: "/dashboard/sessions?active_side_item=sessions",
     },
     {
       id: "donate",

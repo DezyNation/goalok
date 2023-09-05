@@ -19,27 +19,6 @@ import React from "react";
 import { BsSearch } from "react-icons/bs";
 
 const DashboardNav = () => {
-  const navItems = [
-    {
-      id: "home",
-      link: "/dashboard?active_top_item=home",
-    },
-    {
-      id: "sessions",
-      link: "/dashboard/sessions?active_top_item=sessions",
-    },
-    {
-      id: "tests",
-      link: "/dashboard?active_top_item=tests",
-    },
-    {
-      id: "knowledgebase",
-      link: "/dashboard?active_top_item=knowledgebase",
-    },
-  ];
-  const params = useSearchParams();
-  const activeTopItem = params.get("active_top_item");
-
   return (
     <>
       <HStack py={2} px={4} bgColor={"#FFF"} justifyContent={"space-between"}>
@@ -47,9 +26,9 @@ const DashboardNav = () => {
           <Image src="/logo.png" h={12} objectFit={"contain"} />
           <Show above="md">
             <Box>
-              <Text className="messiri">ISKCON Inc.</Text>
+              <Text className="messiri">Krishna Consciousness Society</Text>
               <Text fontSize={"8"} color={"darkslategray"}>
-                Spiritual platform
+                affiliated to ISKCON Inc.
               </Text>
             </Box>
           </Show>

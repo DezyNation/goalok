@@ -25,8 +25,8 @@ export const FormAxios = axios.create({
         'Content-Type': 'multipart/form-data',
     },
 })
-FormAxios.defaults.withCredentials = true
 FormAxios.defaults.headers.common.Authorization = `Bearer ${token}`
+FormAxios.defaults.withCredentials = true
 
 
 export const DefaultAxios = axios.create({

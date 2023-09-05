@@ -2,13 +2,15 @@
 import DashboardNav from "@/components/dashboard/DashboardNav";
 import SideNav from "@/components/dashboard/SideNav";
 import useAuth, { UserContext } from "@/utils/hooks/useAuth";
-import { Box, HStack, Text, useToast } from "@chakra-ui/react";
+import { Box, HStack, IconButton, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Loading from "../loading";
+import { BsX } from "react-icons/bs";
 
 const layout = ({ children }) => {
   const Toast = useToast({ position: "top-right" });
   const { logout, user, fetchUser, userLoading } = useAuth();
+  const [showConfirmationBanner, setShowConfirmationBanner] = useState(false);
   useEffect(() => {
     if (user?.apiStatus > 400) {
       Toast({
@@ -24,13 +26,14 @@ const layout = ({ children }) => {
       {userLoading ? <Loading /> : null}
 
       <DashboardNav />
-      {!user?.confirmed ? (
+      {!user?.confirmed && showConfirmationBanner ? (
         <HStack
           p={4}
           border={"1px"}
           borderColor={"whatsapp.500"}
           bgColor={"whatsapp.100"}
           justifyContent={"center"}
+          pos={'relative'}
         >
           <Text
             fontSize={"xs"}
@@ -38,9 +41,10 @@ const layout = ({ children }) => {
             fontWeight={"semibold"}
             textAlign={"center"}
           >
-            Please confirm your account. Please check your email for a
-            confirmation mail
+            Please confirm your account. Check your email for a confirmation
+            mail
           </Text>
+          <IconButton pos={'absolute'} right={4} icon={<BsX size={18} />} variant={'ghost'} onClick={()=>setShowConfirmationBanner(false)} />
         </HStack>
       ) : null}
       <HStack

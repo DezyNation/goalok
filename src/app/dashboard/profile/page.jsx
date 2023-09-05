@@ -57,7 +57,7 @@ const page = () => {
           username: res?.data?.username,
           name: res?.data?.name,
           avatar: res?.data?.avatar
-            ? `${process.env.NEXT_PUBLIC_BACKEND_URL}${res?.data?.avatar?.url}`
+            ? `${res?.data?.avatar?.url}`
             : null,
           about: res?.data?.about,
           role: res?.data?.role?.name,

@@ -31,24 +31,36 @@ import { setIn, useFormik } from "formik";
 import Link from "next/link";
 import Lottie from "lottie-react";
 import email from "../../../../public/lottie/email.json";
-import { useRouter } from "next/navigation";
-import BackendAxios, { DefaultAxios, FormAxios } from "@/utils/axios";
-import Cookies from "js-cookie";
+import success from "../../../../public/lottie/success.json";
+import { useRouter, useSearchParams } from "next/navigation";
+import useAuth from "@/utils/hooks/useAuth";
 
 const Login = () => {
   const Toast = useToast({ position: "top-right" });
+  const searchParams = useSearchParams();
+  const emailVerified = searchParams.get("email_verified");
+
+  const { login, register } = useAuth();
+
   const [intent, setIntent] = useState("login");
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onToggle, onClose } = useDisclosure();
   const Router = useRouter();
 
+  useEffect(() => {
+    if (emailVerified == "true") {
+      onToggle();
+    }
+  }, [emailVerified]);
+
   const Formik = useFormik({
     initialValues: {
       identifier: "",
       password: "",
+      remember: false,
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       if (!values.identifier || !values.password) {
         Toast({
           status: "warning",
@@ -57,28 +69,20 @@ const Login = () => {
         return;
       }
       setIsLoading(true);
-      DefaultAxios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local`,
-        values
-      )
-        .then(async (res) => {
-          Cookies.set("token", res.data?.jwt, {
-            expires: 1,
-            secure: process.env.NODE_ENV === "production",
-          });
-          BackendAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
-          FormAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
-
-          Router.push("/dashboard");
-          setIsLoading(false);
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          Toast({
-            status: "error",
-            description: err?.response?.data?.error?.message || err?.message,
-          });
+      const result = await login({
+        identifier: values.identifier,
+        password: values.password,
+        remember: values.remember,
+      });
+      setIsLoading(false);
+      if (result?.status != 200) {
+        Toast({
+          status: "error",
+          description: result?.message,
         });
+        return;
+      }
+      Router.push("/dashboard");
     },
   });
 
@@ -88,25 +92,24 @@ const Login = () => {
       password: "",
       username: "",
     },
-    onSubmit: (values) => {
+    onSubmit: async (values) => {
       setIsLoading(true);
-      DefaultAxios.post(
-        `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local/register`,
-        values
-      )
-        .then((res) => {
-          setIsLoading(false);
-          setIntent("login");
-          RegisterFormik.handleReset();
-          onToggle();
-        })
-        .catch((err) => {
-          setIsLoading(false);
-          Toast({
-            status: "error",
-            description: err?.response?.data?.error?.message || err?.message,
-          });
+      const result = await register({
+        email: values.email,
+        password: values.password,
+        username: values.username,
+      })
+      setIsLoading(false);
+      if(result.status != 200){
+        Toast({
+          status: "error",
+          description: err?.message,
         });
+        return
+      }
+      setIntent("login");
+      RegisterFormik.handleReset();
+      onToggle();
     },
   });
 
@@ -216,7 +219,15 @@ const Login = () => {
                 </InputGroup>
                 <HStack py={4} justifyContent={"space-between"}>
                   <HStack>
-                    <Checkbox color={"teal.700"}>Remember Me</Checkbox>
+                    <Checkbox
+                      color={"teal.700"}
+                      isChecked={Formik.values.remember}
+                      onChange={(e) =>
+                        Formik.setFieldValue("remember", e.target.checked)
+                      }
+                    >
+                      Remember Me
+                    </Checkbox>
                   </HStack>
                   <Link href={"/auth/reset-password"}>
                     <Text
@@ -386,7 +397,9 @@ const Login = () => {
             justifyContent={"center"}
             textAlign={"center"}
           >
-            Verification Mail Sent!
+            {emailVerified == "true"
+              ? "Haribol! Your email was verified successfully."
+              : "Verification Mail Sent!"}
           </ModalHeader>
           <ModalBody
             display={"flex"}
@@ -394,11 +407,17 @@ const Login = () => {
             alignItems={"center"}
             justifyContent={"center"}
           >
-            <Text>We have sent a verification email to you!</Text>
-            <Text>Please verify it within 3 hours</Text>
+            {emailVerified == "true" ? (
+              <Text>You can now login to your account</Text>
+            ) : (
+              <>
+                <Text>We have sent a verification email to you!</Text>
+                <Text>Please verify it within 3 hours</Text>
+              </>
+            )}
             <HStack py={4}>
               <Lottie
-                animationData={email}
+                animationData={emailVerified == "true" ? success : email}
                 loop
                 autoPlay
                 width={48}
@@ -413,7 +432,7 @@ const Login = () => {
               rounded={"full"}
               onClick={onClose}
             >
-              Login Now!
+              {emailVerified == "true" ? "Login Now!" : "Okay!"}
             </Button>
           </ModalFooter>
         </ModalContent>

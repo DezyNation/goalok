@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import OnlineMembers from "@/components/dashboard/LeftPanel/OnlineMembers";
 import {
   Avatar,
@@ -12,6 +12,7 @@ import {
   Text,
   Textarea,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { FaLocationDot, FaUserTag } from "react-icons/fa6";
 import {
@@ -30,9 +31,29 @@ import Post from "@/components/dashboard/feed/Post";
 import Advertisement from "@/components/dashboard/LeftPanel/Advertisement";
 import { IoVideocam } from "react-icons/io5";
 import CreateSession from "@/components/dashboard/feed/CreateSession";
+import BackendAxios from "@/utils/axios";
 
 const page = () => {
+  const Toast = useToast({ position: "top-right" });
   const [intent, setIntent] = useState("post");
+  const [posts, setPosts] = useState([]);
+
+  useEffect(() => {
+    fetchPosts();
+  }, []);
+  function fetchPosts() {
+    BackendAxios.get(`/api/posts/view/all`)
+      .then((res) => {
+        setPosts(res.data);
+      })
+      .catch((error) => {
+        Toast({
+          status: "error",
+          title: "Error while fetching posts",
+          description: error?.response?.data?.error?.message || error?.message,
+        });
+      });
+  }
 
   return (
     <>
@@ -66,7 +87,7 @@ const page = () => {
                 bgColor={intent == "post" ? "#333" : "transparent"}
                 color={intent == "post" ? "#FFF" : "#333"}
                 rounded={"full"}
-                _hover={{ bgColor: "#333", color: '#FFF' }}
+                _hover={{ bgColor: "#333", color: "#FFF" }}
                 variant={intent == "post" ? "solid" : "outline"}
                 onClick={() => setIntent("post")}
               >
@@ -79,7 +100,7 @@ const page = () => {
                 bgColor={intent == "session" ? "#333" : "transparent"}
                 color={intent == "session" ? "#FFF" : "#333"}
                 rounded={"full"}
-                _hover={{ bgColor: "#333", color: '#FFF' }}
+                _hover={{ bgColor: "#333", color: "#FFF" }}
                 variant={intent == "session" ? "solid" : "outline"}
                 onClick={() => setIntent("session")}
               >
@@ -88,8 +109,15 @@ const page = () => {
             </HStack>
             {intent == "post" ? <CreatePost /> : <CreateSession />}
           </Box>
-          <Post />
-          <Post />
+          {posts?.map((post, key) => (
+            <Post
+              key={key}
+              creator={post?.creator}
+              postId={post?.id}
+              description={post?.description}
+              createdAt={post?.createdAt}
+            />
+          ))}
         </Box>
         <Show above="md">
           <Box
