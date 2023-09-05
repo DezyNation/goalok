@@ -192,6 +192,7 @@ const Login = () => {
                   placeholder="Your Username"
                   variant={"flushed"}
                   name={"identifier"}
+                  value={Formik.values.identifier}
                   onChange={Formik.handleChange}
                 />
               </FormControl>
@@ -204,6 +205,7 @@ const Login = () => {
                     variant={"flushed"}
                     name={"password"}
                     onChange={Formik.handleChange}
+                    value={Formik.values.identifier}
                     type={passwordVisible ? "text" : "password"}
                   />
                   <InputRightElement
@@ -298,6 +300,7 @@ const Login = () => {
                   placeholder="Username"
                   variant={"flushed"}
                   name={"username"}
+                  value={RegisterFormik.values.username}
                   onChange={RegisterFormik.handleChange}
                 />
               </FormControl>
@@ -308,6 +311,7 @@ const Login = () => {
                   placeholder="Your Email"
                   variant={"flushed"}
                   name={"email"}
+                  value={RegisterFormik.values.email}
                   onChange={RegisterFormik.handleChange}
                 />
               </FormControl>
@@ -319,6 +323,7 @@ const Login = () => {
                     placeholder="Your Password"
                     variant={"flushed"}
                     name={"password"}
+                    value={RegisterFormik.values.password}
                     onChange={RegisterFormik.handleChange}
                     type={passwordVisible ? "text" : "password"}
                   />

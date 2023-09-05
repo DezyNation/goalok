@@ -2,7 +2,7 @@
 import DashboardNav from "@/components/dashboard/DashboardNav";
 import SideNav from "@/components/dashboard/SideNav";
 import useAuth, { UserContext } from "@/utils/hooks/useAuth";
-import { Box, HStack, useToast } from "@chakra-ui/react";
+import { Box, HStack, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Loading from "../loading";
 
@@ -24,6 +24,25 @@ const layout = ({ children }) => {
       {userLoading ? <Loading /> : null}
 
       <DashboardNav />
+      {!user?.confirmed ? (
+        <HStack
+          p={4}
+          border={"1px"}
+          borderColor={"whatsapp.500"}
+          bgColor={"whatsapp.100"}
+          justifyContent={"center"}
+        >
+          <Text
+            fontSize={"xs"}
+            color={"whatsapp.600"}
+            fontWeight={"semibold"}
+            textAlign={"center"}
+          >
+            Please confirm your account. Please check your email for a
+            confirmation mail
+          </Text>
+        </HStack>
+      ) : null}
       <HStack
         w={"full"}
         bgColor={"gray.100"}
