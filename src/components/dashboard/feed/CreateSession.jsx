@@ -1,5 +1,7 @@
 "use client";
+import Loading from "@/app/loading";
 import BackendAxios from "@/utils/axios";
+import useApiHandler from "@/utils/hooks/useApiHandler";
 import useAuth from "@/utils/hooks/useAuth";
 import {
   Box,
@@ -10,6 +12,7 @@ import {
   Input,
   InputGroup,
   InputRightElement,
+  Modal,
   Select,
   Switch,
   Text,
@@ -25,46 +28,74 @@ import { IoSend } from "react-icons/io5";
 
 const CreateSession = () => {
   const Toast = useToast({ position: "top-right" });
-  const { logout } = useAuth();
+  const { logout, user } = useAuth();
+  const { handleError } = useApiHandler();
   const { onCopy, setValue, hasCopied } = useClipboard("");
 
   const [isLoading, setIsLoading] = useState(false);
-  const [search, setSearch] = useState("");
-  const [users, setUsers] = useState([]);
+  const [admins, setAdmins] = useState([]);
+  const [preachers, setPreachers] = useState([]);
 
   const Formik = useFormik({
     initialValues: {
       title: "",
       description: "",
       course: "",
-      coHost: "",
+      coHost: user?.role == "Admin" ? user?.id : "",
+      preacher: user?.role == "Preacher" ? user?.id : "",
       qnaStatus: true,
       donationStatus: true,
       audioStatus: true,
       videoStatus: true,
       startAt: "",
       duration: "",
+      language: "English/Hindi",
+      intent: "create",
     },
     onSubmit: (values) => {
       setIsLoading(true);
-      BackendAxios.post(`/api/sessions/new`)
+      BackendAxios.post(`/api/sessions/create`)
         .then((res) => {
           setIsLoading(false);
+          Toast({
+            description: `Session ${values.intent}d successfully!`,
+          });
         })
         .catch((err) => {
           setIsLoading(false);
-          if (err?.response?.status == 401) {
-            Toast({
-              status: "warning",
-              title: "Your session expired!",
-              description: "Please login again",
-            });
-            logout();
-            return;
-          }
+          handleError(err);
         });
     },
   });
+
+  useEffect(() => {
+    if (user?.role == "Preacher") {
+      fetchAdmins();
+    }
+    if (user?.role == "Admin") {
+      fetchPreachers();
+    }
+  }, [user]);
+
+  const fetchAdmins = () => {
+    BackendAxios.get(`/api/iskconinc/admins`)
+      .then((res) => {
+        setAdmins(res.data);
+      })
+      .catch((err) => {
+        handleError(err);
+      });
+  };
+
+  const fetchPreachers = () => {
+    BackendAxios.get(`/api/iskconinc/preachers`)
+      .then((res) => {
+        setPreachers(res.data);
+      })
+      .catch((err) => {
+        handleError(err);
+      });
+  };
 
   useEffect(() => {
     setValue(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/dashboard/sessions/join/
@@ -73,6 +104,7 @@ const CreateSession = () => {
 
   return (
     <>
+      {isLoading ? <Loading /> : null}
       <Box w={"full"} p={[3, 8]} rounded={4} bgColor={"#FFF"}>
         <VStack w={"full"} gap={6}>
           <FormControl isRequired>
@@ -94,11 +126,18 @@ const CreateSession = () => {
                 onClick={onCopy}
                 colorScheme={hasCopied ? "whatsapp" : "gray"}
               >
-                {process.env.NEXT_PUBLIC_FRONTEND_URL}/dashboard/sessions/join/
+                {process.env.NEXT_PUBLIC_FRONTEND_URL}/dashboard/sessions/join/$
+                {}
                 {Formik.values.title?.toLowerCase().replace(/ /g, "-")}
               </Button>
               {hasCopied ? (
-                <Text color={"whatsapp.500"} fontSize={'xs'} fontWeight={'medium'}>Copied to clipboard!</Text>
+                <Text
+                  color={"whatsapp.500"}
+                  fontSize={"xs"}
+                  fontWeight={"medium"}
+                >
+                  Copied to clipboard!
+                </Text>
               ) : null}
             </Box>
           ) : null}
@@ -114,24 +153,45 @@ const CreateSession = () => {
               resize={"vertical"}
             />
           </FormControl>
-          <FormControl>
-            <FormLabel fontSize={["12", "sm"]} mb={0}>
-              Co-Host
-            </FormLabel>
-            <Select
-              variant={"flushed"}
-              fontSize={["12", "sm"]}
-              name="coHost"
-              onChange={Formik.handleChange}
-              placeholder="Please select"
-            >
-              {users?.map((user, key) => (
-                <option value={user?.id} key={key}>
-                  {user?.name}
-                </option>
-              ))}
-            </Select>
-          </FormControl>
+          {user?.role == "Preacher" ? (
+            <FormControl>
+              <FormLabel fontSize={["12", "sm"]} mb={0}>
+                Co-Host
+              </FormLabel>
+              <Select
+                variant={"flushed"}
+                fontSize={["12", "sm"]}
+                name="coHost"
+                onChange={Formik.handleChange}
+                placeholder="Please select"
+              >
+                {admins?.map((user, key) => (
+                  <option value={user?.id} key={key}>
+                    {user?.name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+          ) : user?.role == "Admin" ? (
+            <FormControl>
+              <FormLabel fontSize={["12", "sm"]} mb={0}>
+                Preacher
+              </FormLabel>
+              <Select
+                variant={"flushed"}
+                fontSize={["12", "sm"]}
+                name="preacher"
+                onChange={Formik.handleChange}
+                placeholder="Please select"
+              >
+                {preachers?.map((user, key) => (
+                  <option value={user?.id} key={key}>
+                    {user?.name}
+                  </option>
+                ))}
+              </Select>
+            </FormControl>
+          ) : null}
           <br />
           <Text fontSize={"sm"} py={4} w={"full"} textAlign={"left"}>
             Manage Audience Permissions
@@ -236,6 +296,9 @@ const CreateSession = () => {
             rounded={"full"}
             size={["sm", "md"]}
             boxShadow={["sm", "md"]}
+            onClick={()=>{
+              Formik.setFieldValue("intent", "schedule")
+            }}
           >
             Schedule
           </Button>
@@ -251,6 +314,8 @@ const CreateSession = () => {
           </Button>
         </HStack>
       </Box>
+
+      <Modal></Modal>
     </>
   );
 };

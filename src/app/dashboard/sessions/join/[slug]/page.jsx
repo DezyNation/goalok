@@ -1,5 +1,5 @@
 "use client";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   HStack,
@@ -16,18 +16,40 @@ import Plyr from "plyr-react";
 import "plyr/dist/plyr.css";
 import QnaBox from "@/components/dashboard/session/QnaBox";
 import QnaButton from "@/components/dashboard/session/QnaBox";
+import { DefaultAxios } from "@/utils/axios";
+import { UserContext } from "@/utils/hooks/useAuth";
 
 const page = ({ params }) => {
-  const { id } = params;
-  const videoSrc = {
-    type: "video",
-    sources: [
+  const { slug } = params;
+  const [joiningLink, setJoiningLink] = useState(false)
+  const {user} = useContext(UserContext)
+
+  useEffect(()=>{
+    getJoiningLink()
+  },[])
+
+  function getJoiningLink() {
+    DefaultAxios.post(
+      `${process.env.NEXT_PUBLIC_CONFERENCE_BASE_URL}/api/v1/join`,
       {
-        src: "5IqHGB9_N50",
-        provider: "youtube",
+        room: slug,
+        name: user?.username,
+        audio: true,
+        video: false,
+        notify: true,
       },
-    ],
-  };
+      {
+        headers: {
+          authorization: "mirotalksfu_default_secret",
+        },
+      }
+    ).then(res => {
+      console.log(res.data)
+      setJoiningLink(res.data?.join)
+    }).catch(err => {
+      console.log(err)
+    });
+  }
 
   return (
     <>
@@ -49,7 +71,7 @@ const page = ({ params }) => {
               className="messiri"
               fontSize={["3xl", "4xl"]}
             >
-              {id?.replace(/-/g, " ")}
+              {slug?.replace(/-/g, " ")}
             </Text>
             <Text fontWeight={"semibold"}>
               By{" "}
@@ -61,8 +83,8 @@ const page = ({ params }) => {
             <Box rounded={16} w={"full"} height={"95vh"} overflow={"hidden"}>
               <iframe
                 allow="camera; microphone; display-capture; fullscreen; clipboard-read; clipboard-write; autoplay"
-                src={`${process.env.NEXT_PUBLIC_CONFERENCE_BASE_URL}/${id}`}
-                style={{border: '0px'}}
+                src={"https://meet.krishnaconsciousnesssociety.com/join?room=session-id&password=undefined&name=undefined&audio=true&video=false&screen=undefined&notify=true"}
+                style={{ border: "0px", width: "100%", height: "100%" }}
               ></iframe>
             </Box>
           </Box>

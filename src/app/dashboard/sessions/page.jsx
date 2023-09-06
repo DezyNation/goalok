@@ -30,6 +30,9 @@ const page = () => {
         flexDir={"column"}
         alignItems={"flex-start"}
         justifyContent={"flex-start"}
+        h={"92vh"}
+        overflow={"scroll"}
+        className="hide-scrollbar"
       >
         <HStack w={"full"} alignItems={"center"} justifyContent={"flex-end"}>
           <FormControl w={["full", "md"]}>
@@ -39,6 +42,7 @@ const page = () => {
                 px={4}
                 border={"1px"}
                 flex={4}
+                bgColor={"#FFF"}
                 borderColor={"blackAlpha.200"}
                 rounded={"full"}
                 placeholder="Type to search sessions..."

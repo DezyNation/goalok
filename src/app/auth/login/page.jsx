@@ -34,12 +34,15 @@ import email from "../../../../public/lottie/email.json";
 import success from "../../../../public/lottie/success.json";
 import { useRouter, useSearchParams } from "next/navigation";
 import useAuth from "@/utils/hooks/useAuth";
+import { useJwt } from "react-jwt";
+import Cookies from "js-cookie";
 
 const Login = () => {
   const Toast = useToast({ position: "top-right" });
   const searchParams = useSearchParams();
   const emailVerified = searchParams.get("email_verified");
-
+  const { token } = useAuth();
+  const { isExpired } = useJwt(token);
   const { login, register } = useAuth();
 
   const [intent, setIntent] = useState("login");
@@ -47,6 +50,12 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onToggle, onClose } = useDisclosure();
   const Router = useRouter();
+
+  useEffect(() => {
+    if (!isExpired) {
+      Router.push("/dashboard", undefined, { shallow: true });
+    }
+  }, []);
 
   useEffect(() => {
     if (emailVerified == "true") {
@@ -98,14 +107,14 @@ const Login = () => {
         email: values.email,
         password: values.password,
         username: values.username,
-      })
+      });
       setIsLoading(false);
-      if(result.status != 200){
+      if (result.status != 200) {
         Toast({
           status: "error",
           description: err?.message,
         });
-        return
+        return;
       }
       setIntent("login");
       RegisterFormik.handleReset();
