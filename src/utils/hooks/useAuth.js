@@ -142,7 +142,6 @@ const useAuth = () => {
 
   const rcLogin = async ({ password, username }) => {
     await BackendAxios.post(`/api/rc/login`, {
-      username: username,
       password: password,
     })
       .then((res) => {
