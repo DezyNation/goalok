@@ -4,11 +4,19 @@ import { Box, HStack, Image, Text } from "@chakra-ui/react";
 import { MdTranslate } from "react-icons/md";
 import Link from "next/link";
 
-const SessionCard = ({ onClick }) => {
+const SessionCard = ({
+  onClick,
+  preacher,
+  language,
+  status,
+  title,
+  description,
+  poster
+}) => {
   return (
     <>
       <Box
-        flex={1}
+        w={['full', 'sm']}
         rounded={8}
         transition={"all .3s ease"}
         cursor={"pointer"}
@@ -16,10 +24,11 @@ const SessionCard = ({ onClick }) => {
       >
         <Box pos={"relative"} rounded={8} overflow={"hidden"}>
           <Image
-            src="https://www.hindugodwallpaper.com/downloadfiles.php?id=627"
+            src={poster || "https://www.hindugodwallpaper.com/downloadfiles.php?id=627"}
             w={"full"}
             h={56}
-            objectFit={"cover"} cursor={'pointer'}
+            objectFit={"cover"}
+            cursor={"pointer"}
           />
           <Text
             pos={"absolute"}
@@ -32,7 +41,7 @@ const SessionCard = ({ onClick }) => {
             fontSize={"8"}
             bgGradient={"linear-gradient(to-br, #0052d4, #4364f7, #6fb1fc)"}
           >
-            Srimad Bhagvad Gita
+            {preacher}
           </Text>
           <Text
             pos={"absolute"}
@@ -47,7 +56,7 @@ const SessionCard = ({ onClick }) => {
             fontWeight={"semibold"}
             textTransform={"uppercase"}
           >
-            LIVE
+            {status == "ongoing" ? "LIVE" : status}
           </Text>
           <HStack
             pos={"absolute"}
@@ -61,17 +70,16 @@ const SessionCard = ({ onClick }) => {
           >
             <MdTranslate color="#FFF" size={10} />
             <Text fontSize={"10"} color={"#FFF"}>
-              English / Hindi
+              {language || "English / Hindi"}
             </Text>
           </HStack>
         </Box>
         <Box w={"full"} py={4}>
           <Text className="messiri" fontSize={"lg"} fontWeight={"semibold"}>
-            Lorem ipsum dolor sit amet...
+            {title}
           </Text>
           <Text fontSize={"xs"} color={"blackAlpha.600"}>
-            Lorem ipsum, dolor sit amet consectetur adipisicing elit. Natus sed
-            vero...
+            {description?.slice(0, 60)}...
           </Text>
           <br />
           <Text fontSize={"sm"} color={"twitter.600"}>

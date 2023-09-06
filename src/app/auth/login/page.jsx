@@ -52,10 +52,11 @@ const Login = () => {
   const Router = useRouter();
 
   useEffect(() => {
-    if (!isExpired) {
+    if (token && !isExpired) {
       Router.push("/dashboard", undefined, { shallow: true });
     }
-  }, []);
+    console.log(!isExpired)
+  }, [token]);
 
   useEffect(() => {
     if (emailVerified == "true") {

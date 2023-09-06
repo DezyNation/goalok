@@ -9,8 +9,8 @@ const useApiHandler = () => {
     const Toast = useToast({
         position: 'top-right'
     })
-    const handleError = (error) => {
-        if (error?.response?.status == 401 || error?.response?.status == 403) {
+    const handleError = (error, title) => {
+        if (error?.response?.status == 401) {
             Toast({
               status: "warning",
               title: "Your session expired!",
@@ -21,6 +21,7 @@ const useApiHandler = () => {
           }
         Toast({
             status: 'error',
+            ...(title && {title: title}),
             description: error?.response?.data?.error?.message || error?.message,
         })
     }

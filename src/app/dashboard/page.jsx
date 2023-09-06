@@ -37,14 +37,30 @@ const page = () => {
   const Toast = useToast({ position: "top-right" });
   const [intent, setIntent] = useState("post");
   const [posts, setPosts] = useState([]);
+  const [sessions, setSessions] = useState([]);
 
   useEffect(() => {
     fetchPosts();
+    fetchUpcomingSessions();
   }, []);
   function fetchPosts() {
     BackendAxios.get(`/api/posts/view/all`)
       .then((res) => {
         setPosts(res.data);
+      })
+      .catch((error) => {
+        Toast({
+          status: "error",
+          title: "Error while fetching posts",
+          description: error?.response?.data?.error?.message || error?.message,
+        });
+      });
+  }
+
+  function fetchUpcomingSessions() {
+    BackendAxios.get(`/api/sessions/upcoming-sessions`)
+      .then((res) => {
+        setSessions(res.data);
       })
       .catch((error) => {
         Toast({
@@ -129,21 +145,31 @@ const page = () => {
           >
             <Text pb={4}>Upcoming Sessions</Text>
             <HStack gap={4}>
-              <SessionCard />
-              <SessionCard />
+              {sessions?.slice(0, 2).map((session, key) => (
+                <SessionCard
+                  key={key}
+                  preacher={
+                    session?.preacher?.name || session?.preacher?.username
+                  }
+                  title={session?.title}
+                  slug={session?.slug}
+                />
+              ))}
             </HStack>
             <HStack justifyContent={"flex-end"} w={"full"} p={4}>
-              <Link href={"/home/sessions"} target="_blank">
-                <HStack>
-                  <Text
-                    fontSize={"sm"}
-                    fontWeight={"semibold"}
-                    color={"twitter.500"}
-                  >
-                    View All Sessions
-                  </Text>
-                </HStack>
-              </Link>
+              {sessions?.length ? (
+                <Link href={"/home/sessions"} target="_blank">
+                  <HStack>
+                    <Text
+                      fontSize={"sm"}
+                      fontWeight={"semibold"}
+                      color={"twitter.500"}
+                    >
+                      View All Sessions
+                    </Text>
+                  </HStack>
+                </Link>
+              ) : null}
             </HStack>
             <BlankSpacer height={20} />
             <Text pb={4}>Recent Announcements</Text>

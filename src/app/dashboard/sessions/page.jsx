@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import SessionCard from "@/components/session/SessionCard";
 import {
   Box,
@@ -8,6 +8,7 @@ import {
   HStack,
   Input,
   Stack,
+  Text,
 } from "@chakra-ui/react";
 import {
   BsChevronDoubleLeft,
@@ -17,9 +18,43 @@ import {
   BsSearch,
 } from "react-icons/bs";
 import { useRouter } from "next/navigation";
+import useApiHandler from "@/utils/hooks/useApiHandler";
+import BackendAxios from "@/utils/axios";
+import BlankSpacer from "@/components/global/BlankSpacer";
+import NoSessionsCard from "@/components/dashboard/session/NoSessionsCard";
 
 const page = () => {
   const Router = useRouter();
+  const { handleError } = useApiHandler();
+
+  const [ongoingSessions, setOngoingSessions] = useState([]);
+  const [upcomingSessions, setUpcomingSessions] = useState([]);
+
+  useEffect(() => {
+    fetchOngoingSessions();
+    fetchUpcomingSessions();
+  }, []);
+
+  function fetchOngoingSessions() {
+    BackendAxios.get(`/api/sessions/ongoing-sessions`)
+      .then((res) => {
+        setOngoingSessions(res.data);
+      })
+      .catch((err) => {
+        handleError(err, "Err while fetching ongoing sessions");
+      });
+  }
+
+  function fetchUpcomingSessions() {
+    BackendAxios.get(`/api/sessions/upcoming-sessions`)
+      .then((res) => {
+        setUpcomingSessions(res.data);
+      })
+      .catch((err) => {
+        handleError(err, "Err while fetching ongoing sessions");
+      });
+  }
+
   return (
     <>
       <Box
@@ -61,29 +96,69 @@ const page = () => {
             </HStack>
           </FormControl>
         </HStack>
+
+        <Text fontSize={"lg"} fontWeight={"semibold"}>
+          Ongoing Sessions
+        </Text>
         <Stack
           direction={["column", "row"]}
           alignItems={"flex-start"}
           justifyContent={"flex-start"}
+          flexWrap={"wrap"}
           gap={8}
           h={"full"}
         >
-          <SessionCard
+          {!ongoingSessions?.length ? <NoSessionsCard /> : null}
+          {ongoingSessions?.map((session, key) => (
+            <SessionCard
+            key={key}
             onClick={() =>
-              Router.push("/home/sessions/view/bhagvad-gita-session")
+              Router.push(`/dashboard/sessions/join/${session.slug}`)
             }
-          />
-          <SessionCard
-            onClick={() =>
-              Router.push("/home/sessions/view/bhagvad-gita-session")
+            title={session?.title}
+            description={session?.description}
+            status={
+              session?.startAt
+                ? new Date(session?.startAt).toLocaleDateString()
+                : "UPCOMING"
             }
+            language={session?.language}
+            preacher={session?.preacher?.name || session?.preacher?.username}
           />
-          <SessionCard
-            onClick={() =>
-              Router.push("/home/sessions/view/bhagvad-gita-session")
-            }
-          />
+          ))}
         </Stack>
+        <BlankSpacer />
+        <Text fontSize={"lg"} fontWeight={"semibold"}>
+          Upcoming Sessions
+        </Text>
+        <Stack
+          direction={["column", "row"]}
+          alignItems={"flex-start"}
+          justifyContent={"flex-start"}
+          flexWrap={"wrap"}
+          gap={8}
+          h={"full"}
+        >
+          {!upcomingSessions?.length ? <NoSessionsCard /> : null}
+          {upcomingSessions?.map((session, key) => (
+            <SessionCard
+              key={key}
+              onClick={() =>
+                Router.push(`/dashboard/sessions/join/${session.slug}`)
+              }
+              title={session?.title}
+              description={session?.description}
+              status={
+                session?.startAt
+                  ? new Date(session?.startAt).toLocaleDateString()
+                  : "UPCOMING"
+              }
+              language={session?.language}
+              preacher={session?.preacher?.name || session?.preacher?.username}
+            />
+          ))}
+        </Stack>
+
         <HStack
           mt={16}
           w={"full"}

@@ -3,9 +3,9 @@ import React from "react";
 import { Box, Text } from "@chakra-ui/react";
 import Link from "next/link";
 
-const SessionCard = ({ image, title, author, link }) => {
+const SessionCard = ({ image, title, preacher, slug }) => {
   return (
-    <Link href={'/dashboard/sessions/join/session-id'}>
+    <Link href={`/dashboard/sessions/join/${slug}`}>
       <Box
         w={36}
         height={48}
@@ -30,10 +30,10 @@ const SessionCard = ({ image, title, author, link }) => {
           justifyContent={"flex-end"}
         >
           <Text className="messiri" color={"#FFF"} fontSize={"sm"}>
-            Bhagvad Gita
+            {title}
           </Text>
           <Text color={"#FFF"} fontSize={"8"}>
-            by Gauranga Sundar Das
+            by {preacher}
           </Text>
         </Box>
       </Box>

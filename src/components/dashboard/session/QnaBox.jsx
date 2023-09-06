@@ -1,39 +1,147 @@
 "use client";
 import ReceivedMessage from "@/components/interaction/ReceivedMessage";
 import SentMessage from "@/components/interaction/SentMessage";
+import BackendAxios from "@/utils/axios";
+import useApiHandler from "@/utils/hooks/useApiHandler";
 import {
   Box,
+  Button,
   HStack,
   IconButton,
   Input,
   InputGroup,
   InputRightElement,
-  Modal,
-  ModalBody,
-  ModalContent,
-  ModalOverlay,
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
   ScaleFade,
   Text,
   VStack,
   useDisclosure,
 } from "@chakra-ui/react";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BiRupee, BiSolidParty } from "react-icons/bi";
 import {
+  BsCheckCircle,
+  BsCheckCircleFill,
   BsEmojiHeartEyes,
-  BsEmojiHeartEyesFill,
-  BsEmojiLaughingFill,
   BsHeartFill,
+  BsTrash2Fill,
   BsX,
 } from "react-icons/bs";
 import { FaQuestion } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 
-const QnaBox = ({ onClose }) => {
+const UpdateButtons = ({
+  messageId,
+  beingAnswered,
+  isAnswered,
+  justifyContent,
+  onAction
+}) => {
+  const { handleError } = useApiHandler();
+  function update({ data }) {
+    if (!messageId) return;
+    BackendAxios.put(`/api/questions/${messageId}`, { data: data })
+      .then((res) => {
+        onAction(()=>true);
+      })
+      .catch((err) => {
+        handleError(err, "Error updating message");
+      });
+  }
+
+  function deleteMessage(messageId) {
+    if (!messageId) return;
+    BackendAxios.delete(`/api/questions/${messageId}`)
+      .then((res) => {
+        onAction(()=>true);
+      })
+      .catch((err) => {
+        handleError(err, "Error deleting message");
+      });
+  }
+  return (
+    <>
+    <HStack w={"full"} justifyContent={justifyContent}>
+      <IconButton
+        p={0}
+        bg={"transparent"}
+        color={beingAnswered ? "twitter.500" : "twitter.200"}
+        icon={<BsCheckCircle size={12} />}
+        onClick={() =>
+          update({
+            messageId: messageId,
+            data: {
+              beingAnswered: beingAnswered ? false : true,
+            },
+          })
+        }
+      />
+      <IconButton
+        p={0}
+        bg={"transparent"}
+        color={isAnswered ? "whatsapp.500" : "whatsapp.200"}
+        icon={<BsCheckCircleFill size={12} />}
+        onClick={() =>
+          update({
+            messageId: messageId,
+            data: {
+              isAnswered: isAnswered ? false : true,
+            },
+          })
+        }
+      />
+      <IconButton
+        p={0}
+        bg={"transparent"}
+        color={"red"}
+        icon={<BsTrash2Fill size={12} />}
+        onClick={() => deleteMessage(messageId)}
+      />
+    </HStack>
+    </>
+  );
+};
+
+const QnaBox = ({ onClose, sessionId, userId, canUpdate }) => {
+  const { handleError } = useApiHandler();
   const [showReactions, setShowReactions] = useState(false);
+
+  const [question, setQuestion] = useState("");
+  const [messages, setMessages] = useState([]);
+
+  useEffect(() => {
+    const fetchMessageInterval = setInterval(async () => {
+      await fetchMessages();
+    }, 3000);
+
+    return () => {
+      clearInterval(fetchMessageInterval, fetchMessages);
+    };
+  }, []);
+
+  async function fetchMessages() {
+    if (!sessionId) return;
+    await BackendAxios.get(`/api/sessions/questions/${sessionId}`)
+      .then((res) => {
+        setMessages(res.data);
+      })
+      .catch((err) => {
+        handleError(err, "Error while fetching questions");
+      });
+  }
+
+  function ask() {
+    if (!question) return;
+    BackendAxios.post(`/api/sessions/questions/${sessionId}`, {
+      question,
+    })
+      .then((res) => {
+        setQuestion(() => "");
+        setMessages([...messages, res.data]);
+      })
+      .catch((err) => {
+        handleError(err, "Error while asking question");
+      });
+  }
 
   return (
     <>
@@ -69,9 +177,53 @@ const QnaBox = ({ onClose }) => {
           overflowY={"scroll"}
           alignItems={"flex-start"}
           justifyContent={"flex-start"}
+          transition={"all .3s ease"}
+          id={"messages-wrapper"}
         >
-          <SentMessage />
-          <ReceivedMessage />
+          {messages?.map((msg, key) =>
+            msg?.user?.id == userId ? (
+              <Box w={"full"} key={key}>
+                {canUpdate ? (
+                  <UpdateButtons
+                    messageId={msg?.id}
+                    beingAnswered={msg?.beingAnswered}
+                    isAnswered={msg?.isAnswered}
+                    justifyContent={"flex-end"}
+                    onAction={()=>fetchMessages()}
+                  />
+                ) : null}
+                <SentMessage
+                  message={msg?.question}
+                  timestamp={msg?.createdAt}
+                  avatar={msg?.user?.avatar?.url || ""}
+                  name={msg?.user?.username}
+                  blueTick={msg?.beingAnswered}
+                  greenTick={msg?.isAnswered}
+                />
+              </Box>
+            ) : (
+              <Box w={"full"} key={key}>
+                {canUpdate ? (
+                  <UpdateButtons
+                    messageId={msg?.id}
+                    beingAnswered={msg?.beingAnswered}
+                    isAnswered={msg?.isAnswered}
+                    justifyContent={"flex-start"}
+                  />
+                ) : null}
+                <ReceivedMessage
+                  key={key}
+                  message={msg?.question}
+                  timestamp={msg?.createdAt}
+                  avatar={msg?.user?.avatar?.url || ""}
+                  name={msg?.user?.username}
+                  blueTick={msg?.beingAnswered}
+                  greenTick={msg?.isAnswered}
+                />
+              </Box>
+            )
+          )}
+          <div id="messages-anchor"></div>
         </VStack>
         <HStack
           py={3}
@@ -164,9 +316,22 @@ const QnaBox = ({ onClose }) => {
               fontSize={"xs"}
               variant={"flushed"}
               placeholder="Type here..."
+              value={question}
+              onChange={(e) => setQuestion(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key == "Enter") {
+                  ask();
+                }
+              }}
             />
             <InputRightElement
-              children={<IoSend color="#999" style={{ cursor: "pointer" }} />}
+              children={
+                <IoSend
+                  color="#999"
+                  style={{ cursor: "pointer" }}
+                  onClick={ask}
+                />
+              }
             />
           </InputGroup>
         </HStack>
@@ -175,7 +340,7 @@ const QnaBox = ({ onClose }) => {
   );
 };
 
-const QnaButton = () => {
+const QnaButton = ({ sessionId, userId, canUpdate }) => {
   const { isOpen, onToggle } = useDisclosure();
   return (
     <>
@@ -206,8 +371,13 @@ const QnaButton = () => {
         bgColor={"blackAlpha.700"}
       >
         <ScaleFade initialScale={0.9} in={isOpen}>
-          <Box w={"xs"} h={["100vh", "auto"]}>
-            <QnaBox onClose={onToggle} />
+          <Box w={["full", "sm"]} h={["100vh", "auto"]}>
+            <QnaBox
+              sessionId={sessionId}
+              userId={userId}
+              onClose={onToggle}
+              canUpdate={canUpdate}
+            />
           </Box>
         </ScaleFade>
       </HStack>

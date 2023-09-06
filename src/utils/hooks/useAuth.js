@@ -2,16 +2,16 @@
 import { useState, useEffect, createContext } from "react";
 import BackendAxios, { DefaultAxios, FormAxios } from "../axios";
 import Cookies from "js-cookie";
+import { usePathname } from "next/navigation";
 
 const UserContext = createContext(null);
 
 const useAuth = () => {
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(false);
+  const pathname = usePathname();
   useEffect(() => {
-    if (Cookies.get("token")) {
-      fetchUser();
-    }
+    fetchUser();
   }, []);
 
   useEffect(() => {
@@ -31,9 +31,7 @@ const useAuth = () => {
           email: res?.data?.email,
           phone: res?.data?.phone,
           totalDonations: res?.data?.totalDonations,
-          avatar: res?.data?.avatar
-            ? `${res?.data?.avatar?.url}`
-            : null,
+          avatar: res?.data?.avatar ? `${res?.data?.avatar?.url}` : null,
           about: res?.data?.about,
           role: res?.data?.role?.name,
           confirmed: res?.data?.confirmed,
@@ -45,8 +43,8 @@ const useAuth = () => {
         });
       })
       .catch((err) => {
-        if(err?.response?.status > 400){
-          logout()
+        if (err?.response?.status > 400) {
+          logout();
         }
         setUserLoading(false);
         setUser({
@@ -66,18 +64,18 @@ const useAuth = () => {
           password,
         }
       );
-        Cookies.set("token", res.data?.jwt, {
-          expires: 3,
-          secure: process.env.NODE_ENV === "production",
-        });
-      
+      Cookies.set("token", res.data?.jwt, {
+        expires: 3,
+        secure: process.env.NODE_ENV === "production",
+      });
+
       BackendAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
       FormAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
       return {
         status: res.status,
-        message:"Login Successful",
-        data: res.data
-      }
+        message: "Login Successful",
+        data: res.data,
+      };
     } catch (error) {
       return {
         status: error?.response?.status,
@@ -85,7 +83,6 @@ const useAuth = () => {
       };
     }
   };
-
 
   const register = async ({ email, username, password }) => {
     try {
@@ -99,9 +96,9 @@ const useAuth = () => {
       );
       return {
         status: res.status,
-        message:"Confirmation mail sent!",
-        data: res.data
-      }
+        message: "Confirmation mail sent!",
+        data: res.data,
+      };
     } catch (error) {
       return {
         status: error?.response?.status,
@@ -113,7 +110,9 @@ const useAuth = () => {
   const logout = () => {
     Cookies.remove("token");
     localStorage.clear();
-    window.location.replace("/");
+    if (pathname.includes("dashboard")) {
+      window.location.replace("/");
+    }
   };
 
   return {

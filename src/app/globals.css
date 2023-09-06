@@ -28,3 +28,12 @@
 .hide-scrollbar::-webkit-scrollbar{
   display: none;
 }
+
+#messages-wrapper * {
+  overflow-anchor: none;
+}
+
+#messages-anchor {
+  overflow-anchor: auto;
+  height: 1px;
+}

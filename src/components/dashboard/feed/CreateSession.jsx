@@ -36,17 +36,27 @@ const CreateSession = () => {
   const [admins, setAdmins] = useState([]);
   const [preachers, setPreachers] = useState([]);
 
+  useEffect(() => {
+    if (user?.role == "Admin") {
+      Formik.setFieldValue("coHost", user?.id);
+    }
+    if (user?.role == "Preacher") {
+      Formik.setFieldValue("preacher", user?.id);
+    }
+  }, [user]);
+
   const Formik = useFormik({
     initialValues: {
       title: "",
       description: "",
-      course: "",
+      // course: "1",
       coHost: user?.role == "Admin" ? user?.id : "",
       preacher: user?.role == "Preacher" ? user?.id : "",
+      slug: ``,
       qnaStatus: true,
       donationStatus: true,
-      audioStatus: true,
-      videoStatus: true,
+      audioStatus: false,
+      videoStatus: false,
       startAt: "",
       duration: "",
       language: "English/Hindi",
@@ -54,12 +64,15 @@ const CreateSession = () => {
     },
     onSubmit: (values) => {
       setIsLoading(true);
-      BackendAxios.post(`/api/sessions/create`)
+      BackendAxios.post(`/api/sessions/create`, values)
         .then((res) => {
           setIsLoading(false);
           Toast({
             description: `Session ${values.intent}d successfully!`,
           });
+          if(values.intent == 'create'){
+            window.location.assign(`/dashboard/sessions/join/${Formik.values.slug}`)
+          }
         })
         .catch((err) => {
           setIsLoading(false);
@@ -77,10 +90,19 @@ const CreateSession = () => {
     }
   }, [user]);
 
+  useEffect(() => {
+    Formik.setFieldValue(
+      "slug",
+      `${Formik.values.preacher}-${Formik.values.title
+        ?.toLowerCase()
+        .replace(/ /g, "-")}`
+    );
+  }, [Formik.values.preacher,  Formik.values.title]);
+
   const fetchAdmins = () => {
-    BackendAxios.get(`/api/iskconinc/admins`)
+    BackendAxios.get(`/api/iskconinc/admin`)
       .then((res) => {
-        setAdmins(res.data);
+        if (res.data.length) setAdmins(res.data);
       })
       .catch((err) => {
         handleError(err);
@@ -88,9 +110,9 @@ const CreateSession = () => {
   };
 
   const fetchPreachers = () => {
-    BackendAxios.get(`/api/iskconinc/preachers`)
+    BackendAxios.get(`/api/iskconinc/preacher`)
       .then((res) => {
-        setPreachers(res.data);
+        if (res.data.length) setPreachers(res.data);
       })
       .catch((err) => {
         handleError(err);
@@ -98,9 +120,10 @@ const CreateSession = () => {
   };
 
   useEffect(() => {
-    setValue(`${process.env.NEXT_PUBLIC_FRONTEND_URL}/dashboard/sessions/join/
-    ${Formik.values.title?.toLowerCase().replace(/ /g, "-")}`);
-  }, [Formik.values.title]);
+    setValue(
+      `${process.env.NEXT_PUBLIC_FRONTEND_URL}/dashboard/sessions/join/${Formik.values.slug}`
+    );
+  }, [Formik.values.slug]);
 
   return (
     <>
@@ -126,9 +149,8 @@ const CreateSession = () => {
                 onClick={onCopy}
                 colorScheme={hasCopied ? "whatsapp" : "gray"}
               >
-                {process.env.NEXT_PUBLIC_FRONTEND_URL}/dashboard/sessions/join/$
-                {}
-                {Formik.values.title?.toLowerCase().replace(/ /g, "-")}
+                {process.env.NEXT_PUBLIC_FRONTEND_URL}/dashboard/sessions/join/
+                {Formik.values.slug}
               </Button>
               {hasCopied ? (
                 <Text
@@ -167,13 +189,13 @@ const CreateSession = () => {
               >
                 {admins?.map((user, key) => (
                   <option value={user?.id} key={key}>
-                    {user?.name}
+                    {user?.name} ({user?.username})
                   </option>
                 ))}
               </Select>
             </FormControl>
           ) : user?.role == "Admin" ? (
-            <FormControl>
+            <FormControl isRequired>
               <FormLabel fontSize={["12", "sm"]} mb={0}>
                 Preacher
               </FormLabel>
@@ -186,7 +208,7 @@ const CreateSession = () => {
               >
                 {preachers?.map((user, key) => (
                   <option value={user?.id} key={key}>
-                    {user?.name}
+                    {user?.name} ({user?.username})
                   </option>
                 ))}
               </Select>
@@ -296,8 +318,9 @@ const CreateSession = () => {
             rounded={"full"}
             size={["sm", "md"]}
             boxShadow={["sm", "md"]}
-            onClick={()=>{
-              Formik.setFieldValue("intent", "schedule")
+            onClick={() => {
+              Formik.setFieldValue("intent", "schedule");
+              Formik.handleSubmit();
             }}
           >
             Schedule
@@ -309,6 +332,10 @@ const CreateSession = () => {
             rounded={"full"}
             size={["sm", "md"]}
             boxShadow={["sm", "md"]}
+            onClick={() => {
+              Formik.setFieldValue("intent", "create");
+              Formik.handleSubmit();
+            }}
           >
             Start Now
           </Button>

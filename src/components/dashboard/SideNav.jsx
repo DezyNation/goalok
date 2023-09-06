@@ -63,7 +63,7 @@ const SideNav = () => {
     {
       id: "interact",
       icon: <BsChatDotsFill />,
-      link: "/dashboard/interact?active_side_item=interact",
+      link: "/dashboard/chat?active_side_item=interact",
     },
   ];
 
