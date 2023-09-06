@@ -74,8 +74,7 @@ const useAuth = () => {
       FormAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
 
       await rcLogin({
-        password: password,
-        username: username,
+        password: password
       });
       return {
         status: res.status,
