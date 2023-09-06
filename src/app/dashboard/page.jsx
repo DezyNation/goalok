@@ -32,12 +32,15 @@ import Advertisement from "@/components/dashboard/LeftPanel/Advertisement";
 import { IoVideocam } from "react-icons/io5";
 import CreateSession from "@/components/dashboard/feed/CreateSession";
 import BackendAxios from "@/utils/axios";
+import useAuth from "@/utils/hooks/useAuth";
 
 const page = () => {
   const Toast = useToast({ position: "top-right" });
   const [intent, setIntent] = useState("post");
   const [posts, setPosts] = useState([]);
   const [sessions, setSessions] = useState([]);
+
+  const { user } = useAuth();
 
   useEffect(() => {
     fetchPosts();
@@ -94,37 +97,40 @@ const page = () => {
           justifyContent={"flex-start"}
           gap={8}
         >
-          <Box w={"full"}>
-            <HStack justifyContent={"space-evenly"} pb={4}>
-              <Button
-                size={["sm", "md"]}
-                leftIcon={<BsPencilSquare />}
-                colorScheme={intent == "post" ? "blackAlpha" : "twitter"}
-                bgColor={intent == "post" ? "#333" : "transparent"}
-                color={intent == "post" ? "#FFF" : "#333"}
-                rounded={"full"}
-                _hover={{ bgColor: "#333", color: "#FFF" }}
-                variant={intent == "post" ? "solid" : "outline"}
-                onClick={() => setIntent("post")}
-              >
-                New Post
-              </Button>
-              <Button
-                size={["sm", "md"]}
-                leftIcon={<IoVideocam />}
-                colorScheme={intent == "session" ? "blackAlpha" : "twitter"}
-                bgColor={intent == "session" ? "#333" : "transparent"}
-                color={intent == "session" ? "#FFF" : "#333"}
-                rounded={"full"}
-                _hover={{ bgColor: "#333", color: "#FFF" }}
-                variant={intent == "session" ? "solid" : "outline"}
-                onClick={() => setIntent("session")}
-              >
-                New Session
-              </Button>
-            </HStack>
-            {intent == "post" ? <CreatePost /> : <CreateSession />}
-          </Box>
+          {user?.role == "Admin" || user?.role == "Preacher" ? (
+            <Box w={"full"}>
+              <HStack justifyContent={"space-evenly"} pb={4}>
+                <Button
+                  size={["sm", "md"]}
+                  leftIcon={<BsPencilSquare />}
+                  colorScheme={intent == "post" ? "blackAlpha" : "twitter"}
+                  bgColor={intent == "post" ? "#333" : "transparent"}
+                  color={intent == "post" ? "#FFF" : "#333"}
+                  rounded={"full"}
+                  _hover={{ bgColor: "#333", color: "#FFF" }}
+                  variant={intent == "post" ? "solid" : "outline"}
+                  onClick={() => setIntent("post")}
+                >
+                  New Post
+                </Button>
+                <Button
+                  size={["sm", "md"]}
+                  leftIcon={<IoVideocam />}
+                  colorScheme={intent == "session" ? "blackAlpha" : "twitter"}
+                  bgColor={intent == "session" ? "#333" : "transparent"}
+                  color={intent == "session" ? "#FFF" : "#333"}
+                  rounded={"full"}
+                  _hover={{ bgColor: "#333", color: "#FFF" }}
+                  variant={intent == "session" ? "solid" : "outline"}
+                  onClick={() => setIntent("session")}
+                >
+                  New Session
+                </Button>
+              </HStack>
+              {intent == "post" ? <CreatePost /> : <CreateSession />}
+            </Box>
+          ) : null}
+
           {posts?.map((post, key) => (
             <Post
               key={key}

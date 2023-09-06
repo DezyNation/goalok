@@ -21,7 +21,7 @@ const useAuth = () => {
   const fetchUser = async () => {
     setUserLoading(true);
     await BackendAxios.get(`/api/users/me?populate=*`)
-      .then((res) => {
+      .then(async (res) => {
         setUserLoading(false);
         setUser({
           apiStatus: res.status,
@@ -41,6 +41,7 @@ const useAuth = () => {
           totalDonations: res?.data?.totalDonations,
           active: true,
         });
+        await rcToken()
       })
       .catch((err) => {
         if (err?.response?.status > 400) {
@@ -71,6 +72,11 @@ const useAuth = () => {
 
       BackendAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
       FormAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
+
+      await rcLogin({
+        password: password,
+        username: username,
+      });
       return {
         status: res.status,
         message: "Login Successful",
@@ -94,6 +100,11 @@ const useAuth = () => {
           password,
         }
       );
+      await rcRegister({
+        email: email,
+        password: password,
+        username: username,
+      });
       return {
         status: res.status,
         message: "Confirmation mail sent!",
@@ -114,6 +125,41 @@ const useAuth = () => {
       window.location.replace("/");
     }
   };
+
+  const rcRegister = async ({ email, password, username }) => {
+    await BackendAxios.post(`/api/rc/register`, {
+      email: email,
+      username: username,
+      password: password,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("err registering to rc", err);
+      });
+  };
+
+  const rcLogin = async ({ password, username }) => {
+    await BackendAxios.post(`/api/rc/login`, {
+      username: username,
+      password: password,
+    })
+      .then((res) => {
+        console.log(res);
+      })
+      .catch((err) => {
+        console.log("err login to rc", err);
+      });
+  };
+
+  const rcToken = async () => {
+    BackendAxios.get(`/api/rc/token`).then(res=>{
+      Cookies.set("rcToken", res.data?.token)
+    }).catch(err => {
+      console.log("err getting token rc", err);
+    })
+  }
 
   return {
     user,

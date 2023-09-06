@@ -9,9 +9,7 @@ import {
   BsGrid1X2Fill,
   BsHeartFill,
 } from "react-icons/bs";
-import {
-  PiFlowerLotusFill
-} from "react-icons/pi";
+import { PiFlowerLotusFill } from "react-icons/pi";
 import {
   Avatar,
   Box,
@@ -27,7 +25,7 @@ import {
   Text,
   VStack,
 } from "@chakra-ui/react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, usePathname } from "next/navigation";
 import Link from "next/link";
 import { UserContext } from "@/utils/hooks/useAuth";
 
@@ -36,6 +34,7 @@ const SideNav = () => {
   const activeSideItem = params.get("active_side_item");
   const [activerUser, setActiverUser] = useState(null);
   const [status, setStatus] = useState(true);
+  const pathName = usePathname()
 
   const { user, logout } = useContext(UserContext);
 
@@ -72,6 +71,11 @@ const SideNav = () => {
       setActiverUser(user);
     }
   }, [user]);
+  useEffect(()=>{
+    if(pathName?.includes("chat")) {
+      setStatus(false)
+    }
+  },[pathName])
 
   return (
     <>
@@ -157,23 +161,21 @@ const SideNav = () => {
         </Popover>
 
         {/* Toggle Sidebar */}
-        <Show below="md">
-          <IconButton
-            pos={"absolute"}
-            bottom={36}
-            right={status ? "-4" : "-8"}
-            size={"sm"}
-            rounded={0}
-            icon={
-              status ? (
-                <BsChevronDoubleLeft size={20} />
-              ) : (
-                <BsChevronDoubleRight size={20} />
-              )
-            }
-            onClick={()=>setStatus(!status)}
-          />
-        </Show>
+        <IconButton
+          pos={"absolute"}
+          bottom={36}
+          right={status ? "-4" : "-8"}
+          size={"sm"}
+          rounded={0}
+          icon={
+            status ? (
+              <BsChevronDoubleLeft size={20} />
+            ) : (
+              <BsChevronDoubleRight size={20} />
+            )
+          }
+          onClick={() => setStatus(!status)}
+        />
       </VStack>
     </>
   );
