@@ -20,11 +20,11 @@ const page = () => {
         className="hide-scrollbar"
         bgColor={"#333"}
       >
-        <iframe
+        {/* <iframe
           src={process.env.NEXT_PUBLIC_CHAT_URL}
           allow="camera; microphone; fullscreen; clipboard-read; clipboard-write; autoplay"
           style={{ border: "0px", width: "100%", height: "100%" }}
-        ></iframe>
+        ></iframe> */}
       </Box>
     </>
   );

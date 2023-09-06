@@ -34,7 +34,7 @@ const SideNav = () => {
   const activeSideItem = params.get("active_side_item");
   const [activerUser, setActiverUser] = useState(null);
   const [status, setStatus] = useState(true);
-  const pathName = usePathname()
+  const pathName = usePathname();
 
   const { user, logout } = useContext(UserContext);
 
@@ -71,11 +71,11 @@ const SideNav = () => {
       setActiverUser(user);
     }
   }, [user]);
-  useEffect(()=>{
-    if(pathName?.includes("chat")) {
-      setStatus(false)
+  useEffect(() => {
+    if (pathName?.includes("chat")) {
+      setStatus(false);
     }
-  },[pathName])
+  }, [pathName]);
 
   return (
     <>
@@ -83,7 +83,7 @@ const SideNav = () => {
         pos={"relative"}
         py={4}
         bgColor={"#FFF"}
-        h={"92vh"}
+        h={pathName?.includes("chat") ? "100vh" : "92vh"}
         transition={"all 0.2s ease"}
         marginLeft={status ? "0" : "-16"}
         marginRight={status ? "0" : "0"}
