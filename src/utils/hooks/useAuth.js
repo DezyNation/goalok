@@ -74,9 +74,10 @@ const useAuth = () => {
       FormAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
 
       await rcLogin({
-        password: password,
-        jwt: res.data?.jwt
+        identifier: identifier,
+        password: password
       });
+
       return {
         status: res.status,
         message: "Login Successful",
@@ -134,10 +135,7 @@ const useAuth = () => {
         email: email,
         username: username,
         password: password,
-      },{
-        headers: {
-          Authorization: `Bearer ${jwt}`
-        }
+        name: username
       }
     )
       .then((res) => {
@@ -148,15 +146,12 @@ const useAuth = () => {
       });
   };
 
-  const rcLogin = async ({ password, jwt }) => {
+  const rcLogin = async ({ password, identifier }) => {
     await DefaultAxios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rc/login`,
       {
         password: password,
-      },{
-        headers: {
-          Authorization: `Bearer ${jwt}`
-        }
+        username: identifier
       }
     )
       .then((res) => {
