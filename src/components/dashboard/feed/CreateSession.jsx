@@ -32,11 +32,12 @@ const CreateSession = () => {
   const { handleError } = useApiHandler();
   const { onCopy, setValue, hasCopied } = useClipboard("");
 
+  const now = new Date()
   const [isLoading, setIsLoading] = useState(false);
   const [admins, setAdmins] = useState([]);
   const [preachers, setPreachers] = useState([]);
 
-  const [startTime, setStartTime] = useState("")
+  const [startTime, setStartTime] = useState(now)
 
   useEffect(() => {
     if (user?.role == "Admin") {
