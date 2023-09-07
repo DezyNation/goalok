@@ -75,6 +75,7 @@ const useAuth = () => {
 
       await rcLogin({
         password: password,
+        jwt: res.data?.jwt
       });
       return {
         status: res.status,
@@ -103,6 +104,7 @@ const useAuth = () => {
         email: email,
         password: password,
         username: username,
+        jwt: res.data?.jwt
       });
       return {
         status: res.status,
@@ -125,13 +127,17 @@ const useAuth = () => {
     }
   };
 
-  const rcRegister = async ({ email, password, username }) => {
+  const rcRegister = async ({ email, password, username, jwt }) => {
     await DefaultAxios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rc/register`,
       {
         email: email,
         username: username,
         password: password,
+      },{
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
       }
     )
       .then((res) => {
@@ -142,11 +148,15 @@ const useAuth = () => {
       });
   };
 
-  const rcLogin = async ({ password, username }) => {
+  const rcLogin = async ({ password, jwt }) => {
     await DefaultAxios.post(
       `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rc/login`,
       {
         password: password,
+      },{
+        headers: {
+          Authorization: `Bearer ${jwt}`
+        }
       }
     )
       .then((res) => {
