@@ -70,8 +70,10 @@ const CreateSession = () => {
           Toast({
             description: `Session ${values.intent}d successfully!`,
           });
-          if(values.intent == 'create'){
-            window.location.assign(`/dashboard/sessions/join/${Formik.values.slug}`)
+          if (values.intent == "create") {
+            window.location.assign(
+              `/dashboard/sessions/join/${Formik.values.slug}`
+            );
           }
         })
         .catch((err) => {
@@ -97,7 +99,7 @@ const CreateSession = () => {
         ?.toLowerCase()
         .replace(/ /g, "-")}`
     );
-  }, [Formik.values.preacher,  Formik.values.title]);
+  }, [Formik.values.preacher, Formik.values.title]);
 
   const fetchAdmins = () => {
     BackendAxios.get(`/api/iskconinc/admin`)
@@ -206,6 +208,11 @@ const CreateSession = () => {
                 onChange={Formik.handleChange}
                 placeholder="Please select"
               >
+                {user?.role == "Admin" ? (
+                  <option value={user?.id}>
+                    {user?.name} ({user?.username})
+                  </option>
+                ) : null}
                 {preachers?.map((user, key) => (
                   <option value={user?.id} key={key}>
                     {user?.name} ({user?.username})
