@@ -78,11 +78,11 @@ const CreateSession = () => {
           Toast({
             description: `Session ${values.intent}d successfully!`,
           });
-          // if (values.intent == "create") {
-          //   window.location.assign(
-          //     `/dashboard/sessions/join/${Formik.values.slug}`
-          //   );
-          // }
+          if (values.intent == "create") {
+            window.location.assign(
+              `/dashboard/sessions/join/${Formik.values.slug}`
+            );
+          }
         })
         .catch((err) => {
           setIsLoading(false);
@@ -357,7 +357,7 @@ const CreateSession = () => {
               Formik.handleSubmit();
             }}
           >
-            Start Now
+            Go Live
           </Button>
         </HStack>
       </Box>
