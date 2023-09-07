@@ -11,6 +11,7 @@ import {
   ModalFooter,
   ModalHeader,
   ModalOverlay,
+  Spacer,
   Switch,
   Text,
   useDisclosure,
@@ -68,7 +69,7 @@ const SessionControls = ({
   return (
     <>
       <HStack
-        alignItems={"flex-start"}
+        alignItems={"center"}
         justifyContent={"flex-start"}
         flexWrap={"wrap"}
         gap={8}
@@ -113,6 +114,7 @@ const SessionControls = ({
             onChange={(e) => updateSessionData({ qnaStatus: e.target.checked })}
           />
         </HStack>
+        <Spacer />
         <Button colorScheme="red" size={"lg"} onClick={onToggle}>
           End Session
         </Button>

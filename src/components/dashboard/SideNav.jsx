@@ -57,7 +57,7 @@ const SideNav = () => {
     {
       id: "donate",
       icon: <BsHeartFill />,
-      link: "/dashboard?active_side_item=donate",
+      link: "/dashboard/donate?active_side_item=donate",
     },
     {
       id: "interact",
