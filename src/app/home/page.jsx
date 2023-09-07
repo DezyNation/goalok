@@ -82,7 +82,7 @@ export default function HomePage() {
                     colorScheme="yellow"
                     mt={8}
                   >
-                    Login
+                    Login Now
                   </Button>
                 </Link>
               </HStack>
