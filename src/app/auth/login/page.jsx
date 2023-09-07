@@ -41,6 +41,7 @@ const Login = () => {
   const Toast = useToast({ position: "top-right" });
   const searchParams = useSearchParams();
   const emailVerified = searchParams.get("email_verified");
+  const userIntent = searchParams.get("intent");
   const { token } = useAuth();
   const { isExpired } = useJwt(token);
   const { login, register } = useAuth();
@@ -55,14 +56,16 @@ const Login = () => {
     if (token && !isExpired) {
       Router.push("/dashboard", undefined, { shallow: true });
     }
-    console.log(!isExpired)
   }, [token]);
 
   useEffect(() => {
     if (emailVerified == "true") {
       onToggle();
     }
-  }, [emailVerified]);
+    if(intent == 'register'){
+      setIntent('register')
+    }
+  }, [emailVerified, intent]);
 
   const Formik = useFormik({
     initialValues: {
