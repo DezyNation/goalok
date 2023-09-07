@@ -36,6 +36,8 @@ const CreateSession = () => {
   const [admins, setAdmins] = useState([]);
   const [preachers, setPreachers] = useState([]);
 
+  const [startTime, setStartTime] = useState("")
+
   useEffect(() => {
     if (user?.role == "Admin") {
       Formik.setFieldValue("coHost", user?.id);
@@ -63,6 +65,11 @@ const CreateSession = () => {
       intent: "create",
     },
     onSubmit: (values) => {
+      if(!values.preacher){
+        Toast({
+          description: "Can't create session without a preacher"
+        })
+      }
       setIsLoading(true);
       BackendAxios.post(`/api/sessions/create`, values)
         .then((res) => {
@@ -70,11 +77,11 @@ const CreateSession = () => {
           Toast({
             description: `Session ${values.intent}d successfully!`,
           });
-          if (values.intent == "create") {
-            window.location.assign(
-              `/dashboard/sessions/join/${Formik.values.slug}`
-            );
-          }
+          // if (values.intent == "create") {
+          //   window.location.assign(
+          //     `/dashboard/sessions/join/${Formik.values.slug}`
+          //   );
+          // }
         })
         .catch((err) => {
           setIsLoading(false);
@@ -111,6 +118,12 @@ const CreateSession = () => {
       });
   };
 
+  useEffect(()=>{
+    if(startTime){
+      Formik.setFieldValue("startAt", new Date(startTime).toISOString())
+    }
+  },[startTime])
+
   const fetchPreachers = () => {
     BackendAxios.get(`/api/iskconinc/preacher`)
       .then((res) => {
@@ -145,14 +158,13 @@ const CreateSession = () => {
           </FormControl>
           {Formik.values.title ? (
             <Box py={2}>
-              <Text fontSize={"xs"}>Your session link will be</Text>
+              <Text fontSize={"xs"} mb={4}>Click to copy your session link</Text>
               <Button
                 size={"xs"}
                 onClick={onCopy}
                 colorScheme={hasCopied ? "whatsapp" : "gray"}
               >
-                {process.env.NEXT_PUBLIC_FRONTEND_URL}/dashboard/sessions/join/
-                {Formik.values.slug}
+                Copy Meeting Link
               </Button>
               {hasCopied ? (
                 <Text
@@ -297,7 +309,7 @@ const CreateSession = () => {
                 fontSize={["12", "sm"]}
                 name="startAt"
                 type="datetime-local"
-                onChange={Formik.handleChange}
+                onChange={e => setStartTime(e.target.value)}
               />
             </FormControl>
             <FormControl flex={[1, 2]}>
