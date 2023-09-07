@@ -62,7 +62,7 @@ const Login = () => {
     if (emailVerified == "true") {
       onToggle();
     }
-    if(intent == 'register'){
+    if(userIntent == 'register'){
       setIntent('register')
     }
   }, [emailVerified, intent]);
