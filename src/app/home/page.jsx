@@ -75,7 +75,7 @@ export default function HomePage() {
                     Register Now
                   </Button>
                 </Link>
-                <Link href={'/auth/login'}>
+                <Link href={'/auth/login?intent=login'}>
                   <Button
                     className="messiri"
                     rounded={"full"}

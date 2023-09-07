@@ -47,6 +47,7 @@ const Login = () => {
   const { login, register } = useAuth();
 
   const [intent, setIntent] = useState("login");
+  const [loginIntent, setLoginIntent] = useState(true);
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const { isOpen, onToggle, onClose } = useDisclosure();
@@ -62,8 +63,11 @@ const Login = () => {
     if (emailVerified == "true") {
       onToggle();
     }
-    if(userIntent == 'register'){
-      setIntent('register')
+    if (userIntent == "register" && loginIntent == false) {
+      setIntent("register");
+    }
+    if (userIntent == "login" && loginIntent) {
+      setIntent("login");
     }
   }, [emailVerified, intent]);
 
@@ -182,7 +186,7 @@ const Login = () => {
             </VStack>
           </Box>
         </Show>
-        {intent == "login" ? (
+        {intent == "login" && loginIntent ? (
           <VStack
             flex={1}
             h={["auto", "full"]}
@@ -282,7 +286,10 @@ const Login = () => {
 
             <Box
               pt={8}
-              onClick={() => setIntent("register")}
+              onClick={() => {
+                setIntent("register");
+                setLoginIntent(false);
+              }}
               cursor={"pointer"}
             >
               <Text
@@ -384,7 +391,14 @@ const Login = () => {
 
             <Box w={["xs", "sm"]} padding={".5px"} bg={"teal.100"}></Box>
 
-            <Box pt={8} onClick={() => setIntent("login")} cursor={"pointer"}>
+            <Box
+              pt={8}
+              onClick={() => {
+                setIntent("login");
+                setLoginIntent(true)
+              }}
+              cursor={"pointer"}
+            >
               <Text
                 color={"teal.500"}
                 fontSize={"12"}
