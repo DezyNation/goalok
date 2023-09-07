@@ -218,7 +218,7 @@ const Login = () => {
                     variant={"flushed"}
                     name={"password"}
                     onChange={Formik.handleChange}
-                    value={Formik.values.identifier}
+                    value={Formik.values.password}
                     type={passwordVisible ? "text" : "password"}
                   />
                   <InputRightElement

@@ -21,7 +21,7 @@ import { useRouter } from "next/navigation";
 import useApiHandler from "@/utils/hooks/useApiHandler";
 import BackendAxios from "@/utils/axios";
 import BlankSpacer from "@/components/global/BlankSpacer";
-import NoSessionsCard from "@/components/dashboard/session/NoSessionsCard";
+import NoSessionsCard from "@/components/session/NoSessionsCard";
 
 const page = () => {
   const Router = useRouter();

@@ -1,18 +1,15 @@
 "use client";
+import React, { useEffect, useState } from "react";
 import SessionCard from "@/components/session/SessionCard";
 import {
   Box,
   Button,
-  Checkbox,
-  CheckboxGroup,
   FormControl,
   HStack,
   Input,
   Stack,
   Text,
-  VStack,
 } from "@chakra-ui/react";
-import React from "react";
 import {
   BsChevronDoubleLeft,
   BsChevronDoubleRight,
@@ -21,234 +18,232 @@ import {
   BsSearch,
 } from "react-icons/bs";
 import { useRouter } from "next/navigation";
+import useApiHandler from "@/utils/hooks/useApiHandler";
+import { DefaultAxios } from "@/utils/axios";
+import BlankSpacer from "@/components/global/BlankSpacer";
+import NoSessionsCard from "@/components/session/NoSessionsCard";
 
 const page = () => {
   const Router = useRouter();
+  const { handleError } = useApiHandler();
+
+  const [ongoingSessions, setOngoingSessions] = useState([]);
+  const [upcomingSessions, setUpcomingSessions] = useState([]);
+
+  useEffect(() => {
+    fetchOngoingSessions();
+    fetchUpcomingSessions();
+  }, []);
+
+  function fetchOngoingSessions() {
+    DefaultAxios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sessions/ongoing-sessions`
+    )
+      .then((res) => {
+        setOngoingSessions(res.data);
+      })
+      .catch((err) => {
+        handleError(err, "Err while fetching ongoing sessions");
+      });
+  }
+
+  function fetchUpcomingSessions() {
+    DefaultAxios.get(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/sessions/upcoming-sessions`
+    )
+      .then((res) => {
+        setUpcomingSessions(res.data);
+      })
+      .catch((err) => {
+        handleError(err, "Err while fetching ongoing sessions");
+      });
+  }
 
   return (
     <>
-      <Stack
-        p={[4, 8, 16]}
-        w={"full"}
-        minH={"50vh"}
-        direction={["row"]}
-        alignItems={"center"}
-        bgImage={"/sessionsbg.avif"}
-      >
-        <Box>
-          <Text
-            fontSize={["2xl", "4xl", "6xl"]}
-            className="messiri"
-            lineHeight={["2rem", "4rem"]}
-          >
-            Browse Sessions
-          </Text>
-          <Text>
-            Ask Queries &nbsp; | &nbsp; Get Guidance &nbsp; | &nbsp; Uplift
-            Spiritually
-          </Text>
-        </Box>
-      </Stack>
-      <Stack
-        direction={["column", "row"]}
+      <Box
+        flex={4}
+        p={8}
+        gap={12}
+        display={"flex"}
+        flexDir={"column"}
         alignItems={"flex-start"}
-        justifyContent={"space-between"}
-        gap={8}
+        justifyContent={"flex-start"}
+        h={"92vh"}
+        overflow={"scroll"}
+        className="hide-scrollbar"
       >
-        {/* Session filters */}
-        <Box flex={1} position={"relative"}>
-          <Box
-            position={"sticky"}
-            top={0}
-            p={8}
-            boxShadow={"lg"}
-            roundedRight={16}
-          >
-            <Text className="messiri" fontWeight={"semibold"}>
-              Filters
-            </Text>
-            <br />
-            <Text pb={2}>Session Language</Text>
-            <hr />
-            <Box py={4}>
-              <CheckboxGroup>
-                <VStack
-                  w={"full"}
-                  alignItems={"flex-start"}
-                  justifyContent={"flex-start"}
-                  gap={4}
-                >
-                  <Checkbox colorScheme="twitter">English</Checkbox>
-                  <Checkbox colorScheme="twitter">Hindi</Checkbox>
-                </VStack>
-              </CheckboxGroup>
-            </Box>
-            <br />
-            <Text pb={2}>Status</Text>
-            <hr />
-            <Box py={4}>
-              <CheckboxGroup>
-                <VStack
-                  w={"full"}
-                  alignItems={"flex-start"}
-                  justifyContent={"flex-start"}
-                  gap={4}
-                >
-                  <Checkbox colorScheme="twitter">Streamed</Checkbox>
-                  <Checkbox colorScheme="twitter">Upcoming</Checkbox>
-                  <Checkbox colorScheme="twitter">Live</Checkbox>
-                </VStack>
-              </CheckboxGroup>
-            </Box>
-            <br />
-            <Text pb={2}>Category</Text>
-            <hr />
-            <Box py={4}>
-              <CheckboxGroup>
-                <VStack
-                  w={"full"}
-                  alignItems={"flex-start"}
-                  justifyContent={"flex-start"}
-                  gap={4}
-                >
-                  <Checkbox colorScheme="twitter">Srimad Bhagvad Gita</Checkbox>
-                  <Checkbox colorScheme="twitter">Srimad Bhagvatam</Checkbox>
-                  <Checkbox colorScheme="twitter">Vedic Cosmology</Checkbox>
-                </VStack>
-              </CheckboxGroup>
-            </Box>
-          </Box>
-        </Box>
-        {/* Session filters end */}
-
-        <Box
-          flex={4}
-          p={8}
-          gap={12}
-          display={"flex"}
-          flexDir={"column"}
-          alignItems={"flex-start"}
-          justifyContent={"flex-start"}
-        >
-          <HStack w={"full"} alignItems={"center"} justifyContent={"flex-end"}>
-            <FormControl w={["full", "md"]}>
-              <HStack>
-                <Input
-                  py={2}
-                  px={4}
-                  border={"1px"}
-                  flex={4}
-                  borderColor={"blackAlpha.200"}
-                  rounded={"full"}
-                  placeholder="Type to search sessions..."
-                />
-                <Button
-                  leftIcon={<BsSearch size={12} />}
-                  color="#FFF"
-                  flex={1}
-                  rounded={"full"}
-                  fontSize={"sm"}
-                  colorScheme="facebook"
-                  bgColor={"#333"}
-                >
-                  Search
-                </Button>
-              </HStack>
-            </FormControl>
-          </HStack>
-          <Stack
-            direction={["column", "row"]}
-            alignItems={"flex-start"}
-            justifyContent={"flex-start"}
-            gap={8}
-            h={"full"}
-          >
-            <SessionCard onClick={()=>Router.push("/dashboard/sessions/join/bhagvad-gita-session")} />
-            <SessionCard onClick={()=>Router.push("/dashboard/sessions/join/bhagvad-gita-session")} />
-            <SessionCard onClick={()=>Router.push("/dashboard/sessions/join/bhagvad-gita-session")} />
-          </Stack>
-          <HStack
-            mt={16}
-            w={"full"}
-            justifyContent={"flex-end"}
-            alignItems={"center"}
-          >
-            <HStack w={["full", "sm"]}>
-              <Button
-                size={"sm"}
-                p={4}
+        <HStack w={"full"} alignItems={"center"} justifyContent={"flex-end"}>
+          <FormControl w={["full", "md"]}>
+            <HStack>
+              <Input
+                py={2}
+                px={4}
+                border={"1px"}
+                flex={4}
+                bgColor={"#FFF"}
+                borderColor={"blackAlpha.200"}
                 rounded={"full"}
-                boxShadow={"md"}
-                bg={"#FFF"}
-                _hover={{ bgColor: "#333", color: "#FFF" }}
-              >
-                <BsChevronDoubleLeft />
-              </Button>
+                placeholder="Type to search sessions..."
+              />
               <Button
-                size={"sm"}
-                p={4}
+                leftIcon={<BsSearch size={12} />}
+                color="#FFF"
+                flex={1}
                 rounded={"full"}
-                boxShadow={"md"}
-                bg={"#FFF"}
-                _hover={{ bgColor: "#333", color: "#FFF" }}
+                fontSize={"sm"}
+                colorScheme="facebook"
+                bgColor={"#333"}
               >
-                <BsChevronLeft />
-              </Button>
-              <Button
-                size={"sm"}
-                p={4}
-                rounded={"full"}
-                boxShadow={"md"}
-                bg={"#333"}
-                color={"#FFF"}
-                _hover={{ bgColor: "#333", color: "#FFF" }}
-              >
-                1
-              </Button>
-              <Button
-                size={"sm"}
-                p={4}
-                rounded={"full"}
-                boxShadow={"md"}
-                bg={"#FFF"}
-                _hover={{ bgColor: "#333", color: "#FFF" }}
-              >
-                2
-              </Button>
-              <Button
-                size={"sm"}
-                p={4}
-                rounded={"full"}
-                boxShadow={"md"}
-                bg={"#FFF"}
-                _hover={{ bgColor: "#333", color: "#FFF" }}
-              >
-                3
-              </Button>
-              <Button
-                size={"sm"}
-                p={4}
-                rounded={"full"}
-                boxShadow={"md"}
-                bg={"#FFF"}
-                _hover={{ bgColor: "#333", color: "#FFF" }}
-              >
-                <BsChevronDoubleRight />
-              </Button>
-              <Button
-                size={"sm"}
-                p={4}
-                rounded={"full"}
-                boxShadow={"md"}
-                bg={"#FFF"}
-                _hover={{ bgColor: "#333", color: "#FFF" }}
-              >
-                <BsChevronRight />
+                Search
               </Button>
             </HStack>
+          </FormControl>
+        </HStack>
+
+        <Text fontSize={"lg"} fontWeight={"semibold"}>
+          Ongoing Sessions
+        </Text>
+        <Stack
+          direction={["column", "row"]}
+          alignItems={"flex-start"}
+          justifyContent={"flex-start"}
+          flexWrap={"wrap"}
+          gap={8}
+          h={"full"}
+        >
+          {!ongoingSessions?.length ? <NoSessionsCard /> : null}
+          {ongoingSessions?.map((session, key) => (
+            <SessionCard
+              key={key}
+              onClick={() =>
+                Router.push(`/dashboard/sessions/join/${session.slug}`)
+              }
+              title={session?.title}
+              description={session?.description}
+              status={
+                session?.startAt
+                  ? new Date(session?.startAt).toLocaleDateString()
+                  : "UPCOMING"
+              }
+              language={session?.language}
+              preacher={session?.preacher?.name || session?.preacher?.username}
+            />
+          ))}
+        </Stack>
+        <BlankSpacer />
+        <Text fontSize={"lg"} fontWeight={"semibold"}>
+          Upcoming Sessions
+        </Text>
+        <Stack
+          direction={["column", "row"]}
+          alignItems={"flex-start"}
+          justifyContent={"flex-start"}
+          flexWrap={"wrap"}
+          gap={8}
+          h={"full"}
+        >
+          {!upcomingSessions?.length ? <NoSessionsCard /> : null}
+          {upcomingSessions?.map((session, key) => (
+            <SessionCard
+              key={key}
+              onClick={() =>
+                Router.push(`/dashboard/sessions/join/${session.slug}`)
+              }
+              title={session?.title}
+              description={session?.description}
+              status={
+                session?.startAt
+                  ? new Date(session?.startAt).toLocaleDateString()
+                  : "UPCOMING"
+              }
+              language={session?.language}
+              preacher={session?.preacher?.name || session?.preacher?.username}
+            />
+          ))}
+        </Stack>
+
+        <HStack
+          mt={16}
+          w={"full"}
+          justifyContent={"flex-end"}
+          alignItems={"center"}
+        >
+          <HStack w={["full", "sm"]}>
+            <Button
+              size={"sm"}
+              p={4}
+              rounded={"full"}
+              boxShadow={"md"}
+              bg={"#FFF"}
+              _hover={{ bgColor: "#333", color: "#FFF" }}
+            >
+              <BsChevronDoubleLeft />
+            </Button>
+            <Button
+              size={"sm"}
+              p={4}
+              rounded={"full"}
+              boxShadow={"md"}
+              bg={"#FFF"}
+              _hover={{ bgColor: "#333", color: "#FFF" }}
+            >
+              <BsChevronLeft />
+            </Button>
+            <Button
+              size={"sm"}
+              p={4}
+              rounded={"full"}
+              boxShadow={"md"}
+              bg={"#333"}
+              color={"#FFF"}
+              _hover={{ bgColor: "#333", color: "#FFF" }}
+            >
+              1
+            </Button>
+            <Button
+              size={"sm"}
+              p={4}
+              rounded={"full"}
+              boxShadow={"md"}
+              bg={"#FFF"}
+              _hover={{ bgColor: "#333", color: "#FFF" }}
+            >
+              2
+            </Button>
+            <Button
+              size={"sm"}
+              p={4}
+              rounded={"full"}
+              boxShadow={"md"}
+              bg={"#FFF"}
+              _hover={{ bgColor: "#333", color: "#FFF" }}
+            >
+              3
+            </Button>
+            <Button
+              size={"sm"}
+              p={4}
+              rounded={"full"}
+              boxShadow={"md"}
+              bg={"#FFF"}
+              _hover={{ bgColor: "#333", color: "#FFF" }}
+            >
+              <BsChevronDoubleRight />
+            </Button>
+            <Button
+              size={"sm"}
+              p={4}
+              rounded={"full"}
+              boxShadow={"md"}
+              bg={"#FFF"}
+              _hover={{ bgColor: "#333", color: "#FFF" }}
+            >
+              <BsChevronRight />
+            </Button>
           </HStack>
-        </Box>
-      </Stack>
+        </HStack>
+      </Box>
     </>
   );
 };
