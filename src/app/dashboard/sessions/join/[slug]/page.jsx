@@ -3,13 +3,8 @@ import React, { useContext, useEffect, useState } from "react";
 import {
   Box,
   HStack,
-  IconButton,
-  Input,
-  InputGroup,
-  InputRightElement,
   Stack,
   Text,
-  VStack,
   useToast,
 } from "@chakra-ui/react";
 import Link from "next/link";
@@ -18,13 +13,20 @@ import BackendAxios, { DefaultAxios } from "@/utils/axios";
 import { UserContext } from "@/utils/hooks/useAuth";
 import useApiHandler from "@/utils/hooks/useApiHandler";
 import parse from "html-react-parser";
+import SessionControls from "@/components/dashboard/session/SessionControls";
+import Pusher from "pusher-js";
+
+const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
+  cluster: 'ap2',
+});
 
 const page = ({ params }) => {
   const { slug } = params;
-
+  const Toast = useToast({
+    position: "top-right",
+  });
   const [sessionInfo, setSessionInfo] = useState(null);
   const [hostedUrl, setHostedUrl] = useState("");
-  const [myName, setMyName] = useState("");
 
   const { handleError } = useApiHandler();
   const { user } = useContext(UserContext);
@@ -34,6 +36,33 @@ const page = ({ params }) => {
       fetchSessionInfo();
     }
   }, [user, slug]);
+
+  useEffect(() => {
+    if (!sessionInfo?.id) return;
+    const channel = pusher.subscribe(`session-${sessionInfo?.id}`);
+    channel.bind("sessionUpdate", ({data, status}) => {
+      if (status == "ended") {
+        Toast({
+          title: "The session has ended.",
+          description: "Let's meet again soon!",
+        });
+        window.location?.replace(`/dashboard?active_side_item=dashboard`);
+      } else {
+        sessionInfo({
+          ...sessionInfo,
+          ...(data?.qnaStatus && { qnaStatus: data?.qnaStatus }),
+          ...(data?.audioStatus && { audioStatus: data?.audioStatus }),
+          ...(data?.videoStatus && { videoStatus: data?.videoStatus }),
+          ...(data?.donationStatus && { donationStatus: data?.donationStatus }),
+        });
+      }
+    });
+
+    return () => {
+      channel.unbind("sessionUpdate");
+      pusher.unsubscribe(`session-${sessionInfo?.id}`);
+    };
+  }, [sessionInfo]);
 
   async function getHostedLink() {
     await DefaultAxios.post(
@@ -57,7 +86,19 @@ const page = ({ params }) => {
         setHostedUrl(res.data?.join);
       })
       .catch((err) => {
-        handleError(err);
+        handleError(err, "Error while generating hosted URL");
+      });
+  }
+
+  async function startSession({ id }) {
+    BackendAxios.post(`/api/sessions/start-session`, {
+      sessionId: id || sessionInfo?.id,
+    })
+      .then((res) => {
+        console.log("Session started");
+      })
+      .catch((err) => {
+        handleError(err, "Error while updating session status");
       });
   }
 
@@ -71,6 +112,7 @@ const page = ({ params }) => {
         setSessionInfo(() => res.data);
         if (res.data?.preacher?.id == user?.id) {
           await getHostedLink();
+          await startSession({ id: res.data?.id });
         }
       })
       .catch((err) => {
@@ -78,7 +120,7 @@ const page = ({ params }) => {
           window.location.replace(`/dashboard?active_side_item=dashboard`);
           return;
         }
-        handleError(err);
+        handleError(err, "Error while fetching session info");
       });
   }
 
@@ -164,6 +206,18 @@ const page = ({ params }) => {
             />
           )}
         </Stack>
+        {sessionInfo?.coHost?.id == user?.id ||
+        sessionInfo?.preacher?.id == user?.id ? (
+          <Box py={16}>
+            <SessionControls
+              sessionId={sessionInfo?.id}
+              microphoneStatus={sessionInfo?.audioStatus}
+              cameraStatus={sessionInfo?.videoStatus}
+              qnaStatus={sessionInfo?.qnaStatus}
+              donationStatus={sessionInfo?.donationStatus}
+            />
+          </Box>
+        ) : null}
         <HStack w={"full"} py={8}>
           <Box fontSize={"sm"}>
             {parse(
