@@ -41,7 +41,7 @@ const useAuth = () => {
           totalDonations: res?.data?.totalDonations,
           active: true,
         });
-        await rcToken()
+        await rcToken();
       })
       .catch((err) => {
         if (err?.response?.status > 400) {
@@ -74,7 +74,7 @@ const useAuth = () => {
       FormAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
 
       await rcLogin({
-        password: password
+        password: password,
       });
       return {
         status: res.status,
@@ -126,11 +126,14 @@ const useAuth = () => {
   };
 
   const rcRegister = async ({ email, password, username }) => {
-    await BackendAxios.post(`/api/rc/register`, {
-      email: email,
-      username: username,
-      password: password,
-    })
+    await DefaultAxios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rc/register`,
+      {
+        email: email,
+        username: username,
+        password: password,
+      }
+    )
       .then((res) => {
         console.log(res);
       })
@@ -140,9 +143,12 @@ const useAuth = () => {
   };
 
   const rcLogin = async ({ password, username }) => {
-    await BackendAxios.post(`/api/rc/login`, {
-      password: password,
-    })
+    await DefaultAxios.post(
+      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rc/login`,
+      {
+        password: password,
+      }
+    )
       .then((res) => {
         console.log(res);
       })
@@ -152,12 +158,14 @@ const useAuth = () => {
   };
 
   const rcToken = async () => {
-    BackendAxios.get(`/api/rc/token`).then(res=>{
-      Cookies.set("rcToken", res.data?.token)
-    }).catch(err => {
-      console.log("err getting token rc", err);
-    })
-  }
+    BackendAxios.get(`/api/rc/token`)
+      .then((res) => {
+        Cookies.set("rcToken", res.data?.token);
+      })
+      .catch((err) => {
+        console.log("err getting token rc", err);
+      });
+  };
 
   return {
     user,
