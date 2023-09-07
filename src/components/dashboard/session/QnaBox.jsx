@@ -28,6 +28,11 @@ import {
 } from "react-icons/bs";
 import { FaQuestion } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
+import Pusher from "pusher-js";
+
+const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
+  cluster: "ap2",
+});
 
 const UpdateButtons = ({
   messageId,
@@ -39,7 +44,7 @@ const UpdateButtons = ({
   const { handleError } = useApiHandler();
   function update({ data }) {
     if (!messageId) return;
-    BackendAxios.put(`/api/questions/${messageId}`, { data: data })
+    BackendAxios.put(`/api/sessions/questions/update/${messageId}`, { data: data })
       .then((res) => {
         onAction(()=>true);
       })
@@ -109,12 +114,13 @@ const QnaBox = ({ onClose, sessionId, userId, canUpdate }) => {
   const [messages, setMessages] = useState([]);
 
   useEffect(() => {
-    const fetchMessageInterval = setInterval(async () => {
-      await fetchMessages();
-    }, 3000);
-
+    const channel = pusher.subscribe(`session-${sessionId}`);
+    channel.bind("messageUpdate", (data) => {
+      fetchMessages()
+    })
     return () => {
-      clearInterval(fetchMessageInterval, fetchMessages);
+      channel.unbind("messageUpdate");
+      pusher.unsubscribe(`session-${sessionId}`);
     };
   }, []);
 

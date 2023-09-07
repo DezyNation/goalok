@@ -1,12 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import {
-  Box,
-  HStack,
-  Stack,
-  Text,
-  useToast,
-} from "@chakra-ui/react";
+import { Box, HStack, Stack, Text, useToast } from "@chakra-ui/react";
 import Link from "next/link";
 import QnaButton from "@/components/dashboard/session/QnaBox";
 import BackendAxios, { DefaultAxios } from "@/utils/axios";
@@ -17,7 +11,7 @@ import SessionControls from "@/components/dashboard/session/SessionControls";
 import Pusher from "pusher-js";
 
 const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
-  cluster: 'ap2',
+  cluster: "ap2",
 });
 
 const page = ({ params }) => {
@@ -40,7 +34,7 @@ const page = ({ params }) => {
   useEffect(() => {
     if (!sessionInfo?.id) return;
     const channel = pusher.subscribe(`session-${sessionInfo?.id}`);
-    channel.bind("sessionUpdate", ({data, status}) => {
+    channel.bind("sessionUpdate", ({ data, status }) => {
       if (status == "ended") {
         Toast({
           title: "The session has ended.",
@@ -48,13 +42,22 @@ const page = ({ params }) => {
         });
         window.location?.replace(`/dashboard?active_side_item=dashboard`);
       } else {
-        sessionInfo({
-          ...sessionInfo,
-          ...(data?.qnaStatus && { qnaStatus: data?.qnaStatus }),
-          ...(data?.audioStatus && { audioStatus: data?.audioStatus }),
-          ...(data?.videoStatus && { videoStatus: data?.videoStatus }),
-          ...(data?.donationStatus && { donationStatus: data?.donationStatus }),
-        });
+        console.log(data);
+        setSessionInfo((prev) => ({
+          ...prev,
+          ...(typeof data?.qnaStatus == "boolean" && {
+            qnaStatus: data?.qnaStatus,
+          }),
+          ...(typeof data?.audioStatus == "boolean" && {
+            audioStatus: data?.audioStatus,
+          }),
+          ...(typeof data?.videoStatus == "boolean" && {
+            videoStatus: data?.videoStatus,
+          }),
+          ...(typeof data?.donationStatus == "boolean" && {
+            donationStatus: data?.donationStatus,
+          }),
+        }));
       }
     });
 
@@ -161,7 +164,7 @@ const page = ({ params }) => {
             <br />
             <Box
               rounded={16}
-              w={"full"}
+              w={["95vw", "full"]}
               height={"95vh"}
               overflow={"hidden"}
               border={"1px"}
@@ -195,16 +198,6 @@ const page = ({ params }) => {
               ></iframe>
             </Box>
           </Box>
-          {sessionInfo?.qnaStatus && (
-            <QnaButton
-              sessionId={sessionInfo?.id}
-              userId={user?.id}
-              canUpdate={
-                sessionInfo?.coHost?.id == user?.id ||
-                sessionInfo?.preacher?.id == user?.id
-              }
-            />
-          )}
         </Stack>
         {sessionInfo?.coHost?.id == user?.id ||
         sessionInfo?.preacher?.id == user?.id ? (
@@ -227,6 +220,17 @@ const page = ({ params }) => {
           </Box>
         </HStack>
       </Box>
+
+      {sessionInfo?.qnaStatus && (
+        <QnaButton
+          sessionId={sessionInfo?.id}
+          userId={user?.id}
+          canUpdate={
+            sessionInfo?.coHost?.id == user?.id ||
+            sessionInfo?.preacher?.id == user?.id
+          }
+        />
+      )}
     </>
   );
 };
