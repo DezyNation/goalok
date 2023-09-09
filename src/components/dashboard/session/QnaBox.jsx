@@ -376,6 +376,7 @@ const QnaButton = ({ sessionId, userId, canUpdate }) => {
         alignItems={"center"}
         justifyContent={["center", "flex-end"]}
         bgColor={"blackAlpha.700"}
+        zIndex={99}
       >
         <ScaleFade initialScale={0.9} in={isOpen}>
           <Box w={["100vw", "sm"]} h={["100vh", "auto"]}>

@@ -210,6 +210,7 @@ const page = ({ params }) => {
                       ? "display-capture;"
                       : ""
                   } fullscreen; clipboard-read; clipboard-write; autoplay`}
+                  allowFullScreen
                   src={
                     sessionInfo?.preacher?.id == user?.id
                       ? hostedUrl
@@ -264,7 +265,7 @@ const page = ({ params }) => {
         width={"full"}
         alignItems={"center"}
         justifyContent={["center", "flex-start"]}
-        zIndex={9}
+        zIndex={1}
       >
         <Button
           onClick={handleFullScreen.enter}
