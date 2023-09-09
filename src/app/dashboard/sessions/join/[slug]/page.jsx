@@ -40,7 +40,9 @@ const page = ({ params }) => {
           title: "The session has ended.",
           description: "Let's meet again soon!",
         });
-        window.location?.replace(`/dashboard?active_side_item=dashboard`);
+        setTimeout(() => {
+          window.location?.replace(`/dashboard?active_side_item=dashboard`);
+        }, 1000);
       } else {
         console.log(data);
         setSessionInfo((prev) => ({
@@ -113,6 +115,20 @@ const page = ({ params }) => {
           return;
         }
         setSessionInfo(() => res.data);
+        if (res?.data?.status != "ongoing") {
+          if (
+            res.data?.preacher?.id != user?.id &&
+            res.data?.coHost?.id != user?.id
+          ) {
+            Toast({
+              title: "This session has not started yet.",
+              description: "Please contact the host or preacher.",
+            });
+            setTimeout(() => {
+              window.location.replace("/dashboard?active_side_item=dashboard")
+            }, 1000);
+          }
+        }
         if (res.data?.preacher?.id == user?.id) {
           await getHostedLink();
           await startSession({ id: res.data?.id });
@@ -164,8 +180,8 @@ const page = ({ params }) => {
             <br />
             <Box
               rounded={16}
-              w={["95vw", "full"]}
-              height={"95vh"}
+              w={["100vw", "full"]}
+              height={"100vh"}
               overflow={"hidden"}
               border={"1px"}
             >

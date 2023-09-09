@@ -14,7 +14,7 @@ const layout = ({ children }) => {
   const [showConfirmationBanner, setShowConfirmationBanner] = useState(false);
   const pathName = usePathname();
 
-  const [onChatPage, setOnChatPage] = useState(false);
+  const [allowFullScreen, setAllowFullScreen] = useState(false);
 
   useEffect(() => {
     if (user?.apiStatus > 400) {
@@ -27,8 +27,8 @@ const layout = ({ children }) => {
   }, []);
 
   useEffect(() => {
-    if (pathName?.includes("chat")) {
-      setOnChatPage(true);
+    if (pathName?.includes("chat") || pathName?.includes("sessions/join")) {
+      setAllowFullScreen(true);
     }
   }, [pathName]);
 
@@ -77,9 +77,9 @@ const layout = ({ children }) => {
           >
             <SideNav />
             <Box
-              p={onChatPage ? 0 : 4}
+              p={allowFullScreen ? 0 : 4}
               w={"full"}
-              h={onChatPage ? "100vh" : "92vh"}
+              h={allowFullScreen ? "100vh" : "92vh"}
               overflow={"hidden"}
             >
               {children}
