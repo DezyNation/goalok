@@ -72,7 +72,7 @@ const SideNav = () => {
     }
   }, [user]);
   useEffect(() => {
-    if (pathName?.includes("chat")) {
+    if (pathName?.includes("chat") || pathName?.includes("sessions/join")) {
       setStatus(false);
     }
   }, [pathName]);

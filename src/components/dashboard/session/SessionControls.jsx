@@ -59,7 +59,9 @@ const SessionControls = ({
           title: "Session Closed",
           description: "Let's meet again soon!",
         });
-        window.location.replace(`/dashboard?active_side_item=dashboard`);
+        setTimeout(() => {
+          window.location.replace(`/dashboard?active_side_item=dashboard`);
+        }, 1000);
       })
       .catch((err) => {
         handleError(err, "Err while closing session");
@@ -70,47 +72,51 @@ const SessionControls = ({
     <>
       <HStack
         alignItems={"center"}
-        justifyContent={"flex-start"}
+        justifyContent={["center", "flex-start"]}
         flexWrap={"wrap"}
         gap={8}
       >
-        <HStack p={4} rounded={12} bgColor={"yellow.50"}>
-          <Text fontSize={"lg"} fontWeight={"semibold"}>
+        <HStack p={4} rounded={12} bgColor={"#FFF"}>
+          <Text fontSize={["sm", "lg"]} fontWeight={"semibold"}>
             Camera Status
           </Text>
           <Switch
             defaultChecked={cameraStatus}
+            size={["sm", "md", "lg"]}
             onChange={(e) =>
               updateSessionData({ videoStatus: e.target.checked })
             }
           />
         </HStack>
-        <HStack p={4} rounded={12} bgColor={"yellow.50"}>
-          <Text fontSize={"lg"} fontWeight={"semibold"}>
+        <HStack p={4} rounded={12} bgColor={"#FFF"}>
+          <Text fontSize={["sm", "lg"]} fontWeight={"semibold"}>
             Mic Status
           </Text>
           <Switch
             defaultChecked={microphoneStatus}
+            size={["sm", "md", "lg"]}
             onChange={(e) =>
               updateSessionData({ audioStatus: e.target.checked })
             }
           />
         </HStack>
-        <HStack p={4} rounded={12} bgColor={"yellow.50"}>
-          <Text fontSize={"lg"} fontWeight={"semibold"}>
+        <HStack p={4} rounded={12} bgColor={"#FFF"}>
+          <Text fontSize={["sm", "lg"]} fontWeight={"semibold"}>
             QnA Status
           </Text>
           <Switch
             defaultChecked={qnaStatus}
+            size={["sm", "md", "lg"]}
             onChange={(e) => updateSessionData({ qnaStatus: e.target.checked })}
           />
         </HStack>
-        <HStack p={4} rounded={12} bgColor={"yellow.50"}>
-          <Text fontSize={"lg"} fontWeight={"semibold"}>
+        <HStack p={4} rounded={12} bgColor={"#FFF"}>
+          <Text fontSize={["sm", "lg"]} fontWeight={"semibold"}>
             Donation Status
           </Text>
           <Switch
             defaultChecked={donationStatus}
+            size={["sm", "md", "lg"]}
             onChange={(e) => updateSessionData({ qnaStatus: e.target.checked })}
           />
         </HStack>

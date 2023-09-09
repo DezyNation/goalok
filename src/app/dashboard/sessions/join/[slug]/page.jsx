@@ -125,7 +125,7 @@ const page = ({ params }) => {
               description: "Please contact the host or preacher.",
             });
             setTimeout(() => {
-              window.location.replace("/dashboard?active_side_item=dashboard")
+              window.location.replace("/dashboard?active_side_item=dashboard");
             }, 1000);
           }
         }
@@ -162,10 +162,11 @@ const page = ({ params }) => {
               textTransform={"capitalize"}
               className="messiri"
               fontSize={["3xl", "4xl"]}
+              p={[4, 0]}
             >
               {sessionInfo?.title}
             </Text>
-            <Text fontWeight={"semibold"}>
+            <Text fontWeight={"semibold"} p={[4, 0]}>
               By{" "}
               <Link
                 href={`/dashboard/profile?user_id=${sessionInfo?.preacher?.id}`}
@@ -179,10 +180,10 @@ const page = ({ params }) => {
             </Text>
             <br />
             <Box
-              rounded={16}
+              rounded={[0, 16]}
               w={["100vw", "full"]}
               height={"100vh"}
-              overflow={"hidden"}
+              overflow={"scroll"}
               border={"1px"}
             >
               <iframe
