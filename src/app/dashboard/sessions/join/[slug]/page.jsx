@@ -264,6 +264,7 @@ const page = ({ params }) => {
         width={"full"}
         alignItems={"center"}
         justifyContent={["center", "flex-start"]}
+        zIndex={9}
       >
         <Button
           onClick={handleFullScreen.enter}
