@@ -166,11 +166,11 @@ const page = ({ params }) => {
               textTransform={"capitalize"}
               className="messiri"
               fontSize={["3xl", "4xl"]}
-              p={[4, 0]}
+              p={4}
             >
               {sessionInfo?.title}
             </Text>
-            <Text fontWeight={"semibold"} p={[4, 0]}>
+            <Text fontWeight={"semibold"} p={4}>
               By{" "}
               <Link
                 href={`/dashboard/profile?user_id=${sessionInfo?.preacher?.id}`}
@@ -224,7 +224,7 @@ const page = ({ params }) => {
         </Stack>
         {sessionInfo?.coHost?.id == user?.id ||
         sessionInfo?.preacher?.id == user?.id ? (
-          <Box py={16}>
+          <Box p={4} py={16}>
             <SessionControls
               sessionId={sessionInfo?.id}
               microphoneStatus={sessionInfo?.audioStatus}
@@ -234,7 +234,7 @@ const page = ({ params }) => {
             />
           </Box>
         ) : null}
-        <HStack w={"full"} py={8}>
+        <HStack w={"full"} p={4} py={8}>
           <Box fontSize={"sm"}>
             {parse(
               sessionInfo?.description ||

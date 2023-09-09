@@ -74,7 +74,7 @@ const SessionControls = ({
         alignItems={"center"}
         justifyContent={["center", "flex-start"]}
         flexWrap={"wrap"}
-        gap={8} p={[4, 0]}
+        gap={8}
       >
         <HStack p={4} rounded={12} bgColor={"#FFF"}>
           <Text fontSize={["sm", "lg"]} fontWeight={"semibold"}>
