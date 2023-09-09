@@ -190,33 +190,35 @@ const page = ({ params }) => {
               overflow={"scroll"}
               border={"1px"}
             >
-              <iframe
-                allow={`${
-                  sessionInfo?.videoStatus ||
-                  sessionInfo?.coHost?.id == user?.id ||
-                  sessionInfo?.preacher?.id == user?.id
-                    ? "camera;"
-                    : ""
-                } ${
-                  sessionInfo?.audioStatus ||
-                  sessionInfo?.coHost?.id == user?.id ||
-                  sessionInfo?.preacher?.id == user?.id
-                    ? "microphone;"
-                    : ""
-                } ${
-                  sessionInfo?.coHost?.id == user?.id ||
-                  sessionInfo?.preacher?.id == user?.id
-                    ? "display-capture;"
-                    : ""
-                } fullscreen; clipboard-read; clipboard-write; autoplay`}
-                src={
-                  sessionInfo?.preacher?.id == user?.id
-                    ? hostedUrl
-                    : sessionInfo?.hostedLink +
-                      `?name=${user?.username}&audio=${sessionInfo?.audioStatus}&video=${sessionInfo?.videoStatus}&notify=true`
-                }
-                style={{ border: "0px", width: "100%", height: "100%" }}
-              ></iframe>
+              <FullScreen>
+                <iframe
+                  allow={`${
+                    sessionInfo?.videoStatus ||
+                    sessionInfo?.coHost?.id == user?.id ||
+                    sessionInfo?.preacher?.id == user?.id
+                      ? "camera;"
+                      : ""
+                  } ${
+                    sessionInfo?.audioStatus ||
+                    sessionInfo?.coHost?.id == user?.id ||
+                    sessionInfo?.preacher?.id == user?.id
+                      ? "microphone;"
+                      : ""
+                  } ${
+                    sessionInfo?.coHost?.id == user?.id ||
+                    sessionInfo?.preacher?.id == user?.id
+                      ? "display-capture;"
+                      : ""
+                  } fullscreen; clipboard-read; clipboard-write; autoplay`}
+                  src={
+                    sessionInfo?.preacher?.id == user?.id
+                      ? hostedUrl
+                      : sessionInfo?.hostedLink +
+                        `?name=${user?.username}&audio=${sessionInfo?.audioStatus}&video=${sessionInfo?.videoStatus}&notify=true`
+                  }
+                  style={{ border: "0px", width: "100%", height: "100%" }}
+                ></iframe>
+              </FullScreen>
             </Box>
           </Box>
         </Stack>

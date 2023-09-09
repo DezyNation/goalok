@@ -363,6 +363,7 @@ const QnaButton = ({ sessionId, userId, canUpdate }) => {
         bottom={4}
         right={4}
         onClick={onToggle}
+        zIndex={99}
       />
       <HStack
         pos={"fixed"}
