@@ -151,7 +151,7 @@ const QnaBox = ({ onClose, sessionId, userId, canUpdate }) => {
 
   return (
     <>
-      <Box flex={1} h={"full"} rounded={12} bg={"#FFF"} boxShadow={"lg"}>
+      <Box flex={1} h={"full"} rounded={[0, 12]} bg={"#FFF"} boxShadow={"lg"}>
         <HStack
           w={"full"}
           justifyContent={"space-between"}
@@ -377,7 +377,7 @@ const QnaButton = ({ sessionId, userId, canUpdate }) => {
         bgColor={"blackAlpha.700"}
       >
         <ScaleFade initialScale={0.9} in={isOpen}>
-          <Box w={["full", "sm"]} h={["100vh", "auto"]}>
+          <Box w={["100vw", "sm"]} h={["100vh", "auto"]}>
             <QnaBox
               sessionId={sessionId}
               userId={userId}

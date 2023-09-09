@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { Box, HStack, Stack, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, HStack, Stack, Text, useToast } from "@chakra-ui/react";
 import Link from "next/link";
 import QnaButton from "@/components/dashboard/session/QnaBox";
 import BackendAxios, { DefaultAxios } from "@/utils/axios";
@@ -8,6 +8,7 @@ import { UserContext } from "@/utils/hooks/useAuth";
 import useApiHandler from "@/utils/hooks/useApiHandler";
 import parse from "html-react-parser";
 import SessionControls from "@/components/dashboard/session/SessionControls";
+import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import Pusher from "pusher-js";
 
 const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
@@ -31,6 +32,7 @@ const page = ({ params }) => {
     }
   }, [user, slug]);
 
+  // Handling realtime events
   useEffect(() => {
     if (!sessionInfo?.id) return;
     const channel = pusher.subscribe(`session-${sessionInfo?.id}`);
@@ -68,6 +70,8 @@ const page = ({ params }) => {
       pusher.unsubscribe(`session-${sessionInfo?.id}`);
     };
   }, [sessionInfo]);
+
+  const handleFullScreen = useFullScreenHandle();
 
   async function getHostedLink() {
     await DefaultAxios.post(
@@ -182,7 +186,7 @@ const page = ({ params }) => {
             <Box
               rounded={[0, 16]}
               w={["100vw", "full"]}
-              height={"100vh"}
+              height={"95vh"}
               overflow={"scroll"}
               border={"1px"}
             >
@@ -248,6 +252,25 @@ const page = ({ params }) => {
           }
         />
       )}
+
+      <HStack
+        pos={"fixed"}
+        bottom={0}
+        left={0}
+        right={0}
+        p={4}
+        width={"full"}
+        alignItems={"center"}
+        justifyContent={["center", "flex-start"]}
+      >
+        <Button
+          onClick={handleFullScreen.enter}
+          colorScheme="yellow"
+          rounded={"full"}
+        >
+          Fullscreen
+        </Button>
+      </HStack>
     </>
   );
 };
