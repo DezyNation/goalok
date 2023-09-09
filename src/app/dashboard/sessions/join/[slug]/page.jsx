@@ -190,7 +190,7 @@ const page = ({ params }) => {
               overflow={"scroll"}
               border={"1px"}
             >
-              <FullScreen>
+              <FullScreen handle={handleFullScreen}>
                 <iframe
                   allow={`${
                     sessionInfo?.videoStatus ||
