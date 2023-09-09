@@ -183,14 +183,14 @@ const page = ({ params }) => {
               </Link>
             </Text>
             <br />
-            <Box
-              rounded={[0, 16]}
-              w={["100vw", "full"]}
-              height={"95vh"}
-              overflow={"scroll"}
-              border={"1px"}
-            >
-              <FullScreen handle={handleFullScreen}>
+            <FullScreen handle={handleFullScreen}>
+              <Box
+                rounded={[0, 16]}
+                w={["100vw", "full"]}
+                height={"95vh"}
+                overflow={"scroll"}
+                border={"1px"}
+              >
                 <iframe
                   allow={`${
                     sessionInfo?.videoStatus ||
@@ -218,8 +218,8 @@ const page = ({ params }) => {
                   }
                   style={{ border: "0px", width: "100%", height: "100%" }}
                 ></iframe>
-              </FullScreen>
-            </Box>
+              </Box>
+            </FullScreen>
           </Box>
         </Stack>
         {sessionInfo?.coHost?.id == user?.id ||
