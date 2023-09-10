@@ -121,7 +121,7 @@ const page = ({ params }) => {
         setSessionInfo(() => res.data);
         if (res?.data?.status != "ongoing") {
           if (
-            res.data?.preacher?.id != user?.id &&
+            res.data?.preacher?.id != user?.id ||
             res.data?.coHost?.id != user?.id
           ) {
             Toast({
