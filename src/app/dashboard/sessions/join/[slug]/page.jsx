@@ -215,7 +215,7 @@ const page = ({ params }) => {
                     sessionInfo?.preacher?.id == user?.id
                       ? hostedUrl
                       : sessionInfo?.hostedLink +
-                        `?name=${user?.username}&audio=${sessionInfo?.audioStatus}&video=${sessionInfo?.videoStatus}&notify=true`
+                        `?name=${user?.username}&audio=false&video=false&notify=false`
                   }
                   style={{ border: "0px", width: "100%", height: "100%" }}
                 ></iframe>
