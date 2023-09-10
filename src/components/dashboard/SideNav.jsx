@@ -87,6 +87,7 @@ const SideNav = () => {
         transition={"all 0.2s ease"}
         marginLeft={status ? "0" : "-16"}
         marginRight={status ? "0" : "0"}
+        zIndex={19}
       >
         {items.map((item, key) => (
           <Link style={{ width: "100%" }} href={item.link} key={key}>
