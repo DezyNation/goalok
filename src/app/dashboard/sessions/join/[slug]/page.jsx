@@ -215,7 +215,15 @@ const page = ({ params }) => {
                     sessionInfo?.preacher?.id == user?.id
                       ? hostedUrl
                       : sessionInfo?.hostedLink +
-                        `?name=${user?.username}&audio=${sessionInfo?.audioStatus}&video=${sessionInfo?.videoStatus}&notify=false`
+                        `?name=${user?.username}&audio=${
+                          sessionInfo?.audioStatus ||
+                          sessionInfo?.coHost?.id == user?.id ||
+                          sessionInfo?.preacher?.id == user?.id
+                        }&video=${
+                          sessionInfo?.audioStatus ||
+                          sessionInfo?.coHost?.id == user?.id ||
+                          sessionInfo?.preacher?.id == user?.id
+                        }&notify=false`
                   }
                   style={{ border: "0px", width: "100%", height: "100%" }}
                 ></iframe>
