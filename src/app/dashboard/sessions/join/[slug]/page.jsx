@@ -9,11 +9,7 @@ import useApiHandler from "@/utils/hooks/useApiHandler";
 import parse from "html-react-parser";
 import SessionControls from "@/components/dashboard/session/SessionControls";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
-import Pusher from "pusher-js";
-
-const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
-  cluster: "ap2",
-});
+import pusher from "@/utils/helpers/pusher";
 
 const page = ({ params }) => {
   const { slug } = params;

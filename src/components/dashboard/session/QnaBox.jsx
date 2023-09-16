@@ -2,6 +2,7 @@
 import ReceivedMessage from "@/components/interaction/ReceivedMessage";
 import SentMessage from "@/components/interaction/SentMessage";
 import BackendAxios from "@/utils/axios";
+import pusher from "@/utils/helpers/pusher";
 import useApiHandler from "@/utils/hooks/useApiHandler";
 import {
   Box,
@@ -28,11 +29,6 @@ import {
 } from "react-icons/bs";
 import { FaQuestion } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
-import Pusher from "pusher-js";
-
-const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
-  cluster: "ap2",
-});
 
 const UpdateButtons = ({
   messageId,
