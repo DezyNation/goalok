@@ -4,7 +4,7 @@ const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
     wsPort: 6001,
     wssPort: 6001,
     forceTLS: true,
-    enabledTransports: ['wss'],
+    enabledTransports: ['wss', 'ws'],
     
 });
 
