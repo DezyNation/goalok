@@ -5,6 +5,7 @@ const pusher = new Pusher(process.env.NEXT_PUBLIC_PUSHER_KEY, {
     wssPort: 443,
     forceTLS: true,
     enabledTransports: ['wss', 'ws'],
+    cluster: 'ap2'
     
 });
 
