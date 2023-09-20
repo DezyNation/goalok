@@ -31,7 +31,7 @@ const useAuth = () => {
           email: res?.data?.email,
           phone: res?.data?.phone,
           totalDonations: res?.data?.totalDonations,
-          avatar: res?.data?.avatar ? `${res?.data?.avatar?.url}` : null,
+          avatar: res?.data?.avatar?.url,
           about: res?.data?.about,
           role: res?.data?.role?.name,
           confirmed: res?.data?.confirmed,

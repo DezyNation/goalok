@@ -36,13 +36,13 @@ const page = () => {
   const [showCriticalElements, setShowCriticalElements] = useState(false);
 
   useEffect(() => {
+    if (!userId || userId == user?.id) {
+      setShowCriticalElements(true);
+    }
     if (!userId) {
       setFetchedUser(user);
     } else {
       fetchUserInfo();
-    }
-    if (!userId || userId == user?.id) {
-      setShowCriticalElements(true);
     }
   }, [userId, user]);
 
@@ -229,35 +229,6 @@ const page = () => {
               <Text pt={2} fontSize={"sm"}>
                 {user?.about}
               </Text>
-              <br />
-              <br />
-              <Text pb={2} fontSize={"lg"} fontWeight={"semibold"}>
-                Enrolled Courses
-              </Text>
-              <hr />
-              <HStack pt={4} gap={4} flexWrap={"wrap"}>
-                <PostThumbnail />
-                <PostThumbnail />
-                <PostThumbnail />
-                {/* <Box
-                  boxShadow={"md"}
-                  boxSize={28}
-                  border={"1px solid #FAFAFA"}
-                  rounded={4}
-                  display={"flex"}
-                  alignItems={"center"}
-                  justifyContent={"center"}
-                  cursor={"pointer"}
-                >
-                  <Text
-                    fontWeight={"semibold"}
-                    color={"twitter.500"}
-                    textAlign={"center"}
-                  >
-                    View All
-                  </Text>
-                </Box> */}
-              </HStack>
               <br />
             </Box>
           </Stack>

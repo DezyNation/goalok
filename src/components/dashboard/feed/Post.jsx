@@ -250,7 +250,7 @@ const Interactions = () => {
               colorScheme="facebook"
               leftIcon={<FaShare />}
             >
-              Comment
+              Share
             </Button>
           </Show>
           <Show below="md">
@@ -298,7 +298,7 @@ const Post = ({ description, createdAt, creator, media, postId }) => {
         </VStack>
         {/* <Footer /> */}
         <hr />
-        {/* <Interactions /> */}
+        <Interactions />
       </Box>
     </>
   );
