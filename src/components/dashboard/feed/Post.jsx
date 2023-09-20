@@ -280,8 +280,8 @@ const Post = ({ description, createdAt, creator, media, postId }) => {
         boxShadow={"base"}
       >
         <Author
-          name={creator?.name}
-          createdAt={createdAt}
+          name={creator?.name || creator?.username}
+          createdAt={createdAt && new Date(createdAt).toLocaleString()}
           avatar={creator?.avatar?.url}
           id={postId}
         />
