@@ -23,7 +23,7 @@ import { DefaultAxios } from "@/utils/axios";
 import BlankSpacer from "@/components/global/BlankSpacer";
 import NoSessionsCard from "@/components/session/NoSessionsCard";
 
-const page = () => {
+const page = ({ height }) => {
   const Router = useRouter();
   const { handleError } = useApiHandler();
 
@@ -61,6 +61,7 @@ const page = () => {
 
   return (
     <>
+      <BlankSpacer />
       <Box
         flex={4}
         p={8}
@@ -69,9 +70,6 @@ const page = () => {
         flexDir={"column"}
         alignItems={"flex-start"}
         justifyContent={"flex-start"}
-        h={"92vh"}
-        overflow={"scroll"}
-        className="hide-scrollbar"
       >
         <HStack w={"full"} alignItems={"center"} justifyContent={"flex-end"}>
           <FormControl w={["full", "md"]}>

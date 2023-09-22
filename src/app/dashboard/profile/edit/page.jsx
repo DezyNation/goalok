@@ -43,6 +43,7 @@ const page = () => {
       kcExperience: user?.kcExperience,
       country: user?.country,
       state: user?.state,
+      zipCode: user?.zipCode
     },
   });
 

@@ -7,8 +7,7 @@ const NoSessionsCard = () => {
     <>
       <Box
         w={["xs", "sm"]}
-        bgColor={"gray.200"}
-        border={"1px"}
+        boxShadow={'lg'}
         rounded={"16"}
         height={56}
         display={"flex"}

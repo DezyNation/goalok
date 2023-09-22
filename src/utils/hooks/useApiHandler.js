@@ -22,7 +22,7 @@ const useApiHandler = () => {
         Toast({
             status: 'error',
             ...(title && {title: title}),
-            description: error?.response?.data?.error?.message || error?.message,
+            description: error?.response?.data?.error?.message || error?.response?.data?.message || error?.message,
         })
     }
 

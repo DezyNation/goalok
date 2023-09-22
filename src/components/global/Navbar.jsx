@@ -29,7 +29,7 @@ const Navbar = ({ theme }) => {
         left={0}
         w={"full"}
         right={0}
-        zIndex={9999}
+        zIndex={99}
         p={[4, 6]}
         bgGradient={
           theme == "gradient"

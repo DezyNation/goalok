@@ -29,6 +29,7 @@ const useAuth = () => {
           username: res?.data?.username,
           name: res?.data?.name,
           email: res?.data?.email,
+          zipCode: res?.data?.zipCode,
           phone: res?.data?.phone,
           totalDonations: res?.data?.totalDonations,
           avatar: res?.data?.avatar?.url,
