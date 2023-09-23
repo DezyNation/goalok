@@ -1,5 +1,6 @@
 "use client";
 import Loading from "@/app/loading";
+import Toast from "@/components/global/Toast";
 import BackendAxios from "@/utils/axios";
 import useApiHandler from "@/utils/hooks/useApiHandler";
 import useAuth from "@/utils/hooks/useAuth";
@@ -19,7 +20,6 @@ import {
   Textarea,
   VStack,
   useClipboard,
-  useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import React, { useEffect, useState } from "react";
@@ -27,7 +27,6 @@ import { BsAlarm, BsCheckLg, BsSearch } from "react-icons/bs";
 import { IoSend } from "react-icons/io5";
 
 const CreateSession = () => {
-  const Toast = useToast({ position: "top-right" });
   const { logout, user } = useAuth();
   const { handleError } = useApiHandler();
   const { onCopy, setValue, hasCopied } = useClipboard("");

@@ -13,7 +13,6 @@ import {
   FormLabel,
   InputGroup,
   InputRightElement,
-  useToast,
   Checkbox,
   useDisclosure,
   Modal,
@@ -36,9 +35,9 @@ import { useRouter, useSearchParams } from "next/navigation";
 import useAuth from "@/utils/hooks/useAuth";
 import { useJwt } from "react-jwt";
 import Cookies from "js-cookie";
+import Toast from "@/components/global/Toast";
 
 const Login = () => {
-  const Toast = useToast({ position: "top-right" });
   const searchParams = useSearchParams();
   const emailVerified = searchParams.get("email_verified");
   const userIntent = searchParams.get("intent");

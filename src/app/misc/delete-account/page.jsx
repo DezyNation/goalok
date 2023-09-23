@@ -1,6 +1,7 @@
 "use client";
 import BlankSpacer from "@/components/global/BlankSpacer";
 import Navbar from "@/components/global/Navbar";
+import Toast from "@/components/global/Toast";
 import BackendAxios, { DefaultAxios } from "@/utils/axios";
 import useApiHandler from "@/utils/hooks/useApiHandler";
 import {
@@ -12,14 +13,12 @@ import {
   Input,
   Button,
   Textarea,
-  useToast,
   HStack,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import React, { useState } from "react";
 
 const DeleteAccount = () => {
-  const Toast = useToast({ position: "top-right" });
   const { handleError } = useApiHandler();
 
   const [isLoading, setIsLoading] = useState(false)

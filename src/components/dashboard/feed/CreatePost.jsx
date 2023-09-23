@@ -15,7 +15,6 @@ import {
   Input,
   Text,
   Textarea,
-  useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -25,6 +24,7 @@ import { IoSend } from "react-icons/io5";
 // import Quill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
+import Toast from "@/components/global/Toast";
 const Quill = typeof window === 'object' ? require('react-quill') : () => false;
 
 // const QuillNoSSRWrapper = dynamic(async () => {
@@ -36,9 +36,6 @@ const Quill = typeof window === 'object' ? require('react-quill') : () => false;
 // })
 
 const CreatePost = () => {
-  const Toast = useToast({
-    position: "top-right",
-  });
   const { user } = useContext(UserContext);
   const { uploadFiles } = useUpload();
   const fileInputRef = useRef(null);

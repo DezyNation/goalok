@@ -12,17 +12,12 @@ import {
   Input,
   Stack,
   Text,
-  Tooltip,
   VStack,
-  useToast,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import {
   BsCamera,
-  BsCheck,
-  BsClockHistory,
-  BsInfo,
-  BsTelephoneFill,
+  BsCheck
 } from "react-icons/bs";
 import BlankSpacer from "@/components/global/BlankSpacer";
 import { UserContext } from "@/utils/hooks/useAuth";
@@ -30,9 +25,9 @@ import dateOptions from "@/utils/date";
 import { useSearchParams } from "next/navigation";
 import BackendAxios from "@/utils/axios";
 import { useFormik } from "formik";
+import Toast from "@/components/global/Toast";
 
 const page = () => {
-  const Toast = useToast({ position: "top-right" });
   const { user, logout } = useContext(UserContext);
 
   const Formik = useFormik({

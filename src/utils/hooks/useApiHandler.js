@@ -1,14 +1,10 @@
 'use client'
-import {
-    useToast
-} from '@chakra-ui/react'
+import Toast from '@/components/global/Toast'
 import useAuth from './useAuth'
 
 const useApiHandler = () => {
     const {logout} = useAuth()
-    const Toast = useToast({
-        position: 'top-right'
-    })
+    
     const handleError = (error, title) => {
         if (error?.response?.status == 401) {
             Toast({

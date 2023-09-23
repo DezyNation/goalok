@@ -9,7 +9,6 @@ import {
   Stack,
   Text,
   VStack,
-  useToast,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import { HiMail, HiPencil } from "react-icons/hi";
@@ -24,9 +23,9 @@ import { UserContext } from "@/utils/hooks/useAuth";
 import dateOptions from "@/utils/date";
 import { useSearchParams } from "next/navigation";
 import BackendAxios from "@/utils/axios";
+import Toast from "@/components/global/Toast";
 
 const page = () => {
-  const Toast = useToast({ position: "top-right" });
   const searchParams = useSearchParams();
   const userId = searchParams.get("user_id");
   const { user, logout } = useContext(UserContext);

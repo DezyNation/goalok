@@ -10,19 +10,16 @@ import {
   Input,
   Text,
   VStack,
-  useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { useSearchParams } from "next/navigation";
+import Toast from "@/components/global/Toast";
 
 const page = () => {
   const searchParams = useSearchParams();
-  const Toast = useToast({
-    position: "top-right",
-  });
   const [isLoading, setIsLoading] = useState(false);
   const token = searchParams.get("code");
   const [email, setEmail] = useState("");

@@ -1,4 +1,5 @@
 "use client";
+import Toast from "@/components/global/Toast";
 import BackendAxios from "@/utils/axios";
 import useApiHandler from "@/utils/hooks/useApiHandler";
 import {
@@ -15,7 +16,6 @@ import {
   Switch,
   Text,
   useDisclosure,
-  useToast,
 } from "@chakra-ui/react";
 import React from "react";
 
@@ -26,9 +26,6 @@ const SessionControls = ({
   donationStatus,
   sessionId,
 }) => {
-  const Toast = useToast({
-    position: "top-right",
-  });
   const { handleError } = useApiHandler();
   const { isOpen, onToggle } = useDisclosure();
 

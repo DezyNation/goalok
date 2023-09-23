@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Button, HStack, Stack, Text, useToast } from "@chakra-ui/react";
+import { Box, Button, HStack, Stack, Text } from "@chakra-ui/react";
 import Link from "next/link";
 import QnaButton from "@/components/dashboard/session/QnaBox";
 import BackendAxios, { DefaultAxios } from "@/utils/axios";
@@ -10,16 +10,16 @@ import parse from "html-react-parser";
 import SessionControls from "@/components/dashboard/session/SessionControls";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import pusher from "@/utils/helpers/pusher";
+import useSessionHandler from "@/utils/hooks/useSessionHandler";
+import Toast from "@/components/global/Toast";
 
 const page = ({ params }) => {
   const { slug } = params;
-  const Toast = useToast({
-    position: "top-right",
-  });
   const [sessionInfo, setSessionInfo] = useState(null);
   const [hostedUrl, setHostedUrl] = useState("");
 
   const { handleError } = useApiHandler();
+  const { getHostedLink, startSession, exitAndRedirect } = useSessionHandler();
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -34,29 +34,15 @@ const page = ({ params }) => {
     const channel = pusher.subscribe(`session-${sessionInfo?.id}`);
     channel.bind("sessionUpdate", ({ data, status }) => {
       if (status == "ended") {
-        Toast({
-          title: "The session has ended.",
+        exitAndRedirect({
+          title: "The session has been ended by the host.",
           description: "Let's meet again soon!",
-        });
-        setTimeout(() => {
-          window.location?.replace(`/dashboard?active_side_item=dashboard`);
-        }, 1000);
+        })
       } else {
         console.log(data);
         setSessionInfo((prev) => ({
           ...prev,
-          ...(typeof data?.qnaStatus == "boolean" && {
-            qnaStatus: data?.qnaStatus,
-          }),
-          ...(typeof data?.audioStatus == "boolean" && {
-            audioStatus: data?.audioStatus,
-          }),
-          ...(typeof data?.videoStatus == "boolean" && {
-            videoStatus: data?.videoStatus,
-          }),
-          ...(typeof data?.donationStatus == "boolean" && {
-            donationStatus: data?.donationStatus,
-          }),
+          ...data,
         }));
       }
     });
@@ -69,43 +55,31 @@ const page = ({ params }) => {
 
   const handleFullScreen = useFullScreenHandle();
 
-  async function getHostedLink() {
-    await DefaultAxios.post(
-      `${process.env.NEXT_PUBLIC_CONFERENCE_BASE_URL}/api/v1/join`,
-      {
-        room: slug,
-        password: "false",
-        name: user?.username,
-        audio: "true",
-        video: "true",
-        screen: "false",
-        notify: "true",
-      },
-      {
-        headers: {
-          authorization: "mirotalksfu_default_secret",
-        },
-      }
-    )
-      .then((res) => {
-        setHostedUrl(res.data?.join);
-      })
-      .catch((err) => {
-        handleError(err, "Error while generating hosted URL");
-      });
-  }
-
-  async function startSession({ id }) {
-    BackendAxios.post(`/api/sessions/start-session`, {
-      sessionId: id || sessionInfo?.id,
-    })
-      .then((res) => {
-        console.log("Session started");
-      })
-      .catch((err) => {
-        handleError(err, "Error while updating session status");
-      });
-  }
+  // async function getHostedLink() {
+  //   await DefaultAxios.post(
+  //     `${process.env.NEXT_PUBLIC_CONFERENCE_BASE_URL}/api/v1/join`,
+  //     {
+  //       room: slug,
+  //       password: "false",
+  //       name: user?.username,
+  //       audio: "false",
+  //       video: "false",
+  //       screen: "false",
+  //       notify: "true",
+  //     },
+  //     {
+  //       headers: {
+  //         authorization: "mirotalksfu_default_secret",
+  //       },
+  //     }
+  //   )
+  //     .then((res) => {
+  //       setHostedUrl(res.data?.join);
+  //     })
+  //     .catch((err) => {
+  //       handleError(err, "Error while generating hosted URL");
+  //     });
+  // }
 
   function fetchSessionInfo() {
     BackendAxios.get(`/api/sessions/info/${slug}`)
@@ -115,23 +89,28 @@ const page = ({ params }) => {
           return;
         }
         setSessionInfo(() => res.data);
-        // if (res?.data?.status != "ongoing") {
-        //   if (
-        //     res.data?.preacher?.id != user?.id ||
-        //     res.data?.coHost?.id != user?.id
-        //   ) {
-        //     Toast({
-        //       title: "This session has not started yet.",
-        //       description: "Please contact the host or preacher.",
-        //     });
-        //     setTimeout(() => {
-        //       window.location.replace("/dashboard?active_side_item=dashboard");
-        //     }, 1000);
-        //   }
-        // }
-        if (res.data?.preacher?.id == user?.id) {
-          await getHostedLink();
-          await startSession({ id: res.data?.id });
+        if (res?.data?.status != "ongoing") {
+          if (
+            res.data?.preacher?.id == user?.id &&
+            res.data?.coHost?.id == user?.id
+          ) {
+            const hostedLinkRes = await getHostedLink({slug: slug, user: user});
+            if(hostedLinkRes?.status != 200){
+              Toast({
+                status: "warning",
+                title: "Please re-join",
+                description: "There was an error connecting you to server"
+              })
+              return
+            }
+            setHostedUrl(()=>hostedLinkRes?.data?.join)
+            startSession({ id: res.data?.id });
+          }
+        } else {
+          exitAndRedirect({
+            title: "This session has not started yet.",
+            description: "Please contact the host or preacher.",
+          })
         }
       })
       .catch((err) => {
@@ -262,6 +241,7 @@ const page = ({ params }) => {
         alignItems={"center"}
         justifyContent={["center", "flex-start"]}
         zIndex={1}
+        bgColor={"transparent"}
       >
         <Button
           onClick={handleFullScreen.enter}
