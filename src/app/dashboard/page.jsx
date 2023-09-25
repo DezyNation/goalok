@@ -12,6 +12,7 @@ import {
   Text,
   Textarea,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { FaLocationDot, FaUserTag } from "react-icons/fa6";
 import {
@@ -32,7 +33,6 @@ import { IoVideocam } from "react-icons/io5";
 import CreateSession from "@/components/dashboard/feed/CreateSession";
 import BackendAxios from "@/utils/axios";
 import useAuth from "@/utils/hooks/useAuth";
-import Toast from "@/components/global/Toast";
 
 const page = () => {
   const [intent, setIntent] = useState("post");
@@ -40,6 +40,7 @@ const page = () => {
   const [sessions, setSessions] = useState([]);
 
   const { user } = useAuth();
+  const Toast = useToast()
 
   useEffect(() => {
     fetchPosts();

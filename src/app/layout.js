@@ -10,7 +10,7 @@ export default function RootLayout({ children }) {
         <title>ISKCON Inc.</title>
       </head>
       <body>
-        <ChakraProvider>
+        <ChakraProvider toastOptions={{defaultOptions: {position: 'top-right'}}}>
         <ProgressBar height="4px" color="#F8DE22" />
           {children}  
         </ChakraProvider>

@@ -24,6 +24,7 @@ import {
   PinInput,
   PinInputField,
   Show,
+  useToast,
 } from "@chakra-ui/react";
 import { BsArrowLeft, BsEye, BsEyeSlash, BsGoogle } from "react-icons/bs";
 import { setIn, useFormik } from "formik";
@@ -34,16 +35,15 @@ import success from "../../../../public/lottie/success.json";
 import { useRouter, useSearchParams } from "next/navigation";
 import useAuth from "@/utils/hooks/useAuth";
 import { useJwt } from "react-jwt";
-import Cookies from "js-cookie";
-import Toast from "@/components/global/Toast";
 
 const Login = () => {
   const searchParams = useSearchParams();
   const emailVerified = searchParams.get("email_verified");
-  const userIntent = searchParams.get("intent");
+
   const { token } = useAuth();
-  const { isExpired } = useJwt(token);
+  const { isExpired } = useJwt(token || "");
   const { login, register } = useAuth();
+  const Toast = useToast()
 
   const [intent, setIntent] = useState("login");
   const [loginIntent, setLoginIntent] = useState(true);
@@ -53,8 +53,12 @@ const Login = () => {
   const Router = useRouter();
 
   useEffect(() => {
-    if (token && !isExpired) {
-      Router.push("/dashboard", undefined, { shallow: true });
+    try {
+      if (token && !isExpired) {
+        Router.push("/dashboard", undefined, { shallow: true });
+      }
+    } catch (error) {
+      console.log("Error while decoding token");
     }
   }, [token]);
 
@@ -62,13 +66,7 @@ const Login = () => {
     if (emailVerified == "true") {
       onToggle();
     }
-    if (userIntent == "register" && loginIntent == false) {
-      setIntent("register");
-    }
-    if (userIntent == "login" && loginIntent) {
-      setIntent("login");
-    }
-  }, [emailVerified, intent]);
+  }, [emailVerified]);
 
   const Formik = useFormik({
     initialValues: {
@@ -85,20 +83,18 @@ const Login = () => {
         return;
       }
       setIsLoading(true);
-      const result = await login({
+      const res = await login({
         identifier: values.identifier,
         password: values.password,
         remember: values.remember,
       });
       setIsLoading(false);
-      if (result?.status != 200) {
+      if (res.status == 200) Router.push("/dashboard");
+      if (res.status != 200)
         Toast({
-          status: "error",
-          description: result?.message,
+          description: res?.message,
+          title: "Error while logging you in!",
         });
-        return;
-      }
-      Router.push("/dashboard");
     },
   });
 
@@ -394,7 +390,7 @@ const Login = () => {
               pt={8}
               onClick={() => {
                 setIntent("login");
-                setLoginIntent(true)
+                setLoginIntent(true);
               }}
               cursor={"pointer"}
             >

@@ -10,20 +10,21 @@ const useAuth = () => {
   const [user, setUser] = useState(null);
   const [userLoading, setUserLoading] = useState(false);
   const pathname = usePathname();
-  useEffect(() => {
-    fetchUser();
-  }, []);
 
   useEffect(() => {
-    localStorage.setItem("userInfo", JSON.stringify(user));
-  }, [user]);
+    if(localStorage.getItem("userInfo")){
+      setUser(()=>localStorage.getItem("userInfo"))
+      return
+    }
+    fetchUser();
+  }, []);
 
   const fetchUser = async () => {
     setUserLoading(true);
     await BackendAxios.get(`/api/users/me?populate=*`)
       .then(async (res) => {
         setUserLoading(false);
-        setUser({
+        const data = {
           apiStatus: res.status,
           id: res?.data?.id,
           username: res?.data?.username,
@@ -41,7 +42,9 @@ const useAuth = () => {
           kcExperience: res?.data?.kcExperience,
           totalDonations: res?.data?.totalDonations,
           active: true,
-        });
+        }
+        setUser(data);
+        localStorage.setItem("userInfo", JSON.stringify(data));
         await rcToken();
       })
       .catch((err) => {
@@ -73,11 +76,6 @@ const useAuth = () => {
 
       BackendAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
       FormAxios.defaults.headers.common.Authorization = `Bearer ${res.data?.jwt}`;
-
-      await rcLogin({
-        identifier: identifier,
-        password: password
-      });
 
       return {
         status: res.status,

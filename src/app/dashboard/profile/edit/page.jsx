@@ -13,6 +13,7 @@ import {
   Stack,
   Text,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import React, { useContext, useEffect, useState } from "react";
 import {
@@ -25,9 +26,9 @@ import dateOptions from "@/utils/date";
 import { useSearchParams } from "next/navigation";
 import BackendAxios from "@/utils/axios";
 import { useFormik } from "formik";
-import Toast from "@/components/global/Toast";
 
 const page = () => {
+  const Toast = useToast()
   const { user, logout } = useContext(UserContext);
 
   const Formik = useFormik({

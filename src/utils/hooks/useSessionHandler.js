@@ -1,10 +1,11 @@
 "use client";
 
-import Toast from "@/components/global/Toast";
+import { useToast } from "@chakra-ui/react";
 
 const { DefaultAxios, default: BackendAxios } = require("../axios");
 
 const useSessionHandler = () => {
+  const Toast = useToast()
   const getHostedLink = async ({ slug, user }) => {
     const result = await DefaultAxios.post(
       `${process.env.NEXT_PUBLIC_CONFERENCE_BASE_URL}/api/v1/join`,
@@ -25,6 +26,11 @@ const useSessionHandler = () => {
     );
     return result;
   };
+
+  const getParticipants = async ({sessionId}) => {
+    const result = await BackendAxios.get(`/api/session-participant/all?sessionId=${sessionId}`)
+    return result
+  }
 
   const startSession = ({id}) => {
     BackendAxios.post(`/api/sessions/start-session`, {
@@ -48,7 +54,7 @@ const useSessionHandler = () => {
       }, 1000);
   }
 
-  return { getHostedLink, exitAndRedirect, startSession };
+  return { getHostedLink, exitAndRedirect, startSession, getParticipants };
 };
 
 export default useSessionHandler;

@@ -10,6 +10,7 @@ import {
   Input,
   Text,
   VStack,
+  useToast
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import Link from "next/link";
@@ -19,6 +20,7 @@ import { useSearchParams } from "next/navigation";
 import Toast from "@/components/global/Toast";
 
 const page = () => {
+  const Toast = useToast()
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(false);
   const token = searchParams.get("code");

@@ -1,6 +1,6 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Button, HStack, Stack, Text } from "@chakra-ui/react";
+import { Box, Button, HStack, Stack, Text, useToast } from "@chakra-ui/react";
 import Link from "next/link";
 import QnaButton from "@/components/dashboard/session/QnaBox";
 import BackendAxios, { DefaultAxios } from "@/utils/axios";
@@ -11,13 +11,14 @@ import SessionControls from "@/components/dashboard/session/SessionControls";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import pusher from "@/utils/helpers/pusher";
 import useSessionHandler from "@/utils/hooks/useSessionHandler";
-import Toast from "@/components/global/Toast";
 
 const page = ({ params }) => {
   const { slug } = params;
+  
   const [sessionInfo, setSessionInfo] = useState(null);
   const [hostedUrl, setHostedUrl] = useState("");
-
+  
+  const Toast = useToast()
   const { handleError } = useApiHandler();
   const { getHostedLink, startSession, exitAndRedirect } = useSessionHandler();
   const { user } = useContext(UserContext);
@@ -160,9 +161,8 @@ const page = ({ params }) => {
             <br />
             <FullScreen handle={handleFullScreen}>
               <Box
-                rounded={[0, 16]}
                 w={["100vw", "full"]}
-                height={"95vh"}
+                height={"100vh"}
                 overflow={"scroll"}
                 border={"1px"}
               >

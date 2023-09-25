@@ -2,14 +2,14 @@
 import DashboardNav from "@/components/dashboard/DashboardNav";
 import SideNav from "@/components/dashboard/SideNav";
 import useAuth, { UserContext } from "@/utils/hooks/useAuth";
-import { Box, HStack, IconButton, Text } from "@chakra-ui/react";
+import { Box, HStack, IconButton, Text, useToast } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import Loading from "../loading";
 import { BsX } from "react-icons/bs";
 import { usePathname } from "next/navigation";
-import Toast from "@/components/global/Toast";
 
 const layout = ({ children }) => {
+  const Toast = useToast()
   const { logout, user, fetchUser, userLoading } = useAuth();
   const [showConfirmationBanner, setShowConfirmationBanner] = useState(false);
   const pathName = usePathname();
