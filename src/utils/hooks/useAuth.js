@@ -13,7 +13,7 @@ const useAuth = () => {
 
   useEffect(() => {
     if(localStorage.getItem("userInfo")){
-      setUser(()=>localStorage.getItem("userInfo"))
+      setUser(localStorage.getItem("userInfo"))
       return
     }
     fetchUser();
