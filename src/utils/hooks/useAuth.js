@@ -12,8 +12,9 @@ const useAuth = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    if(localStorage.getItem("userInfo")){
-      setUser(localStorage.getItem("userInfo"))
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"))
+    if(userInfo){
+      setUser(userInfo)
       return
     }
     fetchUser();
