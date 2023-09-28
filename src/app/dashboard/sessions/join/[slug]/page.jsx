@@ -1,6 +1,14 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { Box, Button, HStack, Stack, Text, useToast } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  IconButton,
+  Stack,
+  Text,
+  useToast,
+} from "@chakra-ui/react";
 import Link from "next/link";
 import QnaButton from "@/components/dashboard/session/QnaBox";
 import BackendAxios, { DefaultAxios } from "@/utils/axios";
@@ -11,14 +19,15 @@ import SessionControls from "@/components/dashboard/session/SessionControls";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import pusher from "@/utils/helpers/pusher";
 import useSessionHandler from "@/utils/hooks/useSessionHandler";
+import { BsArrowsFullscreen, BsCameraFill, BsMicFill } from "react-icons/bs";
 
 const page = ({ params }) => {
   const { slug } = params;
-  
+
   const [sessionInfo, setSessionInfo] = useState(null);
   const [hostedUrl, setHostedUrl] = useState("");
-  
-  const Toast = useToast()
+
+  const Toast = useToast();
   const { handleError } = useApiHandler();
   const { getHostedLink, startSession, exitAndRedirect } = useSessionHandler();
   const { user } = useContext(UserContext);
@@ -38,7 +47,7 @@ const page = ({ params }) => {
         exitAndRedirect({
           title: "The session has been ended by the host.",
           description: "Let's meet again soon!",
-        })
+        });
       } else {
         console.log(data);
         setSessionInfo((prev) => ({
@@ -95,23 +104,26 @@ const page = ({ params }) => {
             res.data?.preacher?.id == user?.id &&
             res.data?.coHost?.id == user?.id
           ) {
-            const hostedLinkRes = await getHostedLink({slug: slug, user: user});
-            if(hostedLinkRes?.status != 200){
+            const hostedLinkRes = await getHostedLink({
+              slug: slug,
+              user: user,
+            });
+            if (hostedLinkRes?.status != 200) {
               Toast({
                 status: "warning",
                 title: "Please re-join",
-                description: "There was an error connecting you to server"
-              })
-              return
+                description: "There was an error connecting you to server",
+              });
+              return;
             }
-            setHostedUrl(()=>hostedLinkRes?.data?.join)
+            setHostedUrl(() => hostedLinkRes?.data?.join);
             startSession({ id: res.data?.id });
           }
         } else {
           exitAndRedirect({
             title: "This session has not started yet.",
             description: "Please contact the host or preacher.",
-          })
+          });
         }
       })
       .catch((err) => {
@@ -159,7 +171,7 @@ const page = ({ params }) => {
               </Link>
             </Text>
             <br />
-            <FullScreen handle={handleFullScreen}>
+            {/* <FullScreen handle={handleFullScreen}>
               <Box
                 w={["100vw", "full"]}
                 height={"100vh"}
@@ -168,13 +180,13 @@ const page = ({ params }) => {
               >
                 <iframe
                   allow={`${
-                    sessionInfo?.videoStatus ||
+                    sessionInfo?.cameraStatus ||
                     sessionInfo?.coHost?.id == user?.id ||
                     sessionInfo?.preacher?.id == user?.id
                       ? "camera;"
                       : ""
                   } ${
-                    sessionInfo?.audioStatus ||
+                    sessionInfo?.micStatus ||
                     sessionInfo?.coHost?.id == user?.id ||
                     sessionInfo?.preacher?.id == user?.id
                       ? "microphone;"
@@ -195,7 +207,7 @@ const page = ({ params }) => {
                   style={{ border: "0px", width: "100%", height: "100%" }}
                 ></iframe>
               </Box>
-            </FullScreen>
+            </FullScreen> */}
           </Box>
         </Stack>
         {sessionInfo?.coHost?.id == user?.id ||
@@ -203,8 +215,8 @@ const page = ({ params }) => {
           <Box p={4} py={16}>
             <SessionControls
               sessionId={sessionInfo?.id}
-              microphoneStatus={sessionInfo?.audioStatus}
-              cameraStatus={sessionInfo?.videoStatus}
+              microphoneStatus={sessionInfo?.micStatus}
+              cameraStatus={sessionInfo?.cameraStatus}
               qnaStatus={sessionInfo?.qnaStatus}
               donationStatus={sessionInfo?.donationStatus}
             />
@@ -239,17 +251,39 @@ const page = ({ params }) => {
         p={4}
         width={"full"}
         alignItems={"center"}
-        justifyContent={["center", "flex-start"]}
+        justifyContent={["center", "center"]}
         zIndex={1}
-        bgColor={"transparent"}
+        bgColor={"none"}
       >
-        <Button
-          onClick={handleFullScreen.enter}
-          colorScheme="yellow"
-          rounded={"full"}
-        >
-          Fullscreen
-        </Button>
+        <HStack rounded={"8"} gap={0} overflow={"hidden"}>
+          <IconButton
+            onClick={handleFullScreen.enter}
+            bgColor={"#333"}
+            color={"#FFF"}
+            colorScheme="yellow"
+            size={"lg"}
+            icon={<BsMicFill />}
+            rounded={0}
+          />
+          <IconButton
+            onClick={handleFullScreen.enter}
+            bgColor={"#333"}
+            color={"#FFF"}
+            colorScheme="yellow"
+            size={"lg"}
+            icon={<BsCameraFill />}
+            rounded={0}
+          />
+          <IconButton
+            onClick={handleFullScreen.enter}
+            bgColor={"#333"}
+            color={"#FFF"}
+            colorScheme="yellow"
+            size={"lg"}
+            icon={<BsArrowsFullscreen />}
+            rounded={0}
+          />
+        </HStack>
       </HStack>
     </>
   );

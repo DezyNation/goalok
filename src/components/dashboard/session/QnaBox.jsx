@@ -20,6 +20,7 @@ import {
 import React, { useEffect, useState } from "react";
 import { BiRupee, BiSolidParty } from "react-icons/bi";
 import {
+  BsChatFill,
   BsCheckCircle,
   BsCheckCircleFill,
   BsEmojiHeartEyes,
@@ -27,7 +28,6 @@ import {
   BsTrash2Fill,
   BsX,
 } from "react-icons/bs";
-import { FaQuestion } from "react-icons/fa6";
 import { IoSend } from "react-icons/io5";
 
 const UpdateButtons = ({
@@ -354,7 +354,7 @@ const QnaButton = ({ sessionId, userId, canUpdate }) => {
         _hover={{ bgColor: "#666", color: "#FFF" }}
         rounded={"full"}
         roundedTopRight={0}
-        icon={<FaQuestion size={20} />}
+        icon={<BsChatFill size={20} />}
         pos={"fixed"}
         bottom={4}
         right={4}
