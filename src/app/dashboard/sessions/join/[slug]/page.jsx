@@ -19,7 +19,7 @@ import SessionControls from "@/components/dashboard/session/SessionControls";
 import { FullScreen, useFullScreenHandle } from "react-full-screen";
 import pusher from "@/utils/helpers/pusher";
 import useSessionHandler from "@/utils/hooks/useSessionHandler";
-import { BsArrowsFullscreen, BsCameraFill, BsMicFill } from "react-icons/bs";
+import UserSessionControls from "@/components/dashboard/session/UserSessionControls";
 
 const page = ({ params }) => {
   const { slug } = params;
@@ -27,9 +27,12 @@ const page = ({ params }) => {
   const [sessionInfo, setSessionInfo] = useState(null);
   const [hostedUrl, setHostedUrl] = useState("");
 
+  const [myInfo, setMyInfo] = useState(null);
+
   const Toast = useToast();
   const { handleError } = useApiHandler();
-  const { getHostedLink, startSession, exitAndRedirect } = useSessionHandler();
+  const { getHostedLink, startSession, exitAndRedirect, fetchMyServerInfo } =
+    useSessionHandler();
   const { user } = useContext(UserContext);
 
   useEffect(() => {
@@ -38,9 +41,25 @@ const page = ({ params }) => {
     }
   }, [user, slug]);
 
+  async function refreshMyInfo() {
+    const cachedParticipants = JSON.parse(localStorage.getItem("participants"));
+    if (!cachedParticipants?.length) {
+      const myServerInfo = await fetchMyServerInfo();
+      if (myServerInfo?.status == 200) {
+        let newList = [];
+        newList.push(myServerInfo?.data);
+        setMyInfo(myServerInfo);
+        localStorage.setItem("participants", JSON.stringify(newList));
+      }
+      return;
+    }
+    setMyInfo(cachedParticipants?.find((entry) => entry?.user?.id == user?.id));
+  }
+
   // Handling realtime events
   useEffect(() => {
     if (!sessionInfo?.id) return;
+    const cachedParticipants = JSON.parse(localStorage.getItem("participants"));
     const channel = pusher.subscribe(`session-${sessionInfo?.id}`);
     channel.bind("sessionUpdate", ({ data, status }) => {
       if (status == "ended") {
@@ -57,8 +76,40 @@ const page = ({ params }) => {
       }
     });
 
+    channel.bind("kickout", ({ participantId }) => {
+      if (participantId == user?.id) {
+        setTimeout(() => {
+          exitAndRedirect({
+            status: "warning",
+            title: "You've been removed",
+            description: "The admin removed you from the session",
+          });
+        }, 2000);
+      }
+    });
+
+    channel.bind("permissionUpdate", (data) => {
+      if (cachedParticipants?.length) {
+        let participants = [...cachedParticipants];
+        let i = participants?.indexOf(
+          (entry) => entry?.user?.id == data?.user?.id
+        );
+        if (i >= 0) {
+          participants[i] = data;
+        } else {
+          participants.push(data);
+        }
+
+        localStorage.setItem("participants", participants);
+      } else {
+        localStorage.setItem("participants", JSON.stringify([data]));
+      }
+      refreshMyInfo();
+    });
+
     return () => {
       channel.unbind("sessionUpdate");
+      channel.unbind("kickout");
       pusher.unsubscribe(`session-${sessionInfo?.id}`);
     };
   }, [sessionInfo]);
@@ -171,7 +222,7 @@ const page = ({ params }) => {
               </Link>
             </Text>
             <br />
-            {/* <FullScreen handle={handleFullScreen}>
+            <FullScreen handle={handleFullScreen}>
               <Box
                 w={["100vw", "full"]}
                 height={"100vh"}
@@ -180,20 +231,19 @@ const page = ({ params }) => {
               >
                 <iframe
                   allow={`${
-                    sessionInfo?.cameraStatus ||
-                    sessionInfo?.coHost?.id == user?.id ||
-                    sessionInfo?.preacher?.id == user?.id
+                    myInfo?.isCoHost || myInfo?.isPreacher
+                      ? "camera;"
+                      : sessionInfo?.cameraStatus && myCameraStatus
                       ? "camera;"
                       : ""
                   } ${
-                    sessionInfo?.micStatus ||
-                    sessionInfo?.coHost?.id == user?.id ||
-                    sessionInfo?.preacher?.id == user?.id
+                    myInfo?.isCoHost || myInfo?.isPreacher
+                      ? "microphone;"
+                      : sessionInfo?.cameraStatus && myMicStatus
                       ? "microphone;"
                       : ""
                   } ${
-                    sessionInfo?.coHost?.id == user?.id ||
-                    sessionInfo?.preacher?.id == user?.id
+                    myInfo?.isCoHost || myInfo?.isPreacher
                       ? "display-capture;"
                       : ""
                   } fullscreen; clipboard-read; clipboard-write; autoplay`}
@@ -202,12 +252,12 @@ const page = ({ params }) => {
                     sessionInfo?.preacher?.id == user?.id
                       ? hostedUrl
                       : sessionInfo?.hostedLink +
-                        `?name=${user?.username}&audio=false&video=false&notify=false`
+                        `?name=${user?.username}&audio=true&video=true&notify=false`
                   }
                   style={{ border: "0px", width: "100%", height: "100%" }}
                 ></iframe>
               </Box>
-            </FullScreen> */}
+            </FullScreen>
           </Box>
         </Stack>
         {sessionInfo?.coHost?.id == user?.id ||
@@ -243,48 +293,13 @@ const page = ({ params }) => {
         />
       )}
 
-      <HStack
-        pos={"fixed"}
-        bottom={0}
-        left={0}
-        right={0}
-        p={4}
-        width={"full"}
-        alignItems={"center"}
-        justifyContent={["center", "center"]}
-        zIndex={1}
-        bgColor={"none"}
-      >
-        <HStack rounded={"8"} gap={0} overflow={"hidden"}>
-          <IconButton
-            onClick={handleFullScreen.enter}
-            bgColor={"#333"}
-            color={"#FFF"}
-            colorScheme="yellow"
-            size={"lg"}
-            icon={<BsMicFill />}
-            rounded={0}
-          />
-          <IconButton
-            onClick={handleFullScreen.enter}
-            bgColor={"#333"}
-            color={"#FFF"}
-            colorScheme="yellow"
-            size={"lg"}
-            icon={<BsCameraFill />}
-            rounded={0}
-          />
-          <IconButton
-            onClick={handleFullScreen.enter}
-            bgColor={"#333"}
-            color={"#FFF"}
-            colorScheme="yellow"
-            size={"lg"}
-            icon={<BsArrowsFullscreen />}
-            rounded={0}
-          />
-        </HStack>
-      </HStack>
+      <UserSessionControls
+        sessionId={sessionInfo?.id}
+        participantId={user?.id}
+        micStatus={myInfo?.micStatus}
+        cameraStatus={myInfo?.cameraStatus}
+        onFullScreen={() => handleFullScreen.enter()}
+      />
     </>
   );
 };

@@ -1,5 +1,6 @@
 import BackendAxios from "@/utils/axios";
 import useAuth from "@/utils/hooks/useAuth";
+import useSessionHandler from "@/utils/hooks/useSessionHandler";
 import {
   Avatar,
   AvatarBadge,
@@ -7,16 +8,19 @@ import {
   MenuButton,
   MenuItem,
   MenuList,
+  Text,
   useToast,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
 import {
   BsCameraVideo,
   BsCameraVideoOff,
+  BsFillShieldFill,
   BsMic,
   BsMicMute,
   BsShieldFill,
 } from "react-icons/bs";
+import { FaUser } from "react-icons/fa6";
 import { GiHighKick } from "react-icons/gi";
 
 const Participant = ({
@@ -26,30 +30,27 @@ const Participant = ({
   isCoHost,
   isPreacher,
   cameraStatus,
+  handRaised,
   micStatus,
-  sessionId
+  sessionId,
 }) => {
   const { user } = useAuth();
-  const Toast = useToast()
-
-  function updatePermission(permission){
-    BackendAxios.post(`/api/session-participant/notify`, {
-      sessionId: sessionId,
-      participantId: participantId,
-      permission: permission
-    }).then(res => {
-      Toast({description: "Permission updated successfully"})
-    })
-  }
+  const Toast = useToast();
+  const { updatePermission, notify } = useSessionHandler();
 
   return (
     <>
       <Menu>
         <MenuButton
           as={
-            <Avatar name={displayName} src={avatar}>
+            <Avatar name={displayName} src={avatar} pos={"relative"}>
               {isCoHost ? (
                 <AvatarBadge boxSize="1.25em" children={<BsShieldFill />} />
+              ) : null}
+              {handRaised ? (
+                <Text pos={"absolute"} fontSize={"xl"} top={0} left={0}>
+                  ✋
+                </Text>
               ) : null}
             </Avatar>
           }
@@ -61,18 +62,68 @@ const Participant = ({
         {isCoHost || isPreacher ? (
           parseInt(participantId) != parseInt(user?.id) ? (
             <MenuList>
-              <MenuItem icon={micStatus ? <BsMicMute /> : <BsMic />}>
-                {micStatus ? "Mute User" : "Allow Mic"}
+              <MenuItem
+                icon={micStatus ? <BsMicMute /> : <BsMic />}
+                onClick={() => {
+                  if (micStatus) {
+                    console.log("Current Mic Status ", micStatus);
+                    updatePermission({
+                      permission: { micStatus: false },
+                      sessionId: sessionId,
+                      participantId: participantId,
+                    });
+                  } else {
+                    console.log("Mic Status is already ", micStatus);
+                  }
+                }}
+              >
+                {micStatus ? "Mute User" : "Mic Is Off"}
               </MenuItem>
+
               <MenuItem
                 icon={cameraStatus ? <BsCameraVideoOff /> : <BsCameraVideo />}
+                onClick={() => {
+                  if (cameraStatus) {
+                    console.log("Current Camera Status ", cameraStatus);
+                    updatePermission({
+                      permission: { cameraStatus: false },
+                      sessionId: sessionId,
+                      participantId: participantId,
+                    });
+                  } else {
+                    console.log("Camera Status is already ", cameraStatus);
+                  }
+                }}
               >
-                {cameraStatus ? "Close Camera" : "Allow Camera"}
+                {cameraStatus ? "Close Camera" : "Camera Is Off"}
               </MenuItem>
-              <MenuItem color={"red.600"} icon={<GiHighKick />}>
+
+              <MenuItem
+                icon={isCoHost ? <BsFillShieldFill /> : <FaUser />}
+                onClick={() => {
+                  updatePermission({
+                    permission: { isCoHost: !isCoHost },
+                    sessionId: sessionId,
+                    participantId: participantId,
+                  });
+                }}
+              >
+                {isCoHost ? "Remove from Co-Host" : "Make Co-Host"}
+              </MenuItem>
+
+              <MenuItem
+                color={"red.600"}
+                icon={<GiHighKick />}
+                onClick={() =>
+                  notify({
+                    sessionId: sessionId,
+                    eventName: "kickout",
+                    data: { participantId: participantId },
+                  })
+                }
+              >
                 Kick Out
               </MenuItem>
-              <MenuItem icon={<EditIcon />}>Open File...</MenuItem>
             </MenuList>
           ) : null
         ) : null}
