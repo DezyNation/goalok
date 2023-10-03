@@ -2,6 +2,8 @@
 import useSessionHandler from "@/utils/hooks/useSessionHandler";
 import { HStack, IconButton } from "@chakra-ui/react";
 import React from "react";
+import { BsArrowsFullscreen, BsCameraFill, BsMicFill } from "react-icons/bs";
+import { FaHandPaper } from "react-icons/fa";
 
 const UserSessionControls = ({
   sessionId,
@@ -36,7 +38,7 @@ const UserSessionControls = ({
                 permission: { micStatus: !micStatus },
               })
             }
-            bgColor={"#333"}
+            bgColor={micStatus ? "yellow.500" : "#333"}
             color={"#FFF"}
             colorScheme="yellow"
             size={"lg"}
@@ -51,7 +53,7 @@ const UserSessionControls = ({
                 permission: { cameraStatus: !cameraStatus },
               })
             }
-            bgColor={"#333"}
+            bgColor={micStatus ? "yellow.500" : "#333"}
             color={"#FFF"}
             colorScheme="yellow"
             size={"lg"}
@@ -66,7 +68,7 @@ const UserSessionControls = ({
                 permission: { handRaised: !handRaised },
               })
             }
-            bgColor={"#333"}
+            bgColor={micStatus ? "yellow.500" : "#333"}
             color={"#FFF"}
             colorScheme="yellow"
             size={"lg"}
