@@ -45,6 +45,7 @@ const UserSessionControls = ({
             icon={<BsMicFill />}
             rounded={0}
           />
+          
           <IconButton
             onClick={() =>
               updatePermission({
@@ -53,13 +54,14 @@ const UserSessionControls = ({
                 permission: { cameraStatus: !cameraStatus },
               })
             }
-            bgColor={micStatus ? "yellow.500" : "#333"}
+            bgColor={cameraStatus ? "yellow.500" : "#333"}
             color={"#FFF"}
             colorScheme="yellow"
             size={"lg"}
             icon={<BsCameraFill />}
             rounded={0}
           />
+
           <IconButton
             onClick={() =>
               updatePermission({

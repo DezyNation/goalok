@@ -233,13 +233,13 @@ const page = ({ params }) => {
                   allow={`${
                     myInfo?.isCoHost || myInfo?.isPreacher
                       ? "camera;"
-                      : sessionInfo?.cameraStatus && myCameraStatus
+                      : sessionInfo?.cameraStatus && myInfo?.cameraStatus
                       ? "camera;"
                       : ""
                   } ${
                     myInfo?.isCoHost || myInfo?.isPreacher
                       ? "microphone;"
-                      : sessionInfo?.cameraStatus && myMicStatus
+                      : sessionInfo?.cameraStatus && myInfo?.micStatus
                       ? "microphone;"
                       : ""
                   } ${
