@@ -56,6 +56,12 @@ const page = ({ params }) => {
     setMyInfo(cachedParticipants?.find((entry) => entry?.user?.id == user?.id));
   }
 
+  useEffect(()=>{
+    if(sessionInfo?.id){
+      refreshMyInfo().catch((err)=>{console.error('Failed to update session info', err)});
+    }
+  },[sessionInfo])
+
   // Handling realtime events
   useEffect(() => {
     if (!sessionInfo?.id) return;
