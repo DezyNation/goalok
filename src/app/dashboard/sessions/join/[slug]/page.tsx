@@ -47,7 +47,7 @@ export default function Page({ params }) {
     (async () => {
       try {
         const res = await BackendAxios.get(`/api/sessions/info/${slug}`);
-        setSessionInfo(res);
+        setSessionInfo(res.data);
       } catch (error) {
         handleError(error, "Error while fetching session info");
       }
