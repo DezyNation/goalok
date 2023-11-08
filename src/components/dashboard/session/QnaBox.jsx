@@ -25,6 +25,7 @@ import {
   BsCheckCircleFill,
   BsEmojiHeartEyes,
   BsHeartFill,
+  BsQuestion,
   BsTrash2Fill,
   BsX,
 } from "react-icons/bs";
@@ -154,17 +155,19 @@ const QnaBox = ({ onClose, sessionId, userId, canUpdate }) => {
           py={3}
           px={4}
           roundedTop={12}
-          bgColor={"blanchedalmond"}
+          bgColor={"#333"}
         >
           <Text
             className="messiri"
             fontSize={["lg", "lg"]}
             fontWeight={"semibold"}
+            color={'#FFF'}
           >
             Ask Your Questions Here
           </Text>
           <IconButton
             bgColor={"transparent"}
+            color={'#FFF'}
             icon={<BsX size={20} />}
             onClick={onClose}
           />
@@ -353,11 +356,11 @@ const QnaButton = ({ sessionId, userId, canUpdate }) => {
         color={"#FFF"}
         _hover={{ bgColor: "#666", color: "#FFF" }}
         rounded={"full"}
-        roundedTopRight={0}
-        icon={<BsChatFill size={20} />}
+        roundedTopLeft={0}
+        icon={<BsQuestion size={28} />}
         pos={"fixed"}
         bottom={4}
-        right={4}
+        left={4}
         onClick={onToggle}
         zIndex={99}
       />
@@ -370,7 +373,7 @@ const QnaButton = ({ sessionId, userId, canUpdate }) => {
         p={[0, 4]}
         display={isOpen ? "flex" : "none"}
         alignItems={"center"}
-        justifyContent={["center", "flex-end"]}
+        justifyContent={["center", "flex-start"]}
         bgColor={"blackAlpha.700"}
         zIndex={99}
       >

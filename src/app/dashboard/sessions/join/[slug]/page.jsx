@@ -13,6 +13,7 @@ import {
 import { useEffect, useState } from "react";
 import { Track } from "livekit-client";
 import useAuth from "@/utils/hooks/useAuth";
+import QnaButton from "@/components/dashboard/session/QnaBox";
 
 export default function Page({ params }) {
   const { slug } = params;
@@ -44,24 +45,33 @@ export default function Page({ params }) {
   }
 
   return (
-    <LiveKitRoom
-      video={true}
-      audio={true}
-      token={token}
-      connectOptions={{ autoSubscribe: false }}
-      serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
-      // Use the default LiveKit theme for nice styles.
-      data-lk-theme="default"
-      style={{ height: "100dvh" }}
-    >
-      {/* Your custom component with basic video conferencing functionality. */}
-      <MyVideoConference />
-      {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
-      <RoomAudioRenderer />
-      {/* Controls for the user to start/stop audio, video, and screen 
+    <>
+      <LiveKitRoom
+        video={true}
+        audio={true}
+        token={token}
+        connectOptions={{ autoSubscribe: true }}
+        serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
+        // Use the default LiveKit theme for nice styles.
+        data-lk-theme="default"
+        style={{ height: "100dvh" }}
+        autoFocus={true}
+      >
+        {/* Your custom component with basic video conferencing functionality. */}
+        <VideoConference />
+        {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
+        <RoomAudioRenderer />
+        {/* Controls for the user to start/stop audio, video, and screen 
       share tracks and to leave the room. */}
-      <ControlBar controls={{chat: true}} />
-    </LiveKitRoom>
+        <ControlBar controls={{ chat: false }} />
+      </LiveKitRoom>
+
+      <QnaButton
+        sessionId={slug?.split("-")[0]}
+        userId={user?.id}
+        canUpdate={user?.role == "admin" || user?.role == "preacher"}
+      />
+    </>
   );
 }
 
@@ -80,8 +90,6 @@ function MyVideoConference() {
       tracks={tracks}
       style={{ height: "calc(100vh - var(--lk-control-bar-height))" }}
     >
-      {/* The GridLayout accepts zero or one child. The child is used
-      as a template to render all passed in tracks. */}
       <ParticipantTile />
     </GridLayout>
   );
