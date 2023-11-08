@@ -40,11 +40,11 @@ export async function GET(req) {
     roomRecord: true,
     roomAdmin: role == "admin" || role == "preacher",
     canPublishSources: [
-      'camera',
-      'microphone',
-      ...(role == "admin" || role == "preacher" && "screen_share"),
-      ...(role == "admin" || role == "preacher" && "screen_share_audio"),
-    ]
+      "camera",
+      "microphone",
+      role == "admin" || (role == "preacher" && "screen_share"),
+      role == "admin" || (role == "preacher" && "screen_share_audio"),
+    ],
   });
 
   return NextResponse.json({ token: at.toJwt() });
