@@ -42,8 +42,8 @@ export async function GET(req) {
     canPublishSources: [
       "camera",
       "microphone",
-      role == "admin" || (role == "preacher" && "screen_share"),
-      role == "admin" || (role == "preacher" && "screen_share_audio"),
+      role == "admin" || role == "preacher" && "screen_share",
+      role == "admin" || role == "preacher" && "screen_share_audio",
     ],
   });
 
