@@ -69,7 +69,7 @@ export default function Page({ params }) {
         data-lk-theme="default"
         style={{ height: "100dvh" }}
         autoFocus={true}
-        onDisconnected={() => replace("/dashboard?active_side_item=feed")}
+        // onDisconnected={() => replace("/dashboard?active_side_item=feed")}
       >
         <VideoConference />
 
