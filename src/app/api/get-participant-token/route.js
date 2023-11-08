@@ -30,6 +30,7 @@ export async function GET(req) {
   }
 
   const at = new AccessToken(apiKey, apiSecret, { identity: username });
+  const isHost = role === "admin" || role === "preacher"
 
   at.addGrant({
     room,
@@ -38,13 +39,13 @@ export async function GET(req) {
     canSubscribe: true,
     canPublishData: true,
     roomRecord: true,
-    roomAdmin: role == "admin" || role == "preacher",
+    roomAdmin: isHost,
     canPublishSources: [
       "camera",
       "microphone",
-      role === "admin" || role === "preacher" ? "screen_share" : null,
-      role === "admin" || role === "preacher" ? "screen_share_audio" : null,
-    ].filter(Boolean),
+      isHost && "screen_share",
+      isHost && "screen_share_audio"
+    ],
   });
 
   return NextResponse.json({ token: at.toJwt() });
