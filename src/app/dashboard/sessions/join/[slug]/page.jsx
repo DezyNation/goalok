@@ -14,15 +14,15 @@ import { useEffect, useState } from "react";
 import { Track } from "livekit-client";
 import useAuth from "@/utils/hooks/useAuth";
 import QnaButton from "@/components/dashboard/session/QnaBox";
+import { useRouter } from "next/navigation";
 
 export default function Page({ params }) {
   const { slug } = params;
   const { user } = useAuth();
+  const { replace } = useRouter();
 
   const room = slug;
   const name = user?.username;
-
-  const [isAdmin, setIsAdmin] = useState(false);
   const [token, setToken] = useState("");
 
   useEffect(() => {
@@ -50,19 +50,17 @@ export default function Page({ params }) {
         video={true}
         audio={true}
         token={token}
-        connectOptions={{ autoSubscribe: true }}
+        connectOptions={{ autoSubscribe: true, maxRetries: 3 }}
         serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
-        // Use the default LiveKit theme for nice styles.
         data-lk-theme="default"
         style={{ height: "100dvh" }}
         autoFocus={true}
+        onDisconnected={() => replace("/dashboard?active_side_item=feed")}
       >
-        {/* Your custom component with basic video conferencing functionality. */}
         <VideoConference />
-        {/* The RoomAudioRenderer takes care of room-wide audio for you. */}
+
         <RoomAudioRenderer />
-        {/* Controls for the user to start/stop audio, video, and screen 
-      share tracks and to leave the room. */}
+
         <ControlBar controls={{ chat: false }} />
       </LiveKitRoom>
 
