@@ -36,14 +36,16 @@ const UpdateButtons = ({
   beingAnswered,
   isAnswered,
   justifyContent,
-  onAction
+  onAction,
 }) => {
   const { handleError } = useApiHandler();
   function update({ data }) {
     if (!messageId) return;
-    BackendAxios.put(`/api/sessions/questions/update/${messageId}`, { data: data })
+    BackendAxios.put(`/api/sessions/questions/update/${messageId}`, {
+      data: data,
+    })
       .then((res) => {
-        onAction(()=>true);
+        onAction(() => true);
       })
       .catch((err) => {
         handleError(err, "Error updating message");
@@ -54,7 +56,7 @@ const UpdateButtons = ({
     if (!messageId) return;
     BackendAxios.delete(`/api/questions/${messageId}`)
       .then((res) => {
-        onAction(()=>true);
+        onAction(() => true);
       })
       .catch((err) => {
         handleError(err, "Error deleting message");
@@ -62,43 +64,43 @@ const UpdateButtons = ({
   }
   return (
     <>
-    <HStack w={"full"} justifyContent={justifyContent}>
-      <IconButton
-        p={0}
-        bg={"transparent"}
-        color={beingAnswered ? "twitter.500" : "twitter.200"}
-        icon={<BsCheckCircle size={12} />}
-        onClick={() =>
-          update({
-            messageId: messageId,
-            data: {
-              beingAnswered: beingAnswered ? false : true,
-            },
-          })
-        }
-      />
-      <IconButton
-        p={0}
-        bg={"transparent"}
-        color={isAnswered ? "whatsapp.500" : "whatsapp.200"}
-        icon={<BsCheckCircleFill size={12} />}
-        onClick={() =>
-          update({
-            messageId: messageId,
-            data: {
-              isAnswered: isAnswered ? false : true,
-            },
-          })
-        }
-      />
-      <IconButton
-        p={0}
-        bg={"transparent"}
-        color={"red"}
-        icon={<BsTrash2Fill size={12} />}
-        onClick={() => deleteMessage(messageId)}
-      />
-    </HStack>
+      <HStack w={"full"} justifyContent={justifyContent}>
+        <IconButton
+          p={0}
+          bg={"transparent"}
+          color={beingAnswered ? "twitter.500" : "twitter.200"}
+          icon={<BsCheckCircle size={12} />}
+          onClick={() =>
+            update({
+              messageId: messageId,
+              data: {
+                beingAnswered: beingAnswered ? false : true,
+              },
+            })
+          }
+        />
+        <IconButton
+          p={0}
+          bg={"transparent"}
+          color={isAnswered ? "whatsapp.500" : "whatsapp.200"}
+          icon={<BsCheckCircleFill size={12} />}
+          onClick={() =>
+            update({
+              messageId: messageId,
+              data: {
+                isAnswered: isAnswered ? false : true,
+              },
+            })
+          }
+        />
+        <IconButton
+          p={0}
+          bg={"transparent"}
+          color={"red"}
+          icon={<BsTrash2Fill size={12} />}
+          onClick={() => deleteMessage(messageId)}
+        />
+      </HStack>
     </>
   );
 };
@@ -113,8 +115,8 @@ const QnaBox = ({ onClose, sessionId, userId, canUpdate }) => {
   useEffect(() => {
     const channel = pusher.subscribe(`session-${sessionId}`);
     channel.bind("messageUpdate", (data) => {
-      fetchMessages()
-    })
+      fetchMessages();
+    });
     return () => {
       channel.unbind("messageUpdate");
       pusher.unsubscribe(`session-${sessionId}`);
@@ -161,13 +163,13 @@ const QnaBox = ({ onClose, sessionId, userId, canUpdate }) => {
             className="messiri"
             fontSize={["lg", "lg"]}
             fontWeight={"semibold"}
-            color={'#FFF'}
+            color={"#FFF"}
           >
             Ask Your Questions Here
           </Text>
           <IconButton
             bgColor={"transparent"}
-            color={'#FFF'}
+            color={"#FFF"}
             icon={<BsX size={20} />}
             onClick={onClose}
           />
@@ -185,6 +187,11 @@ const QnaBox = ({ onClose, sessionId, userId, canUpdate }) => {
           transition={"all .3s ease"}
           id={"messages-wrapper"}
         >
+          <Box p={4}>
+            <Text fontSize={"xs"} textAlign={"center"}>
+              Experimental feature. Might break sometimes.
+            </Text>
+          </Box>
           {messages?.map((msg, key) =>
             msg?.user?.id == userId ? (
               <Box w={"full"} key={key}>
@@ -194,7 +201,7 @@ const QnaBox = ({ onClose, sessionId, userId, canUpdate }) => {
                     beingAnswered={msg?.beingAnswered}
                     isAnswered={msg?.isAnswered}
                     justifyContent={"flex-end"}
-                    onAction={()=>fetchMessages()}
+                    onAction={() => fetchMessages()}
                   />
                 ) : null}
                 <SentMessage
