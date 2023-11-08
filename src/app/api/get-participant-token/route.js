@@ -44,7 +44,7 @@ export async function GET(req) {
       "microphone",
       role === "admin" || role === "preacher" ? "screen_share" : null,
       role === "admin" || role === "preacher" ? "screen_share_audio" : null,
-    ],
+    ].filter(Boolean),
   });
 
   return NextResponse.json({ token: at.toJwt() });
