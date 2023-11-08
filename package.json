@@ -5,9 +5,7 @@
   "scripts": {
     "build": "next build",
     "start": "next start",
-    "dev": "next",
-    "type-check": "tsc --noEmit",
-    "type-check:watch": "npm run type-check -- --watch"
+    "dev": "next"
   },
   "dependencies": {
     "@chakra-ui/react": "^2.8.0",
