@@ -2,7 +2,6 @@ import { AccessToken } from "livekit-server-sdk";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function GET(req) {
-  try {
     const room = req.nextUrl.searchParams.get("room");
     const username = req.nextUrl.searchParams.get("username");
     const role = req.nextUrl.searchParams.get("role");
@@ -31,7 +30,7 @@ export async function GET(req) {
     }
 
     const at = new AccessToken(apiKey, apiSecret, { identity: username });
-    const isHost = false;
+    const isHost = role == "admin" || role == "preacher";
 
     at.addGrant({
       room,
@@ -44,14 +43,9 @@ export async function GET(req) {
       canPublishSources: [
         "camera",
         "microphone",
-        isHost ? "screen_share" : false,
-        isHost ? "screen_share_audio" : false,
-      ].filter((item) => item != false),
+        isHost && "screen_share",
+        isHost && "screen_share_audio",
+      ],
     });
-
     return NextResponse.json({ token: at.toJwt() });
-  } catch (error) {
-    console.log(error)
-    return NextResponse.json({ message: error?.message, status: error?.status ?? 500 });
-  }
 }
