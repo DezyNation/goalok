@@ -187,8 +187,8 @@ const QnaBox = ({ onClose, sessionId, userId, canUpdate }) => {
           transition={"all .3s ease"}
           id={"messages-wrapper"}
         >
-          <Box p={4}>
-            <Text fontSize={"xs"} textAlign={"center"}>
+          <Box w={'full'}>
+            <Text fontSize={"10"} textAlign={"center"}>
               Experimental feature. Might break sometimes.
             </Text>
           </Box>
