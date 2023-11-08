@@ -60,7 +60,7 @@ export default function Page({ params }) {
       <RoomAudioRenderer />
       {/* Controls for the user to start/stop audio, video, and screen 
       share tracks and to leave the room. */}
-      <ControlBar />
+      <ControlBar controls={{chat: true}} />
     </LiveKitRoom>
   );
 }
