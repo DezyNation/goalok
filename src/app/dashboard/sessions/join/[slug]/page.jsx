@@ -1,5 +1,4 @@
 "use client";
-
 import "@livekit/components-styles";
 import {
   LiveKitRoom,
@@ -15,15 +14,19 @@ import { Track } from "livekit-client";
 import useAuth from "@/utils/hooks/useAuth";
 import QnaButton from "@/components/dashboard/session/QnaBox";
 import { useRouter } from "next/navigation";
+import BackendAxios from "@/utils/axios";
+import useApiHandler from "@/utils/hooks/useApiHandler";
 
 export default function Page({ params }) {
   const { slug } = params;
   const { user } = useAuth();
   const { replace } = useRouter();
+  const { handleError } = useApiHandler();
 
   const room = slug;
   const name = user?.username;
   const [token, setToken] = useState("");
+  const [sessionInfo, setSessionInfo] = useState(null);
 
   useEffect(() => {
     if (!user?.username) return;
@@ -39,6 +42,17 @@ export default function Page({ params }) {
       }
     })();
   }, [user]);
+
+  useEffect(() => {
+    (async () => {
+      try {
+        const res = await BackendAxios.get(`/api/sessions/info/${slug}`);
+        setSessionInfo(res);
+      } catch (error) {
+        handleError(error, "Error while fetching session info");
+      }
+    })();
+  }, []);
 
   if (token === "") {
     return <div>Please wait...</div>;
@@ -65,7 +79,7 @@ export default function Page({ params }) {
       </LiveKitRoom>
 
       <QnaButton
-        sessionId={slug?.split("-")[0]}
+        sessionId={sessionInfo?.id}
         userId={user?.id}
         canUpdate={user?.role == "admin" || user?.role == "preacher"}
       />
