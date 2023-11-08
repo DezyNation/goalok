@@ -4,6 +4,8 @@ import { NextRequest, NextResponse } from "next/server";
 export async function GET(req) {
   const room = req.nextUrl.searchParams.get("room");
   const username = req.nextUrl.searchParams.get("username");
+  const role = req.nextUrl.searchParams.get("role");
+
   if (!room) {
     return NextResponse.json(
       { error: 'Missing "room" query parameter' },
@@ -29,7 +31,15 @@ export async function GET(req) {
 
   const at = new AccessToken(apiKey, apiSecret, { identity: username });
 
-  at.addGrant({ room, roomJoin: true, canPublish: true, canSubscribe: true });
+  at.addGrant({
+    room,
+    roomJoin: true,
+    canPublish: true,
+    canSubscribe: true,
+    canPublishData: true,
+    roomRecord: true,
+    roomAdmin: role == "admin" || role == "preacher",
+  });
 
   return NextResponse.json({ token: at.toJwt() });
 }
