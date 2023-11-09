@@ -64,7 +64,7 @@ export default function Page({ params }) {
         video={true}
         audio={true}
         token={token}
-        connectOptions={{ autoSubscribe: false, maxRetries: 3 }}
+        connectOptions={{ autoSubscribe: true, maxRetries: 3 }}
         serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
         data-lk-theme="default"
         style={{ height: "100dvh" }}
