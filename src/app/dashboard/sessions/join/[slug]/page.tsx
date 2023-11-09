@@ -76,11 +76,11 @@ export default function Page({ params }) {
         <RoomAudioRenderer />
       </LiveKitRoom>
 
-      {/* <QnaButton
+      <QnaButton
         sessionId={sessionInfo?.id}
         userId={user?.id}
         canUpdate={user?.role == "admin" || user?.role == "preacher"}
-      /> */}
+      />
     </>
   );
 }

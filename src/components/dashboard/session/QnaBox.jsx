@@ -358,13 +358,13 @@ const QnaButton = ({ sessionId, userId, canUpdate }) => {
     <>
       <IconButton
         display={isOpen ? "none" : "flex"}
-        boxSize={16}
+        boxSize={12}
         bgColor={"#333"}
         color={"#FFF"}
         _hover={{ bgColor: "#666", color: "#FFF" }}
         rounded={"full"}
         roundedTopLeft={0}
-        icon={<BsQuestion size={28} />}
+        icon={<BsQuestion size={20} />}
         pos={"fixed"}
         top={4}
         left={4}
