@@ -64,7 +64,7 @@ export default function Page({ params }) {
         video={true}
         audio={true}
         token={token}
-        connectOptions={{ autoSubscribe: true, maxRetries: 3 }}
+        connectOptions={{ autoSubscribe: false, maxRetries: 3 }}
         serverUrl={process.env.NEXT_PUBLIC_LIVEKIT_URL}
         data-lk-theme="default"
         style={{ height: "100dvh" }}
@@ -74,15 +74,13 @@ export default function Page({ params }) {
         <VideoConference />
 
         <RoomAudioRenderer />
-
-        <ControlBar controls={{ chat: false }} />
       </LiveKitRoom>
 
-      <QnaButton
+      {/* <QnaButton
         sessionId={sessionInfo?.id}
         userId={user?.id}
         canUpdate={user?.role == "admin" || user?.role == "preacher"}
-      />
+      /> */}
     </>
   );
 }
