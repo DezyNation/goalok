@@ -366,7 +366,7 @@ const QnaButton = ({ sessionId, userId, canUpdate }) => {
         roundedTopLeft={0}
         icon={<BsQuestion size={28} />}
         pos={"fixed"}
-        bottom={4}
+        top={4}
         left={4}
         onClick={onToggle}
         zIndex={99}
