@@ -14,6 +14,7 @@ const page = ({ params }) => {
   const [name, setName] = useState("");
 
   function joinSession() {
+    if(!name) return
     setLoading(true);
     Cookies.set("name", name);
     push(`/sessions/join/${slug}?role=authenticated`);
