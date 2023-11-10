@@ -33,14 +33,11 @@ export default function Page({ params }) {
 
   useEffect(() => {
     const nameFromCookie = Cookies.get("name");
+    if (!nameFromCookie) {
+      return replace(`/sessions/prepare/${slug}`);
+    }
     setName(nameFromCookie);
   }, []);
-
-  useEffect(() => {
-    if (!name) {
-      replace(`/sessions/prepare/${slug}`);
-    }
-  }, [name]);
 
   useEffect(() => {
     (async () => {
