@@ -1,5 +1,5 @@
 "use client";
-import { Box, Button, Input, Text, VStack } from "@chakra-ui/react";
+import { Box, Button, HStack, Input, Text, VStack } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
@@ -12,12 +12,17 @@ const page = ({ params }) => {
 
   const [loading, setLoading] = useState(false);
   const [name, setName] = useState("");
+  const [channel, setChannel] = useState("");
 
   function joinSession() {
-    if(!name) return
+    if (!name) return;
     setLoading(true);
     Cookies.set("name", name);
-    push(`/sessions/join/${slug}?role=authenticated`);
+    push(
+      `/sessions/join/${
+        channel ? channel?.toLocaleLowerCase()?.replace(/ /g, "-") : slug
+      }?role=authenticated`
+    );
   }
   return (
     <>
@@ -25,7 +30,7 @@ const page = ({ params }) => {
       <BlankSpacer />
       <VStack w={"full"} p={[4, 8, 16]}>
         <Box maxW={"sm"} alignItems={"center"} justifyContent={"flex-start"}>
-          <Text fontSize={"2xl"} fontWeight={'semibold'} textAlign={"center"}>
+          <Text fontSize={"2xl"} fontWeight={"semibold"} textAlign={"center"}>
             Join Session
           </Text>
           <Input
@@ -36,15 +41,24 @@ const page = ({ params }) => {
             placeholder="Your name"
             onChange={(e) => setName(e.target.value)}
           />
-          <Button
-            colorScheme="yellow"
+          <Input
+            w={["full"]}
+            my={8}
+            variant={"outline"}
             rounded={"full"}
-            maxW={["full", "xs"]}
-            isLoading={loading}
-            onClick={() => joinSession()}
-          >
-            Join Now
-          </Button>
+            placeholder="Session name (optional)"
+            onChange={(e) => setChannel(e.target.value)}
+          />
+          <HStack w={"full"} justifyContent={"flex-end"}>
+            <Button
+              colorScheme="yellow"
+              rounded={"full"}
+              isLoading={loading}
+              onClick={() => joinSession()}
+            >
+              Join Now
+            </Button>
+          </HStack>
         </Box>
       </VStack>
     </>
