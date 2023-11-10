@@ -40,6 +40,7 @@ export default function Page({ params }) {
   }, []);
 
   useEffect(() => {
+    if(!name) return
     (async () => {
       try {
         const resp = await fetch(
@@ -52,7 +53,7 @@ export default function Page({ params }) {
         Toast({ status: "error", description: "Token error, please refresh" });
       }
     })();
-  }, []);
+  }, [name]);
 
   if (token === "") {
     return <div>Please wait...</div>;
