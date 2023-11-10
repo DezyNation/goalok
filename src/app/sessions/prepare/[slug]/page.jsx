@@ -3,6 +3,8 @@ import { Box, Button, Input, Text, VStack } from "@chakra-ui/react";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { useRouter } from "next/navigation";
+import Navbar from "../../../../components/global/Navbar";
+import BlankSpacer from "../../../../components/global/BlankSpacer";
 
 const page = ({ params }) => {
   const { slug } = params;
@@ -18,9 +20,11 @@ const page = ({ params }) => {
   }
   return (
     <>
-      <Box p={[4, 8, 16]}>
-        <VStack maxW={"xl"} alignItems={"center"} justifyContent={"flex-start"}>
-          <Text fontSize={"2xl"} textAlign={"center"}>
+      <Navbar />
+      <BlankSpacer />
+      <VStack w={"full"} p={[4, 8, 16]}>
+        <Box maxW={"sm"} alignItems={"center"} justifyContent={"flex-start"}>
+          <Text fontSize={"2xl"} fontWeight={'semibold'} textAlign={"center"}>
             Join Session
           </Text>
           <Input
@@ -40,8 +44,8 @@ const page = ({ params }) => {
           >
             Join Now
           </Button>
-        </VStack>
-      </Box>
+        </Box>
+      </VStack>
     </>
   );
 };
