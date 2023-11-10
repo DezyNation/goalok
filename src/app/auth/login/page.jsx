@@ -202,7 +202,7 @@ const Login = () => {
 
             <VStack pt={16} pb={8} gap={12}>
               <FormControl w={["xs", "sm"]}>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Username or Email</FormLabel>
                 <Input
                   focusBorderColor="black"
                   placeholder="Your Username"
@@ -321,7 +321,7 @@ const Login = () => {
 
             <VStack pt={12} pb={8} gap={8}>
               <FormControl>
-                <FormLabel>Username</FormLabel>
+                <FormLabel>Full Name</FormLabel>
                 <Input
                   focusBorderColor="black"
                   placeholder="Username"
