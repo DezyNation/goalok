@@ -12,10 +12,10 @@ const useAuth = () => {
   const pathname = usePathname();
 
   useEffect(() => {
-    const userInfo = JSON.parse(localStorage.getItem("userInfo"))
-    if(userInfo){
-      setUser(userInfo)
-      return
+    const userInfo = JSON.parse(localStorage.getItem("userInfo"));
+    if (userInfo) {
+      setUser(userInfo);
+      return;
     }
     fetchUser();
   }, []);
@@ -43,10 +43,9 @@ const useAuth = () => {
           kcExperience: res?.data?.kcExperience,
           totalDonations: res?.data?.totalDonations,
           active: true,
-        }
+        };
         setUser(data);
         localStorage.setItem("userInfo", JSON.stringify(data));
-        await rcToken();
       })
       .catch((err) => {
         if (err?.response?.status > 400) {
@@ -91,32 +90,24 @@ const useAuth = () => {
     }
   };
 
-  const register = async ({ email, username, password }) => {
+  const register = async ({ email, name, password }) => {
     try {
       const res = await DefaultAxios.post(
         `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/local/register`,
         {
           email,
-          username,
+          username: email?.split("@")[0],
           password,
+          name: name,
         }
       );
-      await rcRegister({
-        email: email,
-        password: password,
-        username: username,
-        jwt: res.data?.jwt
-      });
       return {
         status: res.status,
         message: "Confirmation mail sent!",
         data: res.data,
       };
     } catch (error) {
-      return {
-        status: error?.response?.status,
-        message: error?.response?.data?.error?.message || error?.message,
-      };
+      throw new Error(error?.response?.data?.error?.message || error?.message);
     }
   };
 
@@ -126,50 +117,6 @@ const useAuth = () => {
     if (pathname.includes("dashboard")) {
       window.location.replace("/");
     }
-  };
-
-  const rcRegister = async ({ email, password, username, jwt }) => {
-    await DefaultAxios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rc/register`,
-      {
-        email: email,
-        username: username,
-        password: password,
-        name: username
-      }
-    )
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log("err registering to rc", err);
-      });
-  };
-
-  const rcLogin = async ({ password, identifier }) => {
-    await DefaultAxios.post(
-      `${process.env.NEXT_PUBLIC_BACKEND_URL}/api/rc/login`,
-      {
-        password: password,
-        username: identifier
-      }
-    )
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        console.log("err login to rc", err);
-      });
-  };
-
-  const rcToken = async () => {
-    BackendAxios.get(`/api/rc/token`)
-      .then((res) => {
-        Cookies.set("rcToken", res.data?.token);
-      })
-      .catch((err) => {
-        console.log("err getting token rc", err);
-      });
   };
 
   return {

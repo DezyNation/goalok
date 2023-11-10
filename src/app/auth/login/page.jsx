@@ -43,7 +43,7 @@ const Login = () => {
   const { token } = useAuth();
   const { isExpired } = useJwt(token || "");
   const { login, register } = useAuth();
-  const Toast = useToast()
+  const Toast = useToast();
 
   const [intent, setIntent] = useState("login");
   const [loginIntent, setLoginIntent] = useState(true);
@@ -92,6 +92,7 @@ const Login = () => {
       if (res.status == 200) Router.push("/dashboard");
       if (res.status != 200)
         Toast({
+          status: "error",
           description: res?.message,
           title: "Error while logging you in!",
         });
@@ -105,23 +106,23 @@ const Login = () => {
       username: "",
     },
     onSubmit: async (values) => {
-      setIsLoading(true);
-      const result = await register({
-        email: values.email,
-        password: values.password,
-        username: values.username,
-      });
-      setIsLoading(false);
-      if (result.status != 200) {
+      try {
+        setIsLoading(true);
+        await register({
+          email: values.email,
+          password: values.password,
+          name: values.username,
+        });
+        setIsLoading(false);
+        setIntent("login");
+        RegisterFormik.handleReset();
+        onToggle();
+      } catch (err) {
         Toast({
           status: "error",
           description: err?.message,
         });
-        return;
       }
-      setIntent("login");
-      RegisterFormik.handleReset();
-      onToggle();
     },
   });
 

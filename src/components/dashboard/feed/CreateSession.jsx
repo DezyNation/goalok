@@ -20,32 +20,25 @@ import {
   Textarea,
   VStack,
   useClipboard,
+  useToast,
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { BsAlarm, BsCheckLg, BsSearch } from "react-icons/bs";
 import { IoSend } from "react-icons/io5";
 
 const CreateSession = () => {
   const { logout, user } = useAuth();
+  const Toast = useToast();
+  const { push } = useRouter();
   const { handleError } = useApiHandler();
   const { onCopy, setValue, hasCopied } = useClipboard("");
 
-  const now = new Date()
+  const now = new Date();
   const [isLoading, setIsLoading] = useState(false);
-  const [admins, setAdmins] = useState([]);
-  const [preachers, setPreachers] = useState([]);
 
-  const [startTime, setStartTime] = useState(now)
-
-  useEffect(() => {
-    if (user?.role == "Admin") {
-      Formik.setFieldValue("coHost", user?.id);
-    }
-    if (user?.role == "Preacher") {
-      Formik.setFieldValue("preacher", user?.id);
-    }
-  }, [user]);
+  const [startTime, setStartTime] = useState(now);
 
   const Formik = useFormik({
     initialValues: {
@@ -65,10 +58,10 @@ const CreateSession = () => {
       intent: "create",
     },
     onSubmit: (values) => {
-      if(!values.preacher){
+      if (!values.preacher) {
         Toast({
-          description: "Can't create session without a preacher"
-        })
+          description: "Can't create session without a preacher",
+        });
       }
       setIsLoading(true);
       BackendAxios.post(`/api/sessions/create`, values)
@@ -78,9 +71,13 @@ const CreateSession = () => {
             description: `Session ${values.intent}d successfully!`,
           });
           if (values.intent == "create") {
-            window.location.assign(
-              `/dashboard/sessions/join/${Formik.values.slug}`
-            );
+            push(`/dashboard/sessions/join/${values.slug}`);
+          } else {
+            Toast({
+              status: "success",
+              title: "Session created successfully!",
+              description: "Please copy the link",
+            });
           }
         })
         .catch((err) => {
@@ -91,48 +88,17 @@ const CreateSession = () => {
   });
 
   useEffect(() => {
-    if (user?.role == "Preacher") {
-      fetchAdmins();
-    }
-    if (user?.role == "Admin") {
-      fetchPreachers();
-    }
-  }, [user]);
-
-  useEffect(() => {
     Formik.setFieldValue(
       "slug",
-      `${Formik.values.preacher}-${Formik.values.title
-        ?.toLowerCase()
-        .replace(/ /g, "-")}`
+      `${Formik.values.title?.toLowerCase().replace(/ /g, "-")}`
     );
-  }, [Formik.values.preacher, Formik.values.title]);
+  }, [Formik.values.title]);
 
-  const fetchAdmins = () => {
-    BackendAxios.get(`/api/iskconinc/admin`)
-      .then((res) => {
-        if (res.data.length) setAdmins(res.data);
-      })
-      .catch((err) => {
-        handleError(err);
-      });
-  };
-
-  useEffect(()=>{
-    if(startTime){
-      Formik.setFieldValue("startAt", new Date(startTime).toISOString())
+  useEffect(() => {
+    if (startTime) {
+      Formik.setFieldValue("startAt", new Date(startTime).toISOString());
     }
-  },[startTime])
-
-  const fetchPreachers = () => {
-    BackendAxios.get(`/api/iskconinc/preacher`)
-      .then((res) => {
-        if (res.data.length) setPreachers(res.data);
-      })
-      .catch((err) => {
-        handleError(err);
-      });
-  };
+  }, [startTime]);
 
   useEffect(() => {
     setValue(
@@ -158,7 +124,9 @@ const CreateSession = () => {
           </FormControl>
           {Formik.values.title ? (
             <Box py={2}>
-              <Text fontSize={"xs"} mb={4}>Click to copy your session link</Text>
+              <Text fontSize={"xs"} mb={4}>
+                Click to copy your session link
+              </Text>
               <Button
                 size={"xs"}
                 onClick={onCopy}
@@ -177,127 +145,6 @@ const CreateSession = () => {
               ) : null}
             </Box>
           ) : null}
-          <FormControl>
-            <FormLabel fontSize={["12", "sm"]} mb={0}>
-              Description
-            </FormLabel>
-            <Textarea
-              variant={"flushed"}
-              fontSize={["12", "sm"]}
-              name="description"
-              onChange={Formik.handleChange}
-              resize={"vertical"}
-            />
-          </FormControl>
-          {user?.role == "Preacher" ? (
-            <FormControl>
-              <FormLabel fontSize={["12", "sm"]} mb={0}>
-                Co-Host
-              </FormLabel>
-              <Select
-                variant={"flushed"}
-                fontSize={["12", "sm"]}
-                name="coHost"
-                onChange={Formik.handleChange}
-                placeholder="Please select"
-              >
-                {admins?.map((user, key) => (
-                  <option value={user?.id} key={key}>
-                    {user?.name} ({user?.username})
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-          ) : user?.role == "Admin" ? (
-            <FormControl isRequired>
-              <FormLabel fontSize={["12", "sm"]} mb={0}>
-                Preacher
-              </FormLabel>
-              <Select
-                variant={"flushed"}
-                fontSize={["12", "sm"]}
-                name="preacher"
-                onChange={Formik.handleChange}
-                placeholder="Please select"
-              >
-                {user?.role == "Admin" ? (
-                  <option value={user?.id}>
-                    {user?.name} ({user?.username})
-                  </option>
-                ) : null}
-                {preachers?.map((user, key) => (
-                  <option value={user?.id} key={key}>
-                    {user?.name} ({user?.username})
-                  </option>
-                ))}
-              </Select>
-            </FormControl>
-          ) : null}
-          <br />
-          <Text fontSize={"sm"} py={4} w={"full"} textAlign={"left"}>
-            Manage Audience Permissions
-          </Text>
-          <HStack w={"full"} justifyContent={"space-between"}>
-            <FormControl>
-              <HStack justifyContent={"flex-start"}>
-                <FormLabel fontSize={["12", "sm"]} mb={0}>
-                  QnA
-                </FormLabel>
-                <Switch
-                  size={["sm", "md"]}
-                  onChange={(e) =>
-                    Formik.setFieldValue("qnaStatus", e.target.checked)
-                  }
-                  defaultChecked={Formik.values.qnaStatus}
-                />
-              </HStack>
-            </FormControl>
-            <FormControl>
-              <HStack justifyContent={"flex-start"}>
-                <FormLabel fontSize={["12", "sm"]} mb={0}>
-                  Donations
-                </FormLabel>
-                <Switch
-                  size={["sm", "md"]}
-                  onChange={(e) =>
-                    Formik.setFieldValue("donationStatus", e.target.checked)
-                  }
-                  defaultChecked={Formik.values.donationStatus}
-                />
-              </HStack>
-            </FormControl>
-          </HStack>
-
-          <HStack w={"full"} justifyContent={"space-between"}>
-            <FormControl>
-              <HStack justifyContent={"flex-start"}>
-                <FormLabel fontSize={["12", "sm"]} mb={0}>
-                  Audio
-                </FormLabel>
-                <Switch
-                  size={["sm", "md"]}
-                  onChange={(e) =>
-                    Formik.setFieldValue("audioStatus", e.target.checked)
-                  }
-                  defaultChecked={Formik.values.audioStatus}
-                />
-              </HStack>
-            </FormControl>
-            <FormControl>
-              <HStack justifyContent={"flex-start"}>
-                <FormLabel fontSize={["12", "sm"]} mb={0}>
-                  Video
-                </FormLabel>
-                <Switch
-                  size={["sm", "md"]}
-                  onChange={(e) =>
-                    Formik.setFieldValue("videoStatus", e.target.checked)
-                  }
-                  defaultChecked={Formik.values.videoStatus}
-                />
-              </HStack>
-            </FormControl>
-          </HStack>
           <br />
           <HStack w={"full"} gap={[4, 16]}>
             <FormControl flex={[3, 2]}>
@@ -309,10 +156,10 @@ const CreateSession = () => {
                 fontSize={["12", "sm"]}
                 name="startAt"
                 type="datetime-local"
-                onChange={e => setStartTime(e.target.value)}
+                onChange={(e) => setStartTime(e.target.value)}
               />
             </FormControl>
-            <FormControl flex={[1, 2]}>
+            {/* <FormControl flex={[1, 2]}>
               <FormLabel fontSize={["12", "sm"]} mb={0}>
                 Duration (hrs.)
               </FormLabel>
@@ -324,7 +171,7 @@ const CreateSession = () => {
                 max={6}
                 onChange={Formik.handleChange}
               />
-            </FormControl>
+            </FormControl> */}
           </HStack>
         </VStack>
         <br />

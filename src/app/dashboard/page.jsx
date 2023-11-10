@@ -46,6 +46,7 @@ const page = () => {
     fetchPosts();
     fetchUpcomingSessions();
   }, []);
+  
   function fetchPosts() {
     BackendAxios.get(`/api/posts/view/all`)
       .then((res) => {
