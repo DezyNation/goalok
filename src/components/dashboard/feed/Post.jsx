@@ -8,6 +8,12 @@ import {
   Icon,
   IconButton,
   Image,
+  Modal,
+  ModalBody,
+  ModalContent,
+  ModalFooter,
+  ModalHeader,
+  ModalOverlay,
   Popover,
   PopoverArrow,
   PopoverBody,
@@ -17,6 +23,7 @@ import {
   Stack,
   Text,
   VStack,
+  useDisclosure,
 } from "@chakra-ui/react";
 import React, { useEffect, useState } from "react";
 import {
@@ -34,6 +41,8 @@ import { FaShare } from "react-icons/fa6";
 import Lottie from "lottie-react";
 import hearts from "../../../../public/icons/lottie/hearts.json";
 import parse from "html-react-parser";
+import BackendAxios from "../../../utils/axios";
+import useAuth from "../../../utils/hooks/useAuth";
 
 const Author = ({ name, createdAt, id, avatar, type }) => {
   return (
@@ -113,24 +122,22 @@ const MediaBlock = ({ media }) => {
   );
 };
 
-const Footer = () => {
+const Footer = ({ reactions }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
   return (
     <>
       <HStack justifyContent={"flex-start"} gap={8} py={4}>
-        <HStack cursor={"pointer"}>
-          <AvatarGroup size={"xs"} max={2}>
-            <Avatar name="Ryan Florence" src="https://bit.ly/ryan-florence" />
-            <Avatar name="Segun Adebayo" src="https://bit.ly/sage-adebayo" />
-            <Avatar name="Kent Dodds" src="https://bit.ly/kent-c-dodds" />
-            <Avatar
-              name="Prosper Otemuyiwa"
-              src="https://bit.ly/prosper-baba"
-            />
-            <Avatar name="Christian Nwamba" src="https://bit.ly/code-beast" />
-          </AvatarGroup>
-          <Text fontSize={"xs"}>Tagged</Text>
-        </HStack>
-        <Button
+        {reactions?.length ? (
+          <HStack cursor={"pointer"} onClick={onOpen}>
+            <AvatarGroup size={"xs"} max={2}>
+              {reactions?.map((user, key) => (
+                <Avatar key={key} name={user?.name} src={user?.avatar} />
+              ))}
+            </AvatarGroup>
+            <Text fontSize={"xs"}>Liked</Text>
+          </HStack>
+        ) : null}
+        {/* <Button
           rounded={"full"}
           variant={"ghost"}
           colorScheme="twitter"
@@ -139,13 +146,49 @@ const Footer = () => {
           leftIcon={<BsPinMapFill />}
         >
           New Delhi, India
-        </Button>
+        </Button> */}
       </HStack>
+
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
+        <ModalOverlay />
+        <ModalContent>
+          <ModalHeader>Reactions</ModalHeader>
+          <ModalBody>
+            <VStack
+              spacing={4}
+              maxH={"70vh"}
+              overflowY={"scroll"}
+              alignItems={"flex-start"}
+              justifyContent={"flex-start"}
+              w={"full"}
+            >
+              {reactions?.map((user, index) => (
+                <HStack>
+                  <Avatar src={user?.avatar} name={user?.name} size={"sm"} />
+                  <Text fontSize={"sm"} fontWeight={"semibold"}>
+                    {user?.name}
+                  </Text>
+                  <Text fontSize={"sm"} color={"gray.500"}>
+                    - {user?.username}
+                  </Text>
+                </HStack>
+              ))}
+            </VStack>
+          </ModalBody>
+          <ModalFooter>
+            <HStack justifyContent={"flex-end"}>
+              <Button size={"sm"} rounded={"full"} onClick={onClose}>
+                Close
+              </Button>
+            </HStack>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
     </>
   );
 };
 
-const Interactions = () => {
+const Interactions = ({ postId, alreadyLiked }) => {
   const [liked, setLiked] = useState(false);
   const [reactionPaused, setReactionPaused] = useState(true);
 
@@ -156,6 +199,19 @@ const Interactions = () => {
       setReactionPaused(true);
     }
   }, [liked]);
+
+  useEffect(() => {
+    if (alreadyLiked) setLiked(true);
+  }, [alreadyLiked]);
+
+  async function handleLike() {
+    if (liked) {
+      await BackendAxios.get(`/api/post/unlike/${postId}`);
+    } else {
+      await BackendAxios.get(`/api/post/like/${postId}`);
+    }
+  }
+
   return (
     <>
       <HStack
@@ -179,7 +235,10 @@ const Interactions = () => {
               variant={"ghost"}
               colorScheme="red"
               leftIcon={liked ? <BsHeartFill /> : <BsHeart />}
-              onClick={() => setLiked(!liked)}
+              onClick={async () => {
+                setLiked(!liked);
+                await handleLike();
+              }}
             >
               Love
             </Button>
@@ -268,7 +327,23 @@ const Interactions = () => {
   );
 };
 
-const Post = ({ description, createdAt, creator, media, postId }) => {
+const Post = ({
+  description,
+  createdAt,
+  creator,
+  media,
+  postId,
+  reactions,
+}) => {
+  const { user } = useAuth();
+
+  const [liked, setLiked] = useState(false);
+  useEffect(() => {
+    if (!user) return;
+    setLiked(reactions?.map((user) => user?.id)?.includes(user?.id));
+    console.log(reactions?.map((user) => user?.id)?.includes(user?.id));
+  }, [user, reactions]);
+
   return (
     <>
       <Box
@@ -296,9 +371,9 @@ const Post = ({ description, createdAt, creator, media, postId }) => {
           <TextBlock description={description} />
           {/* <MediaBlock /> */}
         </VStack>
-        {/* <Footer /> */}
+        <Footer reactions={reactions} />
         <hr />
-        <Interactions />
+        <Interactions postId={postId} alreadyLiked={liked} />
       </Box>
     </>
   );

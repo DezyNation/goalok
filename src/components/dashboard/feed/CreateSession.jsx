@@ -1,6 +1,5 @@
 "use client";
 import Loading from "@/app/loading";
-import Toast from "@/components/global/Toast";
 import BackendAxios from "@/utils/axios";
 import useApiHandler from "@/utils/hooks/useApiHandler";
 import useAuth from "@/utils/hooks/useAuth";

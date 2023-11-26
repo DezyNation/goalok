@@ -1,5 +1,4 @@
 "use client";
-import Toast from "@/components/global/Toast";
 import BackendAxios from "@/utils/axios";
 import useApiHandler from "@/utils/hooks/useApiHandler";
 import {
@@ -16,6 +15,7 @@ import {
   Switch,
   Text,
   useDisclosure,
+  Toast
 } from "@chakra-ui/react";
 import React from "react";
 

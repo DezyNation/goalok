@@ -17,7 +17,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { useSearchParams } from "next/navigation";
-import Toast from "@/components/global/Toast";
 
 const page = () => {
   const Toast = useToast()

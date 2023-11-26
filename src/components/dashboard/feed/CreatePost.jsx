@@ -15,6 +15,7 @@ import {
   Input,
   Text,
   Textarea,
+  Toast
 } from "@chakra-ui/react";
 import { useFormik } from "formik";
 import React, { useContext, useEffect, useRef, useState } from "react";
@@ -24,7 +25,6 @@ import { IoSend } from "react-icons/io5";
 // import Quill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import dynamic from "next/dynamic";
-import Toast from "@/components/global/Toast";
 const Quill = typeof window === 'object' ? require('react-quill') : () => false;
 
 // const QuillNoSSRWrapper = dynamic(async () => {

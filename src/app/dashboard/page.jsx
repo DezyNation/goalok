@@ -139,6 +139,7 @@ const page = () => {
               postId={post?.id}
               description={post?.description}
               createdAt={post?.createdAt}
+              reactions={post?.reactions}
             />
           ))}
         </Box>
