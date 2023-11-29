@@ -46,17 +46,17 @@ const page = () => {
                   href="mailto:counselling@krishnaconsciousnesssociety.com"
                 >
                   <MdEmail />
-                  <Text>counselling@krishnaconsciousnesssociety.com</Text>
+                  <Text>support@krishnaconsciousnesssociety.com</Text>
                 </HStack>
               </Box>
-              <Box py={2}>
+              {/* <Box py={2}>
                 <HStack gap={4} as={"a"} href="tel:+91-1234567890">
                   <IoCall />
                   <Text>+91-1234567890</Text>
                 </HStack>
-              </Box>
+              </Box> */}
               <Box py={2}>
-                <HStack gap={4} as={"a"} href="tel:+91-1234567890">
+                <HStack gap={4} as={"a"} href="https://wa.me/+917838074742">
                   <BsWhatsapp />
                   <Text>Click to Chat</Text>
                 </HStack>
