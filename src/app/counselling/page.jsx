@@ -28,13 +28,13 @@ const page = () => {
             <br />
             <Text maxW={["full", "lg"]}>
               Life can be difficult sometimes and finding the right direction
-              might seem impossible. That's why we are here to listen to you.
-              You are not alone and you don't have to keep all this inside
-              yourself either.
+              might seem impossible. That's why we are here to listen to you and
+              guide you. You are not alone and you don't have to keep all this
+              inside yourself either.
             </Text>
             <br />
             <Text maxW={["full", "lg"]}>
-              We are online 24x7 to associate with you in this difficult time.
+              We are online 24x7 to associate with you in your difficult times.
               Reach out to us through any of the mentioned channels.
             </Text>
             <br />
