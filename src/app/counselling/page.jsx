@@ -44,6 +44,7 @@ const page = () => {
                   gap={4}
                   as={"a"}
                   href="mailto:counselling@krishnaconsciousnesssociety.com"
+                  target="_blank"
                 >
                   <MdEmail />
                   <Text>support@krishnaconsciousnesssociety.com</Text>
@@ -56,7 +57,7 @@ const page = () => {
                 </HStack>
               </Box> */}
               <Box py={2}>
-                <HStack gap={4} as={"a"} href="https://wa.me/+917838074742">
+                <HStack gap={4} as={"a"} href="https://wa.me/+917838074742" target="_blank">
                   <BsWhatsapp />
                   <Text>Click to Chat</Text>
                 </HStack>
