@@ -62,15 +62,13 @@ const page = () => {
                 </HStack>
               </Box>
               <Box py={2}>
-                Or you can click on the Live Chat icon in the bottom right to
-                start an anonymous chat.
+                Or you can click on the Live Chat icon in the bottom right
+                corner to start an anonymous chat.
               </Box>
             </Box>
           </Box>
           <Box w={["full", "xs"]}>
-            <HStack w={"full"} justifyContent={"flex-start"}>
-              
-            </HStack>
+            <HStack w={"full"} justifyContent={"flex-start"}></HStack>
           </Box>
         </Stack>
 
