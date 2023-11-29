@@ -19,7 +19,7 @@ const page = () => {
           direction={["column", "row"]}
           alignItems={"center"}
           justifyContent={"center"}
-          mt={[8, 16]}
+          mt={[16]}
         >
           <Box w={["full", "full"]}>
             <Text className="messiri" fontSize={["3xl", "5xl"]}>
