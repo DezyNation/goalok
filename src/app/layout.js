@@ -2,7 +2,6 @@
 import { ChakraProvider } from "@chakra-ui/react";
 import { AppProgressBar as ProgressBar } from "next-nprogress-bar";
 import "./globals.css";
-import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 
 export default function RootLayout({ children }) {
   return (
@@ -17,8 +16,6 @@ export default function RootLayout({ children }) {
           <ProgressBar height="4px" color="#F8DE22" />
           {children}
         </ChakraProvider>
-
-        <TawkMessengerReact propertyId="6564dcb01db16644c55521b1" widgetId="1hg8vs518" />
       </body>
     </html>
   );

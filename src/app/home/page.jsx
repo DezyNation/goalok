@@ -89,7 +89,7 @@ export default function HomePage() {
             </Box>
           </Box>
 
-          <Box
+          {/* <Box
             pos={"absolute"}
             w={["full", "xs"]}
             bottom={0}
@@ -116,7 +116,7 @@ export default function HomePage() {
               transcend it... &nbsp;&nbsp;
               <span style={{ color: "#FFD93D" }}>Read More</span>
             </Text>
-          </Box>
+          </Box> */}
         </Box>
       </Stack>
     </>

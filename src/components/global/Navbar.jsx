@@ -45,7 +45,7 @@ const Navbar = ({ theme }) => {
             color={"#FFF"}
             gap={[4, 8, 16]}
           >
-            <Text cursor={"pointer"} className="raleway nav-link">
+            <Text cursor={"pointer"} className="raleway nav-link" as={'a'} href="/counselling">
               Counselling
             </Text>
             <Text cursor={"pointer"} className="raleway nav-link">
