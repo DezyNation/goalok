@@ -56,12 +56,12 @@ const page = () => {
                   <Text>+91-1234567890</Text>
                 </HStack>
               </Box> */}
-              <Box py={2}>
+              {/* <Box py={2}>
                 <HStack gap={4} as={"a"} href="https://wa.me/+917838074742" target="_blank">
                   <BsWhatsapp />
                   <Text>Click to Chat</Text>
                 </HStack>
-              </Box>
+              </Box> */}
               <Box py={2}>
                 Or you can click on the Live Chat icon in the bottom right
                 corner to start an anonymous chat.
