@@ -39,7 +39,7 @@ const page = () => {
             </Text>
             <br />
             <Box maxW={["full", "lg"]}>
-              <Box py={2}>
+              {/* <Box py={2}>
                 <HStack
                   gap={4}
                   as={"a"}
@@ -49,7 +49,7 @@ const page = () => {
                   <MdEmail />
                   <Text>support@krishnaconsciousnesssociety.com</Text>
                 </HStack>
-              </Box>
+              </Box> */}
               {/* <Box py={2}>
                 <HStack gap={4} as={"a"} href="tel:+91-1234567890">
                   <IoCall />
