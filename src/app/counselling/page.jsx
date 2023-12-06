@@ -7,6 +7,7 @@ import { MdEmail } from "react-icons/md";
 import { IoCall } from "react-icons/io5";
 import { BsWhatsapp } from "react-icons/bs";
 import help from "../../../public/lottie/help.json";
+import group from "../../../public/lottie/group.json";
 import Lottie from "lottie-react";
 
 const page = () => {
@@ -68,8 +69,18 @@ const page = () => {
               </Box>
             </Box>
           </Box>
-          <Box w={["full", "xs"]}>
-            <HStack w={"full"} justifyContent={"flex-start"}></HStack>
+          <Box w={["full", "full"]}>
+            <HStack w={"full"} justifyContent={"flex-start"}>
+              <Box w={"full"} h={"sm"}>
+                <Lottie
+                  animationData={group}
+                  loop
+                  autoPlay
+                  width={"full"}
+                  height={"full"}
+                />
+              </Box>
+            </HStack>
           </Box>
         </Stack>
 
