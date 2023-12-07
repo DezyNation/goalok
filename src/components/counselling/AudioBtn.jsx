@@ -5,16 +5,16 @@ import React, { useEffect, useRef, useState } from "react";
 import blob from "../../../public/lottie/blob.json";
 
 const AudioBtn = () => {
-  const [audioPlaying, setAudioPlaying] = useState(true);
+  const [audioPlaying, setAudioPlaying] = useState(false);
   const audioref = useRef(null);
 
-  useEffect(() => {
-    play();
-  }, []);
+  // useEffect(() => {
+  //   play();
+  // }, []);
 
   function play(volume) {
-    audioref?.current?.play();
     audioref.current.volume = 0.025
+    audioref?.current?.play();
     setAudioPlaying(true);
   }
 
