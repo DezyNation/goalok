@@ -41,14 +41,14 @@ const page = ({ params }) => {
             placeholder="Your name"
             onChange={(e) => setName(e.target.value)}
           />
-          <Input
+          {/* <Input
             w={["full"]}
             my={8}
             variant={"outline"}
             rounded={"full"}
             placeholder="Session name (optional)"
             onChange={(e) => setChannel(e.target.value)}
-          />
+          /> */}
           <HStack w={"full"} justifyContent={"flex-end"}>
             <Button
               colorScheme="yellow"
