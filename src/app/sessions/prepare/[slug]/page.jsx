@@ -34,7 +34,7 @@ const page = ({ params }) => {
             Join Session
           </Text>
           <Input
-            w={["full"]}
+            w={["full", "xs"]}
             my={8}
             variant={"outline"}
             rounded={"full"}
