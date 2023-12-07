@@ -9,6 +9,7 @@ import { BsWhatsapp } from "react-icons/bs";
 import help from "../../../public/lottie/help.json";
 import group from "../../../public/lottie/group.json";
 import Lottie from "lottie-react";
+import AudioBtn from "../../components/counselling/AudioBtn";
 
 const page = () => {
   return (
@@ -88,6 +89,8 @@ const page = () => {
           propertyId="6564dcb01db16644c55521b1"
           widgetId="1hg8vs518"
         />
+
+        <AudioBtn />
       </Box>
     </>
   );
