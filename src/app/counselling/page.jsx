@@ -104,7 +104,7 @@ const page = () => {
                 <Hide above="md">
                   <Link
                     target="_blank"
-                    href={"upi://pay?cu=INR&pa=iskconinc@oksbi"}
+                    href={"upi://pay?pa=iskconinc@oksbi"}
                   >
                     <Image src="/qr.png" maxW={"xs"} />
                   </Link>
