@@ -1,5 +1,5 @@
 "use client";
-import { Box, HStack, Image, Stack, Text } from "@chakra-ui/react";
+import { Box, HStack, Hide, Image, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 import Navbar from "../../components/global/Navbar";
@@ -10,6 +10,7 @@ import help from "../../../public/lottie/help.json";
 import group from "../../../public/lottie/group.json";
 import Lottie from "lottie-react";
 import AudioBtn from "../../components/counselling/AudioBtn";
+import Link from "next/link";
 
 const page = () => {
   return (
@@ -97,7 +98,20 @@ const page = () => {
                 <Text my={4} fontWeight={"semibold"}>
                   Our UPI ID: iskconinc@oksbi
                 </Text>
-                <Image src="/qr.png" maxW={"xs"} />
+                <Hide below="md">
+                  <Image src="/qr.png" maxW={"xs"} />
+                </Hide>
+                <Hide above="md">
+                  <Link
+                    target="_blank"
+                    href={"upi://pay?cu=INR&pa=iskconinc@oksbi"}
+                  >
+                    <Image src="/qr.png" maxW={"xs"} />
+                  </Link>
+                  <Text fontSize={"xs"} textAlign={"center"}>
+                    Click on the QR to Donate
+                  </Text>
+                </Hide>
                 <Image src="/upiapps.png" maxW={"xs"} />
               </Box>
             </HStack>
