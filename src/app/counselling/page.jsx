@@ -1,5 +1,5 @@
 "use client";
-import { Box, HStack, Stack, Text } from "@chakra-ui/react";
+import { Box, HStack, Image, Stack, Text } from "@chakra-ui/react";
 import React from "react";
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 import Navbar from "../../components/global/Navbar";
@@ -19,9 +19,10 @@ const page = () => {
         <Stack
           w={"full"}
           direction={["column", "row"]}
-          alignItems={"center"}
+          alignItems={"flex-start"}
           justifyContent={"center"}
           mt={[16]}
+          gap={[16, 4]}
         >
           <Box w={["full", "full"]}>
             <Text className="messiri" fontSize={["3xl", "5xl"]}>
@@ -36,8 +37,9 @@ const page = () => {
             </Text>
             <br />
             <Text maxW={["full", "lg"]}>
-              We are online 24x7 to associate with you in your difficult times.
-              Reach out to us through any of the mentioned channels.
+              <strong>We are online 24x7</strong> to associate with you in your
+              difficult times. Reach out to us through any of the mentioned
+              channels.
             </Text>
             <br />
             <Box maxW={["full", "lg"]}>
@@ -71,15 +73,32 @@ const page = () => {
             </Box>
           </Box>
           <Box w={["full", "full"]}>
-            <HStack w={"full"} justifyContent={"flex-start"}>
-              <Box w={"full"} h={"sm"}>
-                <Lottie
-                  animationData={group}
-                  loop
-                  autoPlay
-                  width={"full"}
-                  height={"full"}
-                />
+            <HStack w={"full"} justifyContent={"flex-end"}>
+              <Box
+                w={"md"}
+                display={"flex"}
+                flexDir={"column"}
+                alignItems={"center"}
+                justifyContent={"center"}
+              >
+                <Text
+                  fontSize={"2xl"}
+                  textAlign={"center"}
+                  className="messiri"
+                  fontWeight={"semibold"}
+                >
+                  Help us keep this helpline Free Forever!
+                </Text>
+                <Text fontSize={"xs"} textAlign={"center"} mb={4}>
+                  This helpline is being supported by the donations from people
+                  like you. If you found it helpful, please consider donating to
+                  keep this online, active and free forever!
+                </Text>
+                <Text my={4} fontWeight={"semibold"}>
+                  Our UPI ID: iskconinc@oksbi
+                </Text>
+                <Image src="/qr.png" maxW={"xs"} />
+                <Image src="/upiapps.png" maxW={"xs"} />
               </Box>
             </HStack>
           </Box>
