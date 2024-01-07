@@ -22,11 +22,14 @@ const page = () => {
 
   useEffect(() => {
     fetchData();
+    if(localStorage.getItem("cowCarePin")){
+      setPin(localStorage.getItem("cowCarePin"))
+    }
   }, []);
 
   useEffect(() => {
-    console.log(data);
-  }, [data]);
+    localStorage.setItem("cowCarePin", pin)
+  }, [pin]);
 
   function fetchData() {
     axios
