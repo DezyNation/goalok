@@ -113,7 +113,7 @@ const page = () => {
         <br />
         <br />
         <br />
-        <Box mt={[64, 0]}>
+        <Box mt={[24, 0]}>
           <HStack justifyContent={"center"}>
             <Image
               src={"/cowcare/plus.png"}
