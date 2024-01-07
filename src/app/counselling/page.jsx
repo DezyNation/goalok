@@ -1,6 +1,6 @@
 "use client";
 import { Box, HStack, Hide, Image, Stack, Text } from "@chakra-ui/react";
-import React from "react";
+import React, { useState } from "react";
 import TawkMessengerReact from "@tawk.to/tawk-messenger-react";
 import Navbar from "../../components/global/Navbar";
 import { MdEmail } from "react-icons/md";
@@ -11,8 +11,10 @@ import group from "../../../public/lottie/group.json";
 import Lottie from "lottie-react";
 import AudioBtn from "../../components/counselling/AudioBtn";
 import Link from "next/link";
+import ReviewModal from "../../components/counselling/ReviewModal";
 
 const page = () => {
+  const [reviewModal, setReviewModal] = useState(true);
   return (
     <>
       <Navbar />
@@ -102,10 +104,7 @@ const page = () => {
                   <Image src="/qr.png" maxW={"xs"} />
                 </Hide>
                 <Hide above="md">
-                  <Link
-                    target="_blank"
-                    href={"upi://pay?pa=iskconinc@oksbi"}
-                  >
+                  <Link target="_blank" href={"upi://pay?pa=iskconinc@oksbi"}>
                     <Image src="/qr.png" maxW={"xs"} />
                   </Link>
                   <Text fontSize={"xs"} textAlign={"center"}>
@@ -117,6 +116,11 @@ const page = () => {
             </HStack>
           </Box>
         </Stack>
+
+        {/* <ReviewModal
+          isOpen={reviewModal}
+          onClose={() => setReviewModal(false)}
+        /> */}
 
         <TawkMessengerReact
           propertyId="6564dcb01db16644c55521b1"
