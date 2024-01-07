@@ -58,10 +58,7 @@ const page = () => {
         pin: pin,
       })
       .then((res) => {
-        Toast({
-          status: "success",
-          description: "Data updated",
-        });
+        console.log("Data updated")
         fetchData();
       })
       .catch((err) => {
