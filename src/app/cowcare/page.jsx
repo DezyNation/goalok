@@ -43,11 +43,11 @@ const page = () => {
   }
 
   function updateData(data) {
-    if(!pin){
-        Toast({
-            description: "Please enter PIN"
-        })
-        return
+    if (!pin) {
+      Toast({
+        description: "Please enter PIN",
+      });
+      return;
     }
     axios
       .put(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/cowcare-data`, {
@@ -124,19 +124,19 @@ const page = () => {
           <Box maxW={"xs"} mx={"auto"}>
             <HStack justifyContent={"space-between"} py={8}>
               <Image
-                src={"/cowcare/up.png"}
-                boxSize={20}
-                cursor={"pointer"}
-                onClick={() =>
-                  updateData({ cowsFed: Number(data?.cowsFed) + 1 })
-                }
-              />
-              <Image
                 src={"/cowcare/down.png"}
                 boxSize={20}
                 cursor={"pointer"}
                 onClick={() =>
                   updateData({ cowsFed: Number(data?.cowsFed) - 1 })
+                }
+              />
+              <Image
+                src={"/cowcare/up.png"}
+                boxSize={20}
+                cursor={"pointer"}
+                onClick={() =>
+                  updateData({ cowsFed: Number(data?.cowsFed) + 1 })
                 }
               />
             </HStack>
