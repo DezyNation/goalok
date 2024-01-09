@@ -158,16 +158,16 @@ export default function HomePage() {
         pos={"relative"}
         _after={{
           content: '""',
-          pos:"absolute",
-          top:0,
-          left:0,
-          right:0,
-          bottom:0,
-          bgColor:"blackAlpha.800",
+          pos: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          bgColor: "blackAlpha.800",
         }}
       >
         <Stack
-        pos={'relative'}
+          pos={"relative"}
           direction={["column", "row"]}
           alignItems={"flex-start"}
           justifyContent={"space-between"}
@@ -233,9 +233,10 @@ export default function HomePage() {
             <Text color={"#FFF"}>
               Taste the nector of Krishna's pastimes from a bonafide Shiksha
               Guru - His Grace Gauranga Sundar Prabhu Ji. <br />
-              Watch their sessions on YouTube and relish some of the most
-              confidential knowledge mentioned in scriptures like Chaitanya
-              Charitamrita, Srimad Bhagvatam and Ishopanishad etc.
+              Watch the sessions on YouTube and relish the pure nectar of the
+              most confidential or real knowledge based on authentic scriptures
+              like Bhagavad Gita, Śrīmad-Bhāgavatam, Caitanya-caritāmṛta and
+              many more!
             </Text>
             <br />
             <br />
