@@ -233,7 +233,7 @@ export default function HomePage() {
             <Text color={"#FFF"}>
               Taste the nector of Krishna's pastimes from a bonafide Shiksha
               Guru - His Grace Gauranga Sundar Prabhu Ji. <br />
-              Watch their sessions on YouTube and relish some of the
+              Watch their sessions on YouTube and relish some of the most
               confidential knowledge mentioned in scriptures like Chaitanya
               Charitamrita, Srimad Bhagvatam and Ishopanishad etc.
             </Text>
