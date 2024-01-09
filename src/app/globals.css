@@ -1,31 +1,31 @@
-@import url('https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=El+Messiri:wght@400;500;600&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600&display=swap");
 
-*{
-  font-family: 'Poppins', 'sans-serif';
+* {
+  font-family: "Poppins", "sans-serif";
 }
 
-.messiri{
-  font-family: 'El Messiri', sans-serif;
+.messiri {
+  font-family: "El Messiri", sans-serif;
 }
 
-.raleway{
-  font-family: 'Raleway', sans-serif;
+.raleway {
+  font-family: "Raleway", sans-serif;
 }
 
-.nav-link{
-  transition: all .3s ease;
+.nav-link {
+  transition: all 0.3s ease;
 }
-.nav-link:hover{
-  color: #FFD93D;
+.nav-link:hover {
+  color: #ffd93d;
 }
 
-.feed-container::-webkit-scrollbar{
+.feed-container::-webkit-scrollbar {
   display: none;
 }
 
-.hide-scrollbar::-webkit-scrollbar{
+.hide-scrollbar::-webkit-scrollbar {
   display: none;
 }
 
@@ -36,4 +36,96 @@
 #messages-anchor {
   overflow-anchor: auto;
   height: 1px;
+}
+
+.animated-border-box {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+}
+
+.animated-border-box,
+.animated-border-box-glow {
+  /* max-height: 200px;
+  max-width: 250px; */
+  height: 100%;
+  width: 100%;
+  position: absolute;
+  overflow: hidden;
+  z-index: 0;
+  /* Border Radius */
+  border-radius: 10px;
+}
+
+.animated-border-box-glow {
+  overflow: hidden;
+  /* Glow Blur */
+  filter: blur(20px);
+}
+
+.animated-border-box:before,
+.animated-border-box-glow:before {
+  content: "";
+  z-index: -2;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  position: absolute;
+  width: 99999px;
+  height: 99999px;
+  background-repeat: no-repeat;
+  background-position: 0 0;
+  /*border color, change middle color*/
+  background-image: conic-gradient(
+    rgba(0, 0, 0, 0),
+    #1976ed,
+    rgba(0, 0, 0, 0) 25%
+  );
+  /* change speed here */
+  animation: rotate 4s linear infinite;
+}
+
+.animated-border-box:after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  /* border width */
+  left: 5px;
+  top: 5px;
+  /* double the px from the border width left */
+  width: calc(100% - 10px);
+  height: calc(100% - 10px);
+  /*bg color*/
+  background: #292a2e;
+  /*box border radius*/
+  border-radius: 7px;
+}
+
+@keyframes rotate {
+  100% {
+    transform: translate(-50%, -50%) rotate(1turn);
+  }
+}
+
+/*// Border Animation END//*/
+
+/*// Ignore This //*/
+body {
+  margin: 0px;
+}
+
+.center-box {
+  height: 380px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #1D1E22; */
+}
+
+@media (max-width: 768px) {
+  .center-box{
+    height: 300px;
+  }
 }

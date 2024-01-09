@@ -1011,31 +1011,30 @@
   resolved "https://registry.yarnpkg.com/@floating-ui/utils/-/utils-0.1.6.tgz#22958c042e10b67463997bd6ea7115fe28cbcaf9"
   integrity sha512-OfX7E2oUDYxtBvsuS4e/jSn4Q9Qb6DzgeYtsAdkPZ47znpoNsMgZw0+tVijiv3uGNR6dgNlty6r9rzIzHjtd/A==
 
-"@livekit/components-core@0.7.0":
-  version "0.7.0"
-  resolved "https://registry.yarnpkg.com/@livekit/components-core/-/components-core-0.7.0.tgz#1283a34753c8f1bb805b987684a3e29d1bc2eb39"
-  integrity sha512-KwzqnW8V9G+4fXc4gOxpXqQFLpL/kFBn82sYO10zHjHfNKSw4pRj1sDLTWc5UF22W2Z461/bqMtB+3WGB/3Dtg==
+"@livekit/components-core@0.8.2":
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/@livekit/components-core/-/components-core-0.8.2.tgz#b5bf5190b742900647b9df49d696bf42f7ab4f02"
+  integrity sha512-vDSbNabKp9NJrjg1HOa+gwwUT2cMYhNWMaojM/XvK0UAJwRjEj6RpJMWxyI1EVdRBnsuipCiRHMQW87HzB50iA==
   dependencies:
     "@floating-ui/dom" "^1.1.0"
     email-regex "^5.0.0"
-    global-tld-list "^0.0.1139"
     loglevel "^1.8.1"
     rxjs "^7.8.0"
 
-"@livekit/components-react@^1.3.0":
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/@livekit/components-react/-/components-react-1.3.0.tgz#4b55d04a1bd69849833fe9ecb715ad3020eb5515"
-  integrity sha512-9rOhsE6SfPTfa5PgwXJ9bW2Ya26Dnthwi/BLpwrGn00rUDMaAm9nRwnRiyGoXGrcJRwxhe15zCg+wx7k0TEOZA==
+"@livekit/components-react@^1.4.1":
+  version "1.5.1"
+  resolved "https://registry.yarnpkg.com/@livekit/components-react/-/components-react-1.5.1.tgz#47dffcd9ea37916d62000d47f7d617645da3b356"
+  integrity sha512-u2vvjgksaLsWVBdFkg8mU4F26w0wAdERe1dv+gDZpR8WObl98eyQt2eoPJ29dvQZPQLVsI2RxD2m2kE2Z3ssqA==
   dependencies:
-    "@livekit/components-core" "0.7.0"
+    "@livekit/components-core" "0.8.2"
     "@react-hook/latest" "^1.0.3"
     clsx "^2.0.0"
     usehooks-ts "^2.9.1"
 
-"@livekit/components-styles@^1.0.6":
-  version "1.0.6"
-  resolved "https://registry.yarnpkg.com/@livekit/components-styles/-/components-styles-1.0.6.tgz#2649c61a631efff37eb2326e100e34a84e597d71"
-  integrity sha512-/toY2NFJCU0NdeP9AB+CWW9kPf8gdpndIoR0hYTKjDb8pHPdXDu5NE7XyO8qKIeV4biRFGsQ9+C3giPNgYm9TA==
+"@livekit/components-styles@^1.0.7":
+  version "1.0.8"
+  resolved "https://registry.yarnpkg.com/@livekit/components-styles/-/components-styles-1.0.8.tgz#2a44784ac221201435e9595aca70270f1dda90e3"
+  integrity sha512-7R/flwyvc2AglCTleqi3JW50bi5mA5gMYKXHLFp7+OniS3pvb2deEiz6apjR3Vt5MiiVusUvCsjiCjMPShBEug==
 
 "@mapbox/node-pre-gyp@^1.0.0":
   version "1.0.11"
@@ -1911,11 +1910,6 @@ glob@^7.1.3:
     minimatch "^3.1.1"
     once "^1.3.0"
     path-is-absolute "^1.0.0"
-
-global-tld-list@^0.0.1139:
-  version "0.0.1139"
-  resolved "https://registry.yarnpkg.com/global-tld-list/-/global-tld-list-0.0.1139.tgz#70400a3f3ccac1a19a8184274a1b117bc8a27969"
-  integrity sha512-TCWjAwHPzFV6zbQ5jnJvJTctesHGJr9BppxivRuIxTiIFUzaxy1F0674cxjoJecW5s8V32Q5i35dBFqvAy7eGQ==
 
 graceful-fs@^4.1.11, graceful-fs@^4.1.2, graceful-fs@^4.1.6, graceful-fs@^4.2.0:
   version "4.2.11"
@@ -3067,6 +3061,11 @@ supports-preserve-symlinks-flag@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/supports-preserve-symlinks-flag/-/supports-preserve-symlinks-flag-1.0.0.tgz#6eda4bd344a3c94aea376d4cc31bc77311039e09"
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
+
+swiper@^11.0.5:
+  version "11.0.5"
+  resolved "https://registry.yarnpkg.com/swiper/-/swiper-11.0.5.tgz#6ed1ad06e6906ba42fd4b93d4988f0626a49046e"
+  integrity sha512-rhCwupqSyRnWrtNzWzemnBLMoyYuoDgGgspAm/8iBD3jCvAWycPLH4Z3TB0O5520DHLzMx94yUMH/B9Efpa48w==
 
 tar@^6.1.11:
   version "6.2.0"
