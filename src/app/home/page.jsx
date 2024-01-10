@@ -8,6 +8,10 @@ import {
   Image,
   HStack,
   Hide,
+  VStack,
+  InputGroup,
+  Input,
+  InputRightElement,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { BsArrowRight, BsStarFill, BsYoutube } from "react-icons/bs";
@@ -48,8 +52,8 @@ export default function HomePage() {
           pos={"absolute"}
           top={0}
           left={0}
-          right={0}
-          bottom={0}
+          width={"full"}
+          h={"100vh"}
           bgImage={"linear-gradient(to bottom, rgba(0,0,0,0.6), rgba(0,0,0,0))"}
         >
           <Box
@@ -147,6 +151,62 @@ export default function HomePage() {
           </Box> */}
         </Box>
       </Stack>
+
+      <Box p={[4, 8, 16]}>
+        <Stack
+          pos={"relative"}
+          direction={["column", "row"]}
+          alignItems={"flex-start"}
+          justifyContent={"space-between"}
+        >
+          <Hide above="md">
+            <Text
+              fontSize={"4xl"}
+              fontWeight={"semibold"}
+              color={"#FFF"}
+              className="messiri"
+            >
+              About Us - Krishna Consciousness Society
+            </Text>
+          </Hide>
+
+          <Box w={["full", "50%"]} h={"inherit"}>
+            <Image src="/group.jpg" />
+          </Box>
+
+          <Box w={["full", "45%"]} h={"inherit"}>
+            <Hide below="md">
+              <Text
+                fontSize={"4xl"}
+                fontWeight={"semibold"}
+                className="messiri"
+              >
+                About Us - Krishna Consciousness Society
+              </Text>
+            </Hide>
+            <br />
+            <br />
+            <Text>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
+              Exercitationem dolores, cum neque explicabo qui repudiandae at
+              officia temporibus cupiditate ex voluptatem ratione esse, ea
+              quibusdam architecto ipsa sint dolorem magnam?
+            </Text>
+            <br />
+            <br />
+            <Button
+              rounded={"full"}
+              colorScheme={"yellow"}
+              as={"a"}
+              href={"#"}
+              target="_blank"
+              fontWeight={"medium"}
+            >
+              See Our Team
+            </Button>
+          </Box>
+        </Stack>
+      </Box>
 
       <Box
         p={[4, 8, 16]}
@@ -252,6 +312,154 @@ export default function HomePage() {
             </Button>
           </Box>
         </Stack>
+      </Box>
+
+      <Box p={[4, 8, 16]}>
+        <Stack
+          pos={"relative"}
+          direction={["column", "row"]}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Box w={["full", "50%"]}>
+            <Text>LET US RESHAPE</Text>
+            <Text fontSize={"4xl"} fontWeight={"semibold"} className="messiri">
+              Agriculture, Dairy, Education & Spirituality
+            </Text>
+            <br />
+            <br />
+            <Text>
+              Have you ever felt yourself stuck in your hectic lifestyle? <br />
+              Waking up in the morning then rushing to office, getting paid
+              peanuts even after working relentlessly, then coming back to home
+              and consume highly adulterated food items in dinner. Does this
+              endless loop of daily routine not seem to end? <br />
+              <br />
+              <strong>
+                Why not revive our Vedic ways of life? <br />
+                How about a place where:{" "}
+              </strong>
+              <br />
+              <br />
+              • Agriculture will be done completely organically <br />
+              • You will learn and become what inspires you the most <br />
+              • You will drink milk of cows who eat healthy fodder, not
+              polyethenes! <br />
+              • You will have time to rejuvenate yourself spiritually <br />
+            </Text>
+            <br />
+            <HStack spacing={6} py={6}>
+              <Text>
+                <i>Join us in this mission</i>
+              </Text>
+              <Button
+                rounded={"full"}
+                colorScheme={"yellow"}
+                as={"a"}
+                href={"#"}
+                target="_blank"
+                fontWeight={"medium"}
+              >
+                Learn More
+              </Button>
+            </HStack>
+          </Box>
+          <Box w={["full", "45%"]}>
+            <HStack flexWrap={"wrap"}>
+              <VStack>
+                <Image
+                  w={["40vw", "64"]}
+                  src="/farmer.png"
+                  rounded={12}
+                  boxShadow={"lg"}
+                  transition={"all .3s ease"}
+                  cursor={"pointer"}
+                  _hover={{
+                    transform: "scale(1.1)",
+                  }}
+                />
+                <Image
+                  w={["40vw", "64"]}
+                  src="/teacher.png"
+                  rounded={12}
+                  boxShadow={"lg"}
+                  transition={"all .3s ease"}
+                  cursor={"pointer"}
+                  _hover={{
+                    transform: "scale(1.1)",
+                  }}
+                />
+              </VStack>
+              <VStack>
+                <Image
+                  w={["40vw", "64"]}
+                  src="/cow-kid.png"
+                  rounded={12}
+                  boxShadow={"lg"}
+                  transition={"all .3s ease"}
+                  cursor={"pointer"}
+                  _hover={{
+                    transform: "scale(1.1)",
+                  }}
+                />
+                <Image
+                  w={["40vw", "64"]}
+                  src="/monks.png"
+                  rounded={12}
+                  boxShadow={"lg"}
+                  transition={"all .3s ease"}
+                  cursor={"pointer"}
+                  _hover={{
+                    transform: "scale(1.1)",
+                  }}
+                />
+              </VStack>
+            </HStack>
+          </Box>
+        </Stack>
+      </Box>
+
+      <Box
+        p={[4, 8, 16]}
+        bgImage={"/newsletterbg.avif"}
+        bgAttachment={"fixed"}
+        pos={"relative"}
+        _after={{
+          content: '""',
+          pos: "absolute",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          bgColor: "whiteAlpha.800",
+        }}
+      >
+        <VStack
+          w={"full"}
+          alignItems={"center"}
+          justifyContent={"center"}
+          pos={"relative"}
+          zIndex={90}
+        >
+          <Text
+            fontSize={"4xl"}
+            fontWeight={"semibold"}
+            className="messiri"
+            textAlign={"center"}
+          >
+            Subscribe To Our Newsletter
+          </Text>
+          <HStack w={["full", "xl"]}>
+            <Input
+              bgColor={"#fff"}
+              rounded={"full"}
+              placeholder="Enter your email ID"
+            />
+            <Button colorScheme="orange" fontWeight={"medium"} rounded={"full"}>
+              Subscribe
+            </Button>
+          </HStack>
+        </VStack>
       </Box>
     </>
   );
