@@ -7,7 +7,7 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head>
-        <title>ISKCON Inc.</title>
+        <title>Krishna Consciousness Society</title>
       </head>
       <body>
         <ChakraProvider

@@ -18,6 +18,7 @@ import { BsArrowRight, BsStarFill, BsYoutube } from "react-icons/bs";
 import { useRef, useEffect } from "react";
 import { register } from "swiper/element/bundle";
 import SwiperSlide from "../../components/home/SwiperSlide";
+import Footer from "../../components/global/Footer";
 
 register({
   effect: "coverflow",
@@ -160,13 +161,14 @@ export default function HomePage() {
           justifyContent={"space-between"}
         >
           <Hide above="md">
+            <Text>ABOUT US</Text>
             <Text
               fontSize={"4xl"}
               fontWeight={"semibold"}
               color={"#FFF"}
               className="messiri"
             >
-              About Us - Krishna Consciousness Society
+              Krishna Consciousness Society
             </Text>
           </Hide>
 
@@ -176,21 +178,30 @@ export default function HomePage() {
 
           <Box w={["full", "45%"]} h={"inherit"}>
             <Hide below="md">
+              <Text>ABOUT US</Text>
               <Text
                 fontSize={"4xl"}
                 fontWeight={"semibold"}
                 className="messiri"
               >
-                About Us - Krishna Consciousness Society
+                Krishna Consciousness Society
               </Text>
             </Hide>
             <br />
             <br />
             <Text>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit.
-              Exercitationem dolores, cum neque explicabo qui repudiandae at
-              officia temporibus cupiditate ex voluptatem ratione esse, ea
-              quibusdam architecto ipsa sint dolorem magnam?
+              We are a team of 150 devoted individuals, passionately committed
+              to advance Srila Prabhupada's timeless mission of disseminating
+              Krishna consciousness throughout the world. Our team upholds an
+              unwavering commitment to preserving the purity of this profound
+              spiritual practice, embracing the values of dedication, surrender,
+              and humility. <br /><br />
+              With a steadfast focus on following Srila Prabhupada's teachings,
+              our team stands united in the shared goal of spreading the essence
+              of Krishna consciousness globally. Join us on this transformative
+              journey as we ardently carry forward the legacy of Srila
+              Prabhupada with a heart full of devotion and a spirit of selfless
+              service.
             </Text>
             <br />
             <br />
@@ -202,7 +213,7 @@ export default function HomePage() {
               target="_blank"
               fontWeight={"medium"}
             >
-              See Our Team
+              Meet Our Team
             </Button>
           </Box>
         </Stack>
@@ -449,7 +460,12 @@ export default function HomePage() {
           >
             Subscribe To Our Newsletter
           </Text>
-          <HStack w={["full", "xl"]}>
+          <Stack
+            direction={["column", "row"]}
+            w={["full", "xl"]}
+            alignItems={"center"}
+            justifyContent={"center"}
+          >
             <Input
               bgColor={"#fff"}
               rounded={"full"}
@@ -458,9 +474,10 @@ export default function HomePage() {
             <Button colorScheme="orange" fontWeight={"medium"} rounded={"full"}>
               Subscribe
             </Button>
-          </HStack>
+          </Stack>
         </VStack>
       </Box>
+      <Footer />
     </>
   );
 }

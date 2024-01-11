@@ -26,7 +26,7 @@ import { useSearchParams } from "next/navigation";
 import BackendAxios from "@/utils/axios";
 
 const page = () => {
-  const Toast = useToast()
+  const Toast = useToast();
   const searchParams = useSearchParams();
   const userId = searchParams.get("user_id");
   const { user, logout } = useContext(UserContext);
@@ -44,7 +44,7 @@ const page = () => {
     } else {
       fetchUserInfo();
     }
-  }, [userId, user]);
+  }, [userId, user?.id]);
 
   function fetchUserInfo() {
     BackendAxios.get(`/api/users/${userId}?populate=*`)
@@ -56,9 +56,9 @@ const page = () => {
           phone: res?.data?.phone,
           username: res?.data?.username,
           name: res?.data?.name,
-          avatar: res?.data?.avatar
-            ? `${res?.data?.avatar?.url}`
-            : null,
+          state: res?.data?.state,
+          country: res?.data?.country,
+          avatar: res?.data?.avatar ? `${res?.data?.avatar?.url}` : null,
           about: res?.data?.about,
           role: res?.data?.role?.name,
           confirmed: res?.data?.confirmed,
@@ -70,8 +70,8 @@ const page = () => {
         });
       })
       .catch((err) => {
-        if(err?.response?.status == 401){
-          logout()
+        if (err?.response?.status == 401) {
+          logout();
         }
         Toast({
           status: "error",
@@ -144,15 +144,10 @@ const page = () => {
                   cursor={"pointer"}
                 />
                 <Box>
-                  <Text fontSize={["lg"]} fontWeight={"semibold"}>
-                    {fetchedUser?.name}
-                  </Text>
-                  <Text fontSize={["xs"]}>
-                    {fetchedUser?.spiritualName
-                      ? `a.k.a ${fetchedUser?.spiritualName}`
-                      : null}
-                  </Text>
-                  <HStack pt={2} flexWrap={"wrap"}>
+                  <HStack>
+                    <Text fontSize={["lg"]} fontWeight={"semibold"}>
+                      {fetchedUser?.name}
+                    </Text>
                     <Chip
                       text={
                         fetchedUser?.role == "Authenticated"
@@ -161,6 +156,11 @@ const page = () => {
                       }
                     />
                   </HStack>
+                  <Text fontSize={["xs"]}>
+                    {fetchedUser?.spiritualName
+                      ? fetchedUser?.spiritualName
+                      : null}
+                  </Text>
                 </Box>
               </HStack>
               <br />
@@ -169,7 +169,9 @@ const page = () => {
               <VStack w={"full"} gap={6} alignItems={"flex-start"}>
                 <HStack alignItems={"center"} justifyContent={"flex-start"}>
                   <FaLocationDot size={20} />
-                  <Text fontSize={"sm"}>From New Delhi</Text>
+                  <Text fontSize={"sm"}>
+                    From {fetchedUser?.state}, {fetchedUser?.country}
+                  </Text>
                 </HStack>
 
                 <HStack alignItems={"center"} justifyContent={"flex-start"}>
@@ -189,15 +191,23 @@ const page = () => {
 
                 <HStack alignItems={"center"} justifyContent={"flex-start"}>
                   <LuCalendarHeart size={20} />
-                  <Text fontSize={"sm"}>
-                    {fetchedUser?.kcExperience || "1"} Years in Krishna
-                    Consciousness
-                  </Text>
+                  <Box>
+                    <Text fontSize={"xs"}>Krishna Consciousnes Since</Text>
+                    <Text fontSize={"sm"}>
+                      {fetchedUser?.createdAt
+                        ? new Date(
+                            fetchedUser?.kcExperience
+                          ).toLocaleDateString("en-IN", dateOptions)
+                        : null}
+                    </Text>
+                  </Box>
                 </HStack>
                 {showCriticalElements ? (
                   <HStack alignItems={"center"} justifyContent={"flex-start"}>
                     <GiReceiveMoney size={20} />
-                    <Text fontSize={"sm"}>Donated ₹ {fetchedUser?.totalDonations}</Text>
+                    <Text fontSize={"sm"}>
+                      Donated ₹ {fetchedUser?.totalDonations}
+                    </Text>
                   </HStack>
                 ) : null}
                 {showCriticalElements ? (
@@ -221,6 +231,7 @@ const page = () => {
               bgColor={"white"}
               boxShadow={"md"}
               rounded={4}
+              h={["auto", "md"]}
             >
               <Text pb={2} fontSize={"lg"} fontWeight={"semibold"}>
                 About

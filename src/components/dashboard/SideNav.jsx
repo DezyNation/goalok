@@ -123,6 +123,8 @@ const SideNav = () => {
           transition={"all .3s ease"}
           cursor={"pointer"}
           _hover={{ bg: "yellow.400" }}
+          as="a"
+          href="/dashboard/profile/edit"
         >
           <BsGearFill />
           <Text fontSize={"10"}>Settings</Text>

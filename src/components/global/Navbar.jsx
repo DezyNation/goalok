@@ -44,6 +44,7 @@ const Navbar = ({ theme }) => {
             mx={"auto"}
             color={"#FFF"}
             gap={[4, 8, 16]}
+            justifyContent={'space-between'}
           >
             <Text cursor={"pointer"} className="raleway nav-link" as={'a'} href="/counselling">
               Counselling
@@ -51,27 +52,20 @@ const Navbar = ({ theme }) => {
             <Text cursor={"pointer"} className="raleway nav-link">
               Projects
             </Text>
-            <Link href={"/home/sessions"}>
-              <Text cursor={"pointer"} className="raleway nav-link">
-                Sessions
-              </Text>
-            </Link>
             <Spacer />
             <Link href={"/"}>
               <Text
                 cursor={"pointer"}
                 className="messiri nav-link"
                 fontSize={["md", "lg"]}
+                textAlign={'center'}
               >
-                ISKCON Inc.
+                Krishna Consciousness Society
               </Text>
             </Link>
             <Spacer />
             <Text cursor={"pointer"} className="raleway nav-link">
               Shop
-            </Text>
-            <Text cursor={"pointer"} className="raleway nav-link">
-              Donations
             </Text>
             <Link href={"/auth/login"}>
               <Button
