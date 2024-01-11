@@ -350,7 +350,7 @@ const page = () => {
                   <SingleDatepicker
                     name="dob"
                     date={dob}
-                    onDateChange={setKcExperience}
+                    onDateChange={setDob}
                   />
                 </FormControl>
                 <FormControl w={["full", "sm"]}>
