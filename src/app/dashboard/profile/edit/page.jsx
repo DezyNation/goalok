@@ -195,7 +195,7 @@ const page = () => {
                   overflow={"hidden"}
                 >
                   <Image
-                    src={avatarPreview ?? user?.avatar ? user?.avatar : "/face.png"}
+                    src={avatarPreview ?? user?.avatar ?? "/face.png"}
                     boxSize={"inherit"}
                     objectFit={"cover"}
                   />
