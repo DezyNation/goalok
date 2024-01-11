@@ -3,7 +3,7 @@ export const TOKEN_MAX_AGE = 60 * 60 * 24 * 30; // 30 Days
 export const CLIENT_BASE_URL =
   process.env.NODE_ENV == "development" ? "http://localhost:3000" : "https://krishnaconsciousnesssociety.com";
 export const API_BASE_URL =
-  process.env.NODE_ENV == "development" ? "http://localhost:1337/api" : "https://api.krishnaconsciousnesssociety.com";
+  process.env.NODE_ENV == "development" ? "http://localhost:1337/api" : "https://api.krishnaconsciousnesssociety.com/api";
 export const STORAGE_PROVIDER = "local"
 export const COUNTRIES = [
     { label: "India", value: "India" },
