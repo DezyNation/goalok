@@ -47,6 +47,7 @@ const useAuth = () => {
           blocked: res?.data?.blocked,
           createdAt: res?.data?.createdAt,
           kcExperience: res?.data?.kcExperience,
+          dob: res?.data?.dob,
           totalDonations: res?.data?.totalDonations,
           active: true,
         };
