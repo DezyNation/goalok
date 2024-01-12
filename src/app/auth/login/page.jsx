@@ -324,7 +324,7 @@ const Login = () => {
                 <FormLabel>Full Name</FormLabel>
                 <Input
                   focusBorderColor="black"
-                  placeholder="Username"
+                  placeholder="Your Full Name"
                   variant={"flushed"}
                   name={"username"}
                   value={RegisterFormik.values.username}
