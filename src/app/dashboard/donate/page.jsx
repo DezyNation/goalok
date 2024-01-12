@@ -7,7 +7,7 @@ const page = () => {
     <>
       <Box w={"full"} h={"92vh"}>
         <iframe
-          src="https://projects.iskconincstore.com/"
+          src="https://projects.krishnaconsciousnesssociety.com/"
           style={{ width: "100%", height: "100%", border: "0" }}
         ></iframe>
       </Box>
