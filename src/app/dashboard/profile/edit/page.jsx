@@ -355,7 +355,9 @@ const page = () => {
                   <SingleDatepicker
                     name="dob"
                     date={dob}
-                    onDateChange={setDob}
+                    onDateChange={(value) =>
+                      setDob(new Date(value.getTime() + 5.5 * 60 * 60 * 1000))
+                    }
                   />
                 </FormControl>
                 <FormControl w={["full", "sm"]}>
@@ -365,7 +367,13 @@ const page = () => {
                   <SingleDatepicker
                     name="kcExperience"
                     date={kcExperience}
-                    onDateChange={setKcExperience}
+                    onDateChange={(value) =>
+                      setKcExperience(
+                        new Date(
+                          new Date(value.getTime() + 5.5 * 60 * 60 * 1000)
+                        )
+                      )
+                    }
                   />
                 </FormControl>
               </Stack>
