@@ -17,6 +17,8 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { BsArrowLeft } from "react-icons/bs";
 import { useSearchParams } from "next/navigation";
+import axios from "axios";
+import { API_BASE_URL } from "../../../utils/constants";
 
 const page = () => {
   const Toast = useToast()
@@ -37,7 +39,7 @@ const page = () => {
     },
     onSubmit: (values) => {
       setIsLoading(true);
-      BackendAxios.post(`/api/auth/reset-password`, values)
+      axios.post(`${API_BASE_URL}/auth/reset-password`, values)
         .then((res) => {
           setIsLoading(false);
           Toast({
