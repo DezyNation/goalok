@@ -25,6 +25,7 @@ export const STATES = [
     { label: "Haryana", value: "Haryana" },
     { label: "Himachal Pradesh", value: "Himachal Pradesh" },
     { label: "Jharkhand", value: "Jharkhand" },
+    { label: "Jammu and Kashmir", value: "Jammu and Kashmir" },
     { label: "Karnataka", value: "Karnataka" },
     { label: "Kerala", value: "Kerala" },
     { label: "Lakshadweep", value: "Lakshadweep" },
