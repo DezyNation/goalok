@@ -85,16 +85,21 @@ const page = () => {
     Formik.setFieldValue("qualification", user?.qualification);
   }, [user?.id]);
 
+  useEffect(() => {
+    Formik.setFieldValue("dob", dob);
+    Formik.setFieldValue("kcExperience", kcExperience);
+  }, [dob, kcExperience]);
+
   const Formik = useFormik({
     initialValues: {
       name: user?.name,
       username: user?.username,
       spiritualName: user?.spiritualName,
-      kcExperience: kcExperience,
+      kcExperience: "",
       country: user?.country,
       state: user?.state,
       zipCode: user?.zipCode,
-      dob: dob,
+      dob: "",
       telegramId: user?.telegramId,
       gender: user?.gender,
       qualification: user?.qualification,
