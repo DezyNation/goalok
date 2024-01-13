@@ -209,7 +209,7 @@ export default function HomePage() {
               rounded={"full"}
               colorScheme={"yellow"}
               as={"a"}
-              href={"#"}
+              href={"/team"}
               target="_blank"
               fontWeight={"medium"}
             >

@@ -78,7 +78,7 @@ const page = () => {
           my={8}
         >
           {data?.map((item, key) => (
-            <Box boxSize={[24, 36]}>
+            <Box boxSize={[28, 36]}>
               <VStack
                 w={"full"}
                 alignItems={"center"}
