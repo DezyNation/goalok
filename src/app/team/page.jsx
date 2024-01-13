@@ -74,15 +74,15 @@ const page = () => {
       </Box>
 
       <HStack
-        py={[4, 8, 16]}
+        p={[4, 8, 16]}
         alignItems={"center"}
         justifyContent={"center"}
         flexWrap={"wrap"}
         my={8}
-        gap={[12, 16]}
+        gap={[4, 16]}
       >
         {data?.map((item, key) => (
-          <Box w={[28, 36]} h={48}>
+          <Box w={['40vw', 36]} h={48}>
             <VStack w={"full"} alignItems={"center"} justifyContent={"center"}>
               <Image
                 src={item?.avatar?.url ?? "/face.png"}
@@ -91,7 +91,7 @@ const page = () => {
                 rounded={"full"}
                 objectPosition={"center"}
                 objectFit={"cover"}
-                mb={2}
+                mb={1}
               />
               <Text
                 className="messiri"
