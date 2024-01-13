@@ -2,9 +2,18 @@
 import React, { useEffect, useState } from "react";
 import Navbar from "../../components/global/Navbar";
 import Footer from "../../components/global/Footer";
-import { Box, HStack, Image, Stack, Text, VStack } from "@chakra-ui/react";
+import {
+  Box,
+  Button,
+  HStack,
+  Image,
+  Stack,
+  Text,
+  VStack,
+} from "@chakra-ui/react";
 import axios from "axios";
 import { API_BASE_URL } from "../../utils/constants";
+import { IoSend } from "react-icons/io5";
 
 const page = () => {
   const [data, setData] = useState([]);
@@ -85,12 +94,11 @@ const page = () => {
             </Box>
           </Box>
         </Stack>
-        <br />
-        <br />
       </Box>
 
       <HStack
-        p={[4, 8, 16]} pt={0}
+        p={[4, 8, 16]}
+        pt={4}
         alignItems={"flex-start"}
         justifyContent={"center"}
         flexWrap={"wrap"}
@@ -131,6 +139,29 @@ const page = () => {
       </HStack>
       <br />
       <br />
+      <Stack
+        p={[4, 8, 16]}
+        w="100%"
+        bgGradient="linear(to-r, gray.400, yellow.500, pink.300)"
+        direction={["column", "row"]}
+        alignItems={"center"}
+        justifyContent={"space-between"}
+        gap={4}
+      >
+        <Text fontWeight={"bold"} fontSize={["3xl", "5xl"]} color={"#FFF"} textAlign={['center', 'left']} >
+          Want To Be A Part Of Our Team?
+        </Text>
+        <Button
+          size={"lg"}
+          rounded={"full"}
+          colorScheme="red"
+          rightIcon={<IoSend />}
+          as={'a'}
+          href="/join"
+        >
+          Fill This Form
+        </Button>
+      </Stack>
       <Footer />
     </>
   );

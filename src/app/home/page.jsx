@@ -165,7 +165,6 @@ export default function HomePage() {
             <Text
               fontSize={"4xl"}
               fontWeight={"semibold"}
-              color={"#FFF"}
               className="messiri"
             >
               Krishna Consciousness Society
