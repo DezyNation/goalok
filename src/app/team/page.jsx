@@ -40,7 +40,7 @@ const page = () => {
             textAlign={"center"}
             color={"gray.600"}
             mb={8}
-            maxW={["full", "lg"]}
+            maxW={["full", "xl"]}
           >
             We comprise a dedicated team of over 150 professionals hailing from
             diverse regions across the nation. Under the leadership of{" "}
