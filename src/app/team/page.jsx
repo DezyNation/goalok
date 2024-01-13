@@ -71,49 +71,48 @@ const page = () => {
         </Stack>
         <br />
         <br />
-        <HStack
-          alignItems={"center"}
-          justifyContent={"center"}
-          flexWrap={"wrap"}
-          my={8}
-        >
-          {data?.map((item, key) => (
-            <Box boxSize={[28, 36]}>
-              <VStack
-                w={"full"}
-                alignItems={"center"}
-                justifyContent={"center"}
-              >
-                <Image
-                  src={item?.avatar?.url ?? "/face.png"}
-                  w={[24, 36]}
-                  h={[24, 36]}
-                  rounded={"full"}
-                  objectPosition={"center"}
-                  objectFit={"cover"}
-                  mb={2}
-                />
-                <Text
-                  className="messiri"
-                  fontWeight={"semibold"}
-                  textTransform={"capitalize"}
-                  fontSize={["sm", "md"]}
-                  textAlign={"center"}
-                >
-                  {item?.spiritualName}
-                </Text>
-                <Text
-                  fontSize={["10", "xs"]}
-                  color={"gray.500"}
-                  textAlign={"center"}
-                >
-                  {item?.qualification}
-                </Text>
-              </VStack>
-            </Box>
-          ))}
-        </HStack>
       </Box>
+
+      <HStack
+        py={[4, 8, 16]}
+        alignItems={"center"}
+        justifyContent={"center"}
+        flexWrap={"wrap"}
+        my={8}
+        gap={8}
+      >
+        {data?.map((item, key) => (
+          <Box boxSize={[28, 36]}>
+            <VStack w={"full"} alignItems={"center"} justifyContent={"center"}>
+              <Image
+                src={item?.avatar?.url ?? "/face.png"}
+                w={[24, 36]}
+                h={[24, 36]}
+                rounded={"full"}
+                objectPosition={"center"}
+                objectFit={"cover"}
+                mb={2}
+              />
+              <Text
+                className="messiri"
+                fontWeight={"semibold"}
+                textTransform={"capitalize"}
+                fontSize={["sm", "md"]}
+                textAlign={"center"}
+              >
+                {item?.spiritualName}
+              </Text>
+              <Text
+                fontSize={["10", "xs"]}
+                color={"gray.500"}
+                textAlign={"center"}
+              >
+                {item?.qualification}
+              </Text>
+            </VStack>
+          </Box>
+        ))}
+      </HStack>
       <br />
       <br />
       <Footer />
