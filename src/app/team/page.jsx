@@ -42,10 +42,10 @@ const page = () => {
           maxW={["full", "lg"]}
         >
           We comprise a dedicated team of over 150 professionals hailing from
-          diverse regions across the nation. Under the leadership of H.G.
-          Gauranga Sundar Das, our team boasts individuals with expertise in
-          various fields, encompassing scientists, doctors, journalists,
-          chartered accountants, engineers, and more!
+          diverse regions across the nation. Under the leadership of{" "}
+          <strong>H.G. Gauranga Sundar Das</strong>, our team boasts individuals
+          with expertise in various fields, encompassing scientists, doctors,
+          journalists, chartered accountants, engineers, and more!
         </Text>
         <Stack
           direction={["column", "row"]}
