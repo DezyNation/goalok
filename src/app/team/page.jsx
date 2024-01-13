@@ -23,16 +23,29 @@ const page = () => {
   return (
     <>
       <Navbar />
-      <Box p={[4, 8, 16]} h={"auto"}>
+      <Box p={[4, 8, 16]} pb={4} h={"auto"}>
         <Text
           fontSize={["3xl", "5xl"]}
           textAlign={"center"}
           fontWeight={"semibold"}
-          my={8}
+          mt={8}
           pt={[8, 4]}
           className="messiri"
         >
           Our Team
+        </Text>
+        <Text
+          fontSize={["md", "lg"]}
+          textAlign={"center"}
+          color={"gray.600"}
+          mb={8}
+          maxW={["full", "lg"]}
+        >
+          We comprise a dedicated team of over 150 professionals hailing from
+          diverse regions across the nation. Under the leadership of H.G.
+          Gauranga Sundar Das, our team boasts individuals with expertise in
+          various fields, encompassing scientists, doctors, journalists,
+          chartered accountants, engineers, and more!
         </Text>
         <Stack
           direction={["column", "row"]}
@@ -82,7 +95,7 @@ const page = () => {
         gap={[4, 16]}
       >
         {data?.map((item, key) => (
-          <Box w={['40vw', 36]} h={'auto'}>
+          <Box w={["40vw", 36]} h={"auto"}>
             <VStack w={"full"} alignItems={"center"} justifyContent={"center"}>
               <Image
                 src={item?.avatar?.url ?? "/face.png"}
