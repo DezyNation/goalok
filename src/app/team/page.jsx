@@ -82,7 +82,7 @@ const page = () => {
         gap={[4, 16]}
       >
         {data?.map((item, key) => (
-          <Box w={['40vw', 36]} h={48}>
+          <Box w={['40vw', 36]} h={'auto'}>
             <VStack w={"full"} alignItems={"center"} justifyContent={"center"}>
               <Image
                 src={item?.avatar?.url ?? "/face.png"}
