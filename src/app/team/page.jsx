@@ -91,7 +91,7 @@ const page = () => {
 
       <HStack
         p={[4, 8, 16]}
-        alignItems={"center"}
+        alignItems={"flex-start"}
         justifyContent={"center"}
         flexWrap={"wrap"}
         my={8}
