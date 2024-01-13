@@ -74,7 +74,7 @@ const page = () => {
             />
             <Box p={4}>
               <Text className="messiri" fontSize={"lg"} fontWeight={"semibold"}>
-                HG Gauranga Sundar Das
+                H.G. Gauranga Sundar Das
               </Text>
               <Text fontSize={"xs"} color={"gray.600"}>
                 <span style={{ fontWeight: "600" }}>Chairman</span> - Project
