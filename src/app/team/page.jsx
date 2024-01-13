@@ -79,7 +79,7 @@ const page = () => {
         justifyContent={"center"}
         flexWrap={"wrap"}
         my={8}
-        gap={[8, 8]}
+        gap={[12, 16]}
       >
         {data?.map((item, key) => (
           <Box w={[28, 36]} h={48}>
