@@ -34,19 +34,22 @@ const page = () => {
         >
           Our Team
         </Text>
-        <Text
-          fontSize={["md", "lg"]}
-          textAlign={"center"}
-          color={"gray.600"}
-          mb={8}
-          maxW={["full", "lg"]}
-        >
-          We comprise a dedicated team of over 150 professionals hailing from
-          diverse regions across the nation. Under the leadership of{" "}
-          <strong>H.G. Gauranga Sundar Das</strong>, our team boasts individuals
-          with expertise in various fields, encompassing scientists, doctors,
-          journalists, chartered accountants, engineers, and more!
-        </Text>
+        <VStack w={"full"} alignItems={"center"} justifyContent={"center"}>
+          <Text
+            fontSize={["sm", "sm"]}
+            textAlign={"center"}
+            color={"gray.600"}
+            mb={8}
+            maxW={["full", "lg"]}
+          >
+            We comprise a dedicated team of over 150 professionals hailing from
+            diverse regions across the nation. Under the leadership of{" "}
+            <strong>H.G. Gauranga Sundar Das</strong>, our team boasts
+            individuals with expertise in various fields, encompassing
+            scientists, doctors, journalists, chartered accountants, engineers,
+            and more!
+          </Text>
+        </VStack>
         <Stack
           direction={["column", "row"]}
           alignItems={"center"}
