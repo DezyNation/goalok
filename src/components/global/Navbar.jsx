@@ -89,7 +89,7 @@ const Navbar = ({ theme }) => {
                 className="messiri nav-link"
                 fontSize={["md", "lg"]}
               >
-                ISKCON Inc.
+                Krishna Consciousness Society
               </Text>
             </Link>
             <IconButton
