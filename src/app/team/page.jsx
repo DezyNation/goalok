@@ -79,10 +79,10 @@ const page = () => {
         justifyContent={"center"}
         flexWrap={"wrap"}
         my={8}
-        gap={8}
+        gap={[8, 8]}
       >
         {data?.map((item, key) => (
-          <Box boxSize={[28, 36]}>
+          <Box w={[28, 36]} h={48}>
             <VStack w={"full"} alignItems={"center"} justifyContent={"center"}>
               <Image
                 src={item?.avatar?.url ?? "/face.png"}
