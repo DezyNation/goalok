@@ -40,7 +40,7 @@ const page = () => {
             textAlign={"center"}
             color={"gray.600"}
             mb={8}
-            maxW={["full", "xl"]}
+            maxW={["full", "80%"]}
           >
             We comprise a dedicated team of over 150 professionals hailing from
             diverse regions across the nation. Under the leadership of{" "}
@@ -90,7 +90,7 @@ const page = () => {
       </Box>
 
       <HStack
-        p={[4, 8, 16]}
+        p={[4, 8, 16]} pt={0}
         alignItems={"flex-start"}
         justifyContent={"center"}
         flexWrap={"wrap"}
