@@ -95,15 +95,18 @@ const page = () => {
           </Box>
         </Stack>
       </Box>
+      
       <Text
         fontWeight={"semibold"}
         fontSize={"3xl"}
         textAlign={"center"}
         px={["4, 8, 16"]}
         textTransform={"capitalize"}
+        color={'gray.600'}
       >
-        {data?.length} nationwide volunteers, and counting!
+        {data?.length}+ nationwide volunteers, and counting!
       </Text>
+
       <HStack
         p={[4, 8, 16]}
         pt={4}
