@@ -95,7 +95,15 @@ const page = () => {
           </Box>
         </Stack>
       </Box>
-
+      <Text
+        fontWeight={"semibold"}
+        fontSize={"3xl"}
+        textAlign={"center"}
+        px={["4, 8, 16"]}
+        textTransform={"capitalize"}
+      >
+        {data?.length} nationwide volunteers, and counting!
+      </Text>
       <HStack
         p={[4, 8, 16]}
         pt={4}
@@ -148,7 +156,12 @@ const page = () => {
         justifyContent={"space-between"}
         gap={4}
       >
-        <Text fontWeight={"bold"} fontSize={["3xl", "5xl"]} color={"#FFF"} textAlign={['center', 'left']} >
+        <Text
+          fontWeight={"bold"}
+          fontSize={["3xl", "5xl"]}
+          color={"#FFF"}
+          textAlign={["center", "left"]}
+        >
           Want To Be A Part Of Our Team?
         </Text>
         <Button
@@ -156,7 +169,7 @@ const page = () => {
           rounded={"full"}
           colorScheme="red"
           rightIcon={<IoSend />}
-          as={'a'}
+          as={"a"}
           href="/join"
         >
           Fill This Form
