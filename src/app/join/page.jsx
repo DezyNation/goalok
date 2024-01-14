@@ -100,11 +100,11 @@ const page = () => {
               <br />
               <Stack direction={["column", "row"]} gap={8} pb={8}>
                 <FormControl w={["full", "xs"]}>
-                  <FormLabel>Your Name</FormLabel>
+                  <FormLabel fontSize={'sm'} >Your Name</FormLabel>
                   <Input rounded={"full"} placeholder="Your full name" />
                 </FormControl>
                 <FormControl w={["full", "xs"]}>
-                  <FormLabel>Phone Number</FormLabel>
+                  <FormLabel fontSize={'sm'} >Phone Number</FormLabel>
                   <InputGroup>
                     <InputLeftAddon
                       p={0}
@@ -133,14 +133,14 @@ const page = () => {
               </Stack>
               <Stack direction={["column", "row"]} gap={8} pb={8}>
                 <FormControl w={["full", "xs"]}>
-                  <FormLabel>Your Telegram ID</FormLabel>
+                  <FormLabel fontSize={'sm'} >Your Telegram ID</FormLabel>
                   <InputGroup>
                     <InputLeftAddon children={"@"} />
                     <Input rounded={"full"} placeholder="Your Telegram ID" />
                   </InputGroup>
                 </FormControl>
                 <FormControl w={["full", "xs"]}>
-                  <FormLabel>How did you know about us?</FormLabel>
+                  <FormLabel fontSize={'sm'} >How did you know about us?</FormLabel>
                   <Select options={sources}></Select>
                 </FormControl>
               </Stack>
@@ -153,7 +153,7 @@ const page = () => {
                 pb={8}
               >
                 <FormControl>
-                  <FormLabel>Did you join any other temple before?</FormLabel>
+                  <FormLabel fontSize={'sm'} >Did you join any other temple before?</FormLabel>
                   <HStack>
                     <Button
                       colorScheme={pastAssociation ? "twitter" : "gray"}
@@ -173,7 +173,7 @@ const page = () => {
                 </FormControl>
                 {pastAssociation ? (
                   <FormControl>
-                    <FormLabel>Please tell us the temple name</FormLabel>
+                    <FormLabel fontSize={'sm'} >Please tell us the temple name</FormLabel>
                     <Input placeholder="e.g., ISKCON or HKM" />
                   </FormControl>
                 ) : null}
@@ -187,7 +187,7 @@ const page = () => {
                 pb={8}
               >
                 <FormControl w={["full", "full"]}>
-                  <FormLabel>Tell us little about yourself</FormLabel>
+                  <FormLabel fontSize={'sm'} >Tell us little about yourself</FormLabel>
                   <Textarea
                     w={"full"}
                     h={24}
