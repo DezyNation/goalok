@@ -52,7 +52,7 @@ const page = () => {
             maxW={["full", "80%"]}
           >
             We comprise a dedicated team of over 150 professionals hailing from
-            diverse regions across the nation. Under the leadership of{" "}
+            diverse regions across the nation. Led by{" "}
             <strong>H.G. Gauranga Sundar Das</strong>, our team boasts
             individuals with expertise in various fields, encompassing
             scientists, doctors, journalists, chartered accountants, engineers,
@@ -95,14 +95,14 @@ const page = () => {
           </Box>
         </Stack>
       </Box>
-      
+
       <Text
         fontWeight={"semibold"}
         fontSize={"3xl"}
         textAlign={"center"}
         px={["4, 8, 16"]}
         textTransform={"capitalize"}
-        color={'gray.600'}
+        color={"gray.600"}
       >
         {data?.length}+ nationwide volunteers, and counting!
       </Text>
