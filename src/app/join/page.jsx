@@ -152,6 +152,7 @@ const page = () => {
                       rounded={"full"}
                       placeholder="Your full name"
                       name="name"
+                      value={Formik.values.name}
                       onChange={Formik.handleChange}
                     />
                   </FormControl>
@@ -180,6 +181,7 @@ const page = () => {
                         type="tel"
                         max={10}
                         name="phone"
+                        value={Formik.values.phone}
                         onChange={Formik.handleChange}
                       />
                     </InputGroup>
@@ -194,6 +196,7 @@ const page = () => {
                         rounded={"full"}
                         placeholder="Your Telegram ID"
                         name="telegramId"
+                        value={Formik.values.telegramId}
                         onChange={Formik.handleChange}
                       />
                     </InputGroup>
@@ -256,6 +259,7 @@ const page = () => {
                       <Input
                         placeholder="e.g., ISKCON or HKM"
                         name="previousTempleName"
+                        value={Formik.values.previousTempleName}
                         onChange={Formik.handleChange}
                       />
                     </FormControl>
@@ -283,6 +287,7 @@ const page = () => {
                         "Tell us why you want to join us, what inspires you the most, your fields of interest..."
                       }
                       name="about"
+                      value={Formik.values.about}
                       onChange={Formik.handleChange}
                     />
                   </FormControl>
