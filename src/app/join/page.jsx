@@ -16,14 +16,20 @@ import {
   Text,
   Textarea,
   VStack,
+  useToast,
 } from "@chakra-ui/react";
 import { CountrySelector } from "react-international-phone";
 import "react-international-phone/style.css";
 import { Select } from "chakra-react-select";
+import { useFormik } from "formik";
+import axios from "axios";
+import { API_BASE_URL } from "../../utils/constants";
 
 const page = () => {
+  const Toast = useToast({ position: "top-right" });
+  const [loading, setLoading] = useState(false);
   const [country, setCountry] = useState("in");
-  const [pastAssociation, setPastAssociation] = useState(null);
+  const [pastAssociation, setPastAssociation] = useState(false);
 
   const sources = [
     {
@@ -56,6 +62,46 @@ const page = () => {
     },
   ];
 
+  const Formik = useFormik({
+    initialValues: {
+      name: "",
+      phone: "",
+      telegramId: "",
+      reference: "",
+      hadPastAssociation: pastAssociation,
+      previousTempleName: "",
+      country: country,
+    },
+    onSubmit: (values) => {
+      setLoading(true);
+      axios
+        .post(`${API_BASE_URL}/joining-requests`, {
+          data: {
+            ...values,
+          },
+        })
+        .then((res) => {
+          setLoading(false);
+          Toast({
+            status: "success",
+            title: "Successfully submitted.",
+          });
+          Formik.handleReset();
+        })
+        .catch((error) => {
+          setLoading(false);
+          Toast({
+            status: "error",
+            title: "Error submitting your request",
+            description:
+              error?.response?.data?.error?.message ||
+              error?.response?.data?.message ||
+              error?.message,
+          });
+        });
+    },
+  });
+
   return (
     <>
       <Navbar />
@@ -85,138 +131,188 @@ const page = () => {
               ></Box>
             </Box>
           </Hide>
-          <Box
-            flex={1}
-            p={[4, 8, 16]}
-            h={"100vh"}
-            overflowY={"scroll"}
-            className="hide-scrollbar"
-          >
-            <VStack my={16} alignItems={"center"} justifyContent={"center"}>
-              <Text>Take the best decision of your life</Text>
-              <Text className="messiri" fontSize={["3xl"]}>
-                Get a Devotee Association
-              </Text>
-              <br />
-              <Stack direction={["column", "row"]} gap={8} pb={8}>
-                <FormControl w={["full", "xs"]}>
-                  <FormLabel fontSize={'sm'} >Your Name</FormLabel>
-                  <Input rounded={"full"} placeholder="Your full name" />
-                </FormControl>
-                <FormControl w={["full", "xs"]}>
-                  <FormLabel fontSize={'sm'} >Phone Number</FormLabel>
-                  <InputGroup>
-                    <InputLeftAddon
-                      p={0}
-                      bgColor={"#FFF"}
-                      children={
-                        <CountrySelector
-                          selectedCountry={country}
-                          onSelect={(iso2) => setCountry(iso2)}
-                          buttonStyle={{
-                            width: "100%",
-                            border: "none",
-                            paddingLeft: "6px",
-                            paddingRight: "6px",
-                          }}
-                        />
-                      }
-                    />
+          <form onSubmit={Formik.handleSubmit}>
+            <Box
+              flex={1}
+              p={[4, 8, 16]}
+              h={"100vh"}
+              overflowY={"scroll"}
+              className="hide-scrollbar"
+            >
+              <VStack my={16} alignItems={"center"} justifyContent={"center"}>
+                <Text>Take the best decision of your life</Text>
+                <Text className="messiri" fontSize={["3xl"]}>
+                  Get a Devotee Association
+                </Text>
+                <br />
+                <Stack direction={["column", "row"]} gap={8} pb={8}>
+                  <FormControl w={["full", "xs"]} isRequired>
+                    <FormLabel fontSize={"sm"}>Your Name</FormLabel>
                     <Input
                       rounded={"full"}
-                      placeholder="Your phone no."
-                      type="tel"
-                      max={10}
+                      placeholder="Your full name"
+                      name="name"
+                      onChange={Formik.handleChange}
                     />
-                  </InputGroup>
-                </FormControl>
-              </Stack>
-              <Stack direction={["column", "row"]} gap={8} pb={8}>
-                <FormControl w={["full", "xs"]}>
-                  <FormLabel fontSize={'sm'} >Your Telegram ID</FormLabel>
-                  <InputGroup>
-                    <InputLeftAddon children={"@"} />
-                    <Input rounded={"full"} placeholder="Your Telegram ID" />
-                  </InputGroup>
-                </FormControl>
-                <FormControl w={["full", "xs"]}>
-                  <FormLabel fontSize={'sm'} >How did you know about us?</FormLabel>
-                  <Select options={sources}></Select>
-                </FormControl>
-              </Stack>
-              <Stack
-                w={"full"}
-                direction={["column", "row"]}
-                alignItems={"flex-start"}
-                justifyContent={"flex-start"}
-                gap={8}
-                pb={8}
-              >
-                <FormControl>
-                  <FormLabel fontSize={'sm'} >Did you join any other temple before?</FormLabel>
-                  <HStack>
-                    <Button
-                      colorScheme={pastAssociation ? "twitter" : "gray"}
-                      onClick={() => setPastAssociation(true)}
-                    >
-                      YES
-                    </Button>
-                    <Button
-                      colorScheme={
-                        pastAssociation == false ? "twitter" : "gray"
-                      }
-                      onClick={() => setPastAssociation(false)}
-                    >
-                      NO
-                    </Button>
-                  </HStack>
-                </FormControl>
-                {pastAssociation ? (
-                  <FormControl>
-                    <FormLabel fontSize={'sm'} >Please tell us the temple name</FormLabel>
-                    <Input placeholder="e.g., ISKCON or HKM" />
                   </FormControl>
-                ) : null}
-              </Stack>
-              <Stack
-                w={"full"}
-                direction={["column", "row"]}
-                alignItems={"flex-start"}
-                justifyContent={"flex-start"}
-                gap={8}
-                pb={8}
-              >
-                <FormControl w={["full", "full"]}>
-                  <FormLabel fontSize={'sm'} >Tell us little about yourself</FormLabel>
-                  <Textarea
-                    w={"full"}
-                    h={24}
-                    resize={"none"}
-                    fontSize={"sm"}
-                    placeholder={
-                      "Tell us why you want to join us, what inspires you the most, your fields of interest..."
-                    }
-                  />
-                </FormControl>
-              </Stack>
-              <HStack mb={8} w={"full"} justifyContent={"flex-start"}>
-                <Checkbox />
-                <Text fontSize={"sm"}>
-                  By submitting this form, you agree to our Terms & Conditions
-                  and Privacy Policy
-                </Text>
-              </HStack>
-              <HStack w={"full"} justifyContent={"flex-end"}>
-                <Button
-                  colorScheme="yellow"
-                  rounded={"full"}
-                  fontWeight={"medium"}
+                  <FormControl w={["full", "xs"]} isRequired>
+                    <FormLabel fontSize={"sm"}>Phone Number</FormLabel>
+                    <InputGroup pos={"relative"} zIndex={9}>
+                      <InputLeftAddon
+                        p={0}
+                        pos={"relative"}
+                        bgColor={"#FFF"}
+                        children={
+                          <CountrySelector
+                            selectedCountry={country}
+                            onSelect={(iso2) => setCountry(iso2)}
+                            renderButtonWrapper={({ children, rootProps }) => (
+                              <Button {...rootProps} variant="outline" px="4px">
+                                {children}
+                              </Button>
+                            )}
+                          />
+                        }
+                      />
+                      <Input
+                        rounded={"full"}
+                        placeholder="Your phone no."
+                        type="tel"
+                        max={10}
+                        name="phone"
+                        onChange={Formik.handleChange}
+                      />
+                    </InputGroup>
+                  </FormControl>
+                </Stack>
+                <Stack direction={["column", "row"]} gap={8} pb={8} zIndex={1}>
+                  <FormControl w={["full", "xs"]}>
+                    <FormLabel fontSize={"sm"}>Your Telegram ID</FormLabel>
+                    <InputGroup>
+                      <InputLeftAddon children={"@"} />
+                      <Input
+                        rounded={"full"}
+                        placeholder="Your Telegram ID"
+                        name="telegramId"
+                        onChange={Formik.handleChange}
+                      />
+                    </InputGroup>
+                  </FormControl>
+                  <FormControl w={["full", "xs"]} isRequired>
+                    <FormLabel fontSize={"sm"}>
+                      How did you know about us?
+                    </FormLabel>
+                    <Select
+                      options={sources}
+                      name="reference"
+                      value={sources.find(
+                        (data) => data?.value == Formik.values.reference
+                      )}
+                      onChange={(item) =>
+                        Formik.setFieldValue(
+                          "reference",
+                          sources.find((data) => data?.value == item?.value)
+                            ?.value
+                        )
+                      }
+                    />
+                  </FormControl>
+                </Stack>
+                <Stack
+                  w={"full"}
+                  direction={["column", "row"]}
+                  alignItems={"flex-start"}
+                  justifyContent={"flex-start"}
+                  gap={8}
+                  pb={8}
+                  zIndex={0}
                 >
-                  Submit
-                </Button>
-              </HStack>
-            </VStack>
-          </Box>
+                  <FormControl>
+                    <FormLabel fontSize={"sm"}>
+                      Did you join any other temple before?
+                    </FormLabel>
+                    <HStack>
+                      <Button
+                        colorScheme={pastAssociation ? "twitter" : "gray"}
+                        onClick={() => setPastAssociation(true)}
+                      >
+                        YES
+                      </Button>
+                      <Button
+                        colorScheme={
+                          pastAssociation == false ? "twitter" : "gray"
+                        }
+                        onClick={() => setPastAssociation(false)}
+                      >
+                        NO
+                      </Button>
+                    </HStack>
+                  </FormControl>
+                  {pastAssociation ? (
+                    <FormControl>
+                      <FormLabel fontSize={"sm"}>
+                        Please tell us the temple name
+                      </FormLabel>
+                      <Input
+                        placeholder="e.g., ISKCON or HKM"
+                        name="previousTempleName"
+                        onChange={Formik.handleChange}
+                      />
+                    </FormControl>
+                  ) : null}
+                </Stack>
+                <Stack
+                  w={"full"}
+                  direction={["column", "row"]}
+                  alignItems={"flex-start"}
+                  justifyContent={"flex-start"}
+                  gap={8}
+                  pb={8}
+                  zIndex={0}
+                >
+                  <FormControl w={["full", "full"]}>
+                    <FormLabel fontSize={"sm"}>
+                      Tell us little about yourself
+                    </FormLabel>
+                    <Textarea
+                      w={"full"}
+                      h={24}
+                      resize={"none"}
+                      fontSize={"sm"}
+                      placeholder={
+                        "Tell us why you want to join us, what inspires you the most, your fields of interest..."
+                      }
+                      name="about"
+                      onChange={Formik.handleChange}
+                    />
+                  </FormControl>
+                </Stack>
+                <HStack
+                  mb={8}
+                  w={"full"}
+                  alignItems={["flex-start", "center"]}
+                  justifyContent={"flex-start"}
+                >
+                  <Checkbox isRequired />
+                  <Text fontSize={"sm"}>
+                    By submitting this form, you agree to our Terms & Conditions
+                    and Privacy Policy
+                  </Text>
+                </HStack>
+                <HStack w={"full"} justifyContent={"flex-end"}>
+                  <Button
+                    colorScheme="yellow"
+                    rounded={"full"}
+                    fontWeight={"medium"}
+                    type="submit"
+                    isLoading={loading}
+                  >
+                    Submit
+                  </Button>
+                </HStack>
+              </VStack>
+            </Box>
+          </form>
         </HStack>
       </Box>
     </>

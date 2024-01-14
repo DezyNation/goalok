@@ -124,6 +124,10 @@ body {
   /* background-color: #1D1E22; */
 }
 
+.country-dropdown{
+z-index: 999999;
+}
+
 @media (max-width: 768px) {
   .center-box{
     height: 300px;
