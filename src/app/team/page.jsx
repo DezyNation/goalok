@@ -37,8 +37,8 @@ const page = () => {
     if (!search) setFilteredData(data);
     if (search) {
       setFilteredData(
-        data?.filter(
-          (user) => user?.spiritualName?.toLowerCase() == search?.toLowerCase()
+        data?.filter((user) =>
+          user?.spiritualName?.toLowerCase()?.includes(search?.toLowerCase())
         )
       );
     }
