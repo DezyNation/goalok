@@ -7,6 +7,7 @@ import {
   Button,
   HStack,
   Image,
+  Input,
   Stack,
   Text,
   VStack,
@@ -17,17 +18,31 @@ import { IoSend } from "react-icons/io5";
 
 const page = () => {
   const [data, setData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]);
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     axios
       .get(`${API_BASE_URL}/team`)
       .then((res) => {
         setData(res.data);
+        setFilteredData(res.data);
       })
       .catch((err) => {
         console.log(err);
       });
   }, []);
+
+  useEffect(() => {
+    if (!search) setFilteredData(data);
+    if (search) {
+      setFilteredData(
+        data?.filter(
+          (user) => user?.spiritualName?.toLowerCase() == search?.toLowerCase()
+        )
+      );
+    }
+  }, [search]);
 
   return (
     <>
@@ -106,7 +121,16 @@ const page = () => {
       >
         {data?.length}+ nationwide volunteers, and counting!
       </Text>
-
+      <HStack p={[4, 8, 16]} justifyContent={["center", "flex-end"]}>
+        <Input
+          w={["full", "sm"]}
+          fontSize={"sm"}
+          name="search"
+          placeholder="Search"
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
+      </HStack>
       <HStack
         p={[4, 8, 16]}
         pt={4}
@@ -116,8 +140,8 @@ const page = () => {
         my={8}
         gap={[4, 16]}
       >
-        {data?.map((item, key) => (
-          <Box w={["40vw", 36]} h={"auto"}>
+        {filteredData?.map((item, key) => (
+          <Box w={["40vw", 36]} h={"auto"} key={key}>
             <VStack w={"full"} alignItems={"center"} justifyContent={"center"}>
               <Image
                 src={item?.avatar?.url ?? "/face.png"}
