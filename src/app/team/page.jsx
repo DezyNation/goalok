@@ -121,12 +121,12 @@ const page = () => {
       >
         {data?.length}+ nationwide volunteers, and counting!
       </Text>
-      <HStack p={[4, 8, 16]} justifyContent={["center", "flex-end"]}>
+      <HStack p={[4, 8, 16]} pb={0} justifyContent={["center", "flex-end"]}>
         <Input
           w={["full", "sm"]}
           fontSize={"sm"}
           name="search"
-          placeholder="Search"
+          placeholder="Search by name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           variant={'outline'}
