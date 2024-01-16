@@ -129,6 +129,7 @@ const page = () => {
           placeholder="Search"
           value={search}
           onChange={(e) => setSearch(e.target.value)}
+          variant={'outline'}
         />
       </HStack>
       <HStack
