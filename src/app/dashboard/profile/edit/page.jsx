@@ -108,8 +108,6 @@ const page = () => {
     onSubmit: async (values) => {
       setLoading(true);
       if (avatar) {
-        console.log(avatar);
-        // return;
         await uploadAndAttachMedia({
           entryId: user?.id,
           field: "avatar",

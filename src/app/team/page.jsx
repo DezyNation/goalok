@@ -15,6 +15,7 @@ import {
 import axios from "axios";
 import { API_BASE_URL } from "../../utils/constants";
 import { IoSend } from "react-icons/io5";
+import Link from "next/link";
 
 const page = () => {
   const [data, setData] = useState([]);
@@ -104,7 +105,9 @@ const page = () => {
                 - Bharat Niti
               </Text>
               <HStack pt={4} justifyContent={"flex-end"} cursor={"pointer"}>
-                <Image w={6} src="/icons/instagram.png" />
+                <Link href={"https://www.instagram.com/gaurangasundar_d/"}>
+                  <Image w={6} src="/icons/instagram.png" />
+                </Link>
               </HStack>
             </Box>
           </Box>
@@ -129,7 +132,7 @@ const page = () => {
           placeholder="Search by name..."
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          variant={'outline'}
+          variant={"outline"}
         />
       </HStack>
       <HStack
