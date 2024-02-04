@@ -44,9 +44,14 @@ const Navbar = ({ theme }) => {
             mx={"auto"}
             color={"#FFF"}
             gap={[4, 8, 16]}
-            justifyContent={'space-between'}
+            justifyContent={"space-between"}
           >
-            <Text cursor={"pointer"} className="raleway nav-link" as={'a'} href="/counselling">
+            <Text
+              cursor={"pointer"}
+              className="raleway nav-link"
+              as={"a"}
+              href="/counselling"
+            >
               Counselling
             </Text>
             <Text cursor={"pointer"} className="raleway nav-link">
@@ -58,7 +63,7 @@ const Navbar = ({ theme }) => {
                 cursor={"pointer"}
                 className="messiri nav-link"
                 fontSize={["md", "lg"]}
-                textAlign={'center'}
+                textAlign={"center"}
               >
                 Krishna Consciousness Society
               </Text>
@@ -67,7 +72,7 @@ const Navbar = ({ theme }) => {
             <Text cursor={"pointer"} className="raleway nav-link">
               Shop
             </Text>
-            <Link href={"/auth/login"}>
+            {/* <Link href={"/auth/login"}>
               <Button
                 colorScheme="yellow"
                 roundedTopLeft={"full"}
@@ -77,7 +82,16 @@ const Navbar = ({ theme }) => {
               >
                 Login Now
               </Button>
-            </Link>
+            </Link> */}
+            <Text
+              as={"a"}
+              href="http://blogs.krishnaconsciousnesssociety.com/"
+              cursor={"pointer"}
+              target="_blank"
+              className="raleway nav-link"
+            >
+              Gauranga Sundar Blogs
+            </Text>
           </HStack>
         </Show>
 
@@ -103,16 +117,11 @@ const Navbar = ({ theme }) => {
         </Show>
       </Box>
 
-      <Drawer
-        isOpen={isOpen}
-        onClose={onClose}
-        placement="left"
-        size={"xs"}
-      >
+      <Drawer isOpen={isOpen} onClose={onClose} placement="left" size={"xs"}>
         <DrawerOverlay />
-        <DrawerContent bgColor={'#03001C'} color={'#FFF'}>
+        <DrawerContent bgColor={"#03001C"} color={"#FFF"}>
           <DrawerHeader></DrawerHeader>
-          <DrawerBody py={16} display={'flex'} flexDir={'column'} gap={4}>
+          <DrawerBody py={16} display={"flex"} flexDir={"column"} gap={4}>
             <Text cursor={"pointer"} className="raleway nav-link">
               Counselling
             </Text>
@@ -130,13 +139,17 @@ const Navbar = ({ theme }) => {
             <Text cursor={"pointer"} className="raleway nav-link">
               Donations
             </Text>
-            <Box w={'full'} h={'full'}></Box>
-            <Link href={"/auth/login"} style={{alignSelf: 'center', width: '100%'}}>
+            <Box w={"full"} h={"full"}></Box>
+            <Link
+              href={"/auth/login"}
+              style={{ alignSelf: "center", width: "100%" }}
+            >
               <Button
                 colorScheme="yellow"
                 roundedTopLeft={"full"}
                 roundedBottomRight={"full"}
-                px={6} w={'full'}
+                px={6}
+                w={"full"}
               >
                 Login Now
               </Button>
