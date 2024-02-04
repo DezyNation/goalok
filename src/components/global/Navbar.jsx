@@ -133,6 +133,14 @@ const Navbar = ({ theme }) => {
                 Sessions
               </Text>
             </Link>
+            <Link
+              href={"http://blogs.krishnaconsciousnesssociety.com/"}
+              target="_blank"
+            >
+              <Text cursor={"pointer"} className="raleway nav-link">
+                Gauranga Sundar Blogs
+              </Text>
+            </Link>
             <Text cursor={"pointer"} className="raleway nav-link">
               Shop
             </Text>
