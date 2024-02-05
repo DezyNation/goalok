@@ -9,6 +9,7 @@ import {
   BsGrid1X2Fill,
   BsHeartFill,
 } from "react-icons/bs";
+import { FaBloggerB } from "react-icons/fa6";
 import { PiFlowerLotusFill } from "react-icons/pi";
 import {
   Avatar,
@@ -63,6 +64,11 @@ const SideNav = () => {
       id: "interact",
       icon: <BsChatDotsFill />,
       link: "/dashboard/chat?active_side_item=interact",
+    },
+    {
+      id: "GSD Blogs",
+      icon: <FaBloggerB />,
+      link: "https://blogs.krishnaconsciousnesssociety.com",
     },
   ];
 
