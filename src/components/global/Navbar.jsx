@@ -87,7 +87,6 @@ const Navbar = ({ theme }) => {
               as={"a"}
               href="http://blogs.krishnaconsciousnesssociety.com/"
               cursor={"pointer"}
-              target="_blank"
               className="raleway nav-link"
             >
               Gauranga Sundar Blogs
@@ -135,7 +134,6 @@ const Navbar = ({ theme }) => {
             </Link>
             <Link
               href={"http://blogs.krishnaconsciousnesssociety.com/"}
-              target="_blank"
             >
               <Text cursor={"pointer"} className="raleway nav-link">
                 Gauranga Sundar Blogs
