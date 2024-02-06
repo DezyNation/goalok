@@ -98,13 +98,13 @@ const page = () => {
                   keep this online, active and free forever!
                 </Text>
                 <Text my={4} fontWeight={"semibold"}>
-                  Our UPI ID: iskconinc@oksbi
+                  Our UPI ID: 7357181403@ibl
                 </Text>
                 <Hide below="md">
                   <Image src="/qr.png" maxW={"xs"} />
                 </Hide>
                 <Hide above="md">
-                  <Link target="_blank" href={"upi://pay?pa=iskconinc@oksbi"}>
+                  <Link target="_blank" href={"upi://pay?pa=7357181403@ibl"}>
                     <Image src="/qr.png" maxW={"xs"} />
                   </Link>
                   <Text fontSize={"xs"} textAlign={"center"}>
