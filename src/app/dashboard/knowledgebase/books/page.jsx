@@ -12,7 +12,7 @@ const page = () => {
   }, []);
 
   function fetchBooks() {
-    DefaultAxios.get(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/knowledgebase/books`)
+    DefaultAxios.get(`/api/knowledgebase/books`)
       .then((res) => {
         setBooks(res.data);
       })

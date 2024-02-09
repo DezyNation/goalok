@@ -43,6 +43,7 @@ import hearts from "../../../../public/icons/lottie/hearts.json";
 import parse from "html-react-parser";
 import BackendAxios from "../../../utils/axios";
 import useAuth from "../../../utils/hooks/useAuth";
+import Link from "next/link";
 
 const Author = ({ name, createdAt, id, avatar, type }) => {
   return (
@@ -86,10 +87,25 @@ const Author = ({ name, createdAt, id, avatar, type }) => {
   );
 };
 
-const TextBlock = ({ description }) => {
+const TextBlock = ({ overview, id }) => {
   return (
     <>
-      <Box fontSize={"sm"}>{parse(description || "")}</Box>
+      <Box fontSize={"sm"}>
+        <Text fontSize={"sm"} color={"gray.600"}>
+          {overview}
+        </Text>
+        <HStack w={"full"} justifyContent={"flex-end"}>
+          <Link href={`/article/${id}`}>
+            <Text
+              fontSize={"xs"}
+              color={"facebook.500"}
+              fontWeight={"semibold"}
+            >
+              Read more...
+            </Text>
+          </Link>
+        </HStack>
+      </Box>
     </>
   );
 };
@@ -327,14 +343,7 @@ const Interactions = ({ postId, alreadyLiked }) => {
   );
 };
 
-const Post = ({
-  description,
-  createdAt,
-  creator,
-  media,
-  postId,
-  reactions,
-}) => {
+const Post = ({ overview, createdAt, creator, media, postId, reactions }) => {
   const { user } = useAuth();
 
   const [liked, setLiked] = useState(false);
@@ -368,7 +377,7 @@ const Post = ({
           justifyContent={"flex-start"}
           gap={4}
         >
-          <TextBlock description={description} />
+          <TextBlock overview={overview} id={postId} />
           {/* <MediaBlock /> */}
         </VStack>
         <Footer reactions={reactions} />

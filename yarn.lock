@@ -1196,6 +1196,11 @@
   resolved "https://registry.yarnpkg.com/@react-hook/latest/-/latest-1.0.3.tgz#c2d1d0b0af8b69ec6e2b3a2412ba0768ac82db80"
   integrity sha512-dy6duzl+JnAZcDbNTfmaP3xHiKtbXYOaz3G51MGVljh548Y8MWzTr+PHLOfvpypEVW9zwvl+VyKjbWKEVbV1Rg==
 
+"@strapi/blocks-react-renderer@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/@strapi/blocks-react-renderer/-/blocks-react-renderer-1.0.0.tgz#6ca5d3c760f0c1847e291ec961e262c3695b2d3a"
+  integrity sha512-MwyjCOEGH7D9NWA1+ecApVKUx6bposzjKsPC9mebYrzaNuE6t/9hYH7rBb2ktMuPvMTjsyp9/RGfBKdKcnWC4g==
+
 "@swc/helpers@0.5.1":
   version "0.5.1"
   resolved "https://registry.yarnpkg.com/@swc/helpers/-/helpers-0.5.1.tgz#e9031491aa3f26bfcc974a67f48bd456c8a5357a"

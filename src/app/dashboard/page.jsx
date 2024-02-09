@@ -98,7 +98,7 @@ const page = () => {
           justifyContent={"flex-start"}
           gap={8}
         >
-          {user?.role == "Admin" || user?.role == "Preacher" ? (
+          {/* {user?.role == "Admin" || user?.role == "Preacher" ? (
             <Box w={"full"}>
               <HStack justifyContent={"space-evenly"} pb={4}>
                 <Button
@@ -130,14 +130,14 @@ const page = () => {
               </HStack>
               {intent == "post" ? <CreatePost /> : <CreateSession />}
             </Box>
-          ) : null}
+          ) : null} */}
 
           {posts?.map((post, key) => (
             <Post
               key={key}
               creator={post?.creator}
               postId={post?.id}
-              description={post?.description}
+              overview={post?.overview}
               createdAt={post?.createdAt}
               reactions={post?.reactions}
             />

@@ -30,6 +30,7 @@ FormAxios.defaults.withCredentials = true
 
 
 export const DefaultAxios = axios.create({
+    baseURL,
     headers: {
         'Content-Type': 'application/json'
     }

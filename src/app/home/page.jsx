@@ -15,10 +15,12 @@ import {
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { BsArrowRight, BsStarFill, BsYoutube } from "react-icons/bs";
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import { register } from "swiper/element/bundle";
 import SwiperSlide from "../../components/home/SwiperSlide";
 import Footer from "../../components/global/Footer";
+import { DefaultAxios } from "../../utils/axios";
+import Article from "../../components/home/Article";
 
 register({
   effect: "coverflow",
@@ -26,6 +28,7 @@ register({
 
 export default function HomePage() {
   const swiperElRef = useRef(null);
+  const [articles, setArticles] = useState([]);
 
   useEffect(() => {
     swiperElRef.current.addEventListener("swiperprogress", (e) => {
@@ -36,6 +39,18 @@ export default function HomePage() {
     swiperElRef.current.addEventListener("swiperslidechange", (e) => {
       console.log("slide changed");
     });
+  }, []);
+
+  useEffect(() => {
+    (async () => {
+      DefaultAxios.get(`/api/posts/view/all`)
+        .then((res) => {
+          setArticles(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    })();
   }, []);
 
   return (
@@ -154,6 +169,33 @@ export default function HomePage() {
       </Stack>
 
       <Box p={[4, 8, 16]}>
+        <Text
+          fontSize={["2xl", "4xl"]}
+          fontWeight={"semibold"}
+          className="messiri"
+          mb={8}
+        >
+          Read Our Latest Articles
+        </Text>
+        <Stack
+          direction={["column", "row"]}
+          alignItems={"center"}
+          justifyContent={"flex-start"}
+          gap={8}
+        >
+          {articles?.map((item, key) => (
+            <Article
+              key={key}
+              id={item?.id}
+              banner={item?.banner}
+              title={item?.title}
+              overview={item?.overview}
+            />
+          ))}
+        </Stack>
+      </Box>
+
+      <Box p={[4, 8, 16]}>
         <Stack
           pos={"relative"}
           direction={["column", "row"]}
@@ -163,7 +205,7 @@ export default function HomePage() {
           <Hide above="md">
             <Text>ABOUT US</Text>
             <Text
-              fontSize={"4xl"}
+              fontSize={["2xl", "4xl"]}
               fontWeight={"semibold"}
               className="messiri"
             >
@@ -194,7 +236,8 @@ export default function HomePage() {
               Krishna consciousness throughout the world. Our team upholds an
               unwavering commitment to preserving the purity of this profound
               spiritual practice, embracing the values of dedication, surrender,
-              and humility. <br /><br />
+              and humility. <br />
+              <br />
               With a steadfast focus on following Srila Prabhupada's teachings,
               our team stands united in the shared goal of spreading the essence
               of Krishna consciousness globally. Join us on this transformative

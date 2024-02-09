@@ -45,11 +45,11 @@ const SideNav = () => {
       icon: <BsGrid1X2Fill />,
       link: "/dashboard?active_side_item=feed",
     },
-    {
-      id: "philosophy",
-      icon: <PiFlowerLotusFill />,
-      link: "/dashboard/files?active_side_item=files",
-    },
+    // {
+    //   id: "philosophy",
+    //   icon: <PiFlowerLotusFill />,
+    //   link: "/dashboard/files?active_side_item=files",
+    // },
     {
       id: "sessions",
       icon: <BsCameraVideoFill />,
@@ -60,11 +60,11 @@ const SideNav = () => {
       icon: <BsHeartFill />,
       link: "/dashboard/donate?active_side_item=donate",
     },
-    {
-      id: "interact",
-      icon: <BsChatDotsFill />,
-      link: "/dashboard/chat?active_side_item=interact",
-    },
+    // {
+    //   id: "interact",
+    //   icon: <BsChatDotsFill />,
+    //   link: "/dashboard/chat?active_side_item=interact",
+    // },
     {
       id: "GSD Blogs",
       icon: <FaBloggerB />,

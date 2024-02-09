@@ -60,7 +60,7 @@ const page = () => {
 
   function sendResetEmail() {
     setIsLoading(true);
-    DefaultAxios.post(`${process.env.NEXT_PUBLIC_BACKEND_URL}/api/auth/forgot-password`, {
+    DefaultAxios.post(`/api/auth/forgot-password`, {
       email: email,
     })
       .then((res) => {
