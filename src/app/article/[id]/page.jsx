@@ -44,11 +44,16 @@ const page = ({ params }) => {
       ) : (
         <Container maxW={["full", "5xl", "5xl"]}>
           <Box w={"full"} p={[4]} minH={"100vh"} my={32}>
-            <Text fontSize={["xl", "2xl"]} fontWeight={"semibold"}>
+            <Text fontSize={["xl", "2xl"]} fontWeight={"semibold"} mb={8}>
               {data?.title}
             </Text>
             {data?.banner ? (
-              <Image w={"full"} src={`${data?.banner?.url}`} />
+              <Image
+                w={"full"}
+                h={"xs"}
+                objectFit={"cover"}
+                src={`${data?.banner?.url}`}
+              />
             ) : null}
             <br />
             <br />
