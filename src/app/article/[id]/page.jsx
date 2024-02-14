@@ -42,20 +42,43 @@ const page = ({ params }) => {
           </Text>
         </VStack>
       ) : (
-        <Container maxW={['full', '5xl', '5xl']}>
+        <Container maxW={["full", "5xl", "5xl"]}>
           <Box w={"full"} p={[4]} minH={"100vh"} my={32}>
             <Text fontSize={["xl", "2xl"]} fontWeight={"semibold"}>
               {data?.title}
             </Text>
             {data?.banner ? (
-              <Image
-                w={"full"}
-                src={`${data?.banner?.url}`}
-              />
+              <Image w={"full"} src={`${data?.banner?.url}`} />
             ) : null}
             <br />
             <br />
-            {data ? <BlocksRenderer content={data?.description} /> : null}
+            {data ? (
+              <BlocksRenderer
+                blocks={{
+                  paragraph: ({ children }) => {
+                    return children[0].props.text === "" ? (
+                      <p className="">ㅤ</p>
+                    ) : (
+                      <p className="">{children}</p>
+                    );
+                  },
+                  quote: ({ children }) => {
+                    return (
+                      <Box
+                        p={6}
+                        w={"full"}
+                        borderLeft={"2px solid"}
+                        borderLeftColor={"gray.500"}
+                        bgColor={"gray.50"}
+                      >
+                        <p>"{children}"</p>
+                      </Box>
+                    );
+                  },
+                }}
+                content={data?.description}
+              />
+            ) : null}
           </Box>
         </Container>
       )}
