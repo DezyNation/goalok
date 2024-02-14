@@ -50,7 +50,7 @@ const page = ({ params }) => {
             {data?.banner ? (
               <Image
                 w={"full"}
-                src={`${process.env.NEXT_PUBLIC_BACKEND_URL}/${data?.banner?.url}`}
+                src={`${data?.banner?.url}`}
               />
             ) : null}
             <br />
