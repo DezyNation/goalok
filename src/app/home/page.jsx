@@ -56,10 +56,13 @@ export default function HomePage() {
   return (
     <>
       <Navbar theme={"gradient"} />
-      
+
       <Link
         href={"https://seminar.krishnaconsciousnesssociety.com"}
         target="_blank"
+        style={{
+          marginTop: '10%'
+        }}
       >
         <Image
           src="https://iskconincassets.b-cdn.net/assets/athato-brahmjigyasa-banner.png"
@@ -69,6 +72,7 @@ export default function HomePage() {
       </Link>
 
       <Stack
+        pos={"relative"}
         w={"full"}
         h={"100vh"}
         bgImage={"/hero.png"}
