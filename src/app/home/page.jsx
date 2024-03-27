@@ -57,7 +57,7 @@ export default function HomePage() {
     <>
       <Navbar theme={"gradient"} />
 
-      <Link
+      {/* <Link
         href={"https://seminar.krishnaconsciousnesssociety.com"}
         target="_blank"
         style={{
@@ -69,7 +69,7 @@ export default function HomePage() {
           w={"100vw"}
           h={"auto"}
         />
-      </Link>
+      </Link> */}
 
       <Stack
         pos={"relative"}
